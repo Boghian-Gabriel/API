@@ -37,7 +37,7 @@ namespace API.Controllers
         //1. GET Method:   api/Movies/5
         
         [HttpGet("id")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<Movie>> GetMovie(Guid id)
         {
             if (_dbContext.Movies == null)
             {
@@ -67,7 +67,7 @@ namespace API.Controllers
 
         //PUT
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, Movie movie)
+        public async Task<IActionResult> PutMovie(Guid id, Movie movie)
         {
             if( id != movie.Id)
             {
@@ -94,7 +94,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        private bool MovieExists(long id)
+        private bool MovieExists(Guid id)
         {
             return (_dbContext.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
@@ -102,7 +102,7 @@ namespace API.Controllers
 
         //DELETE
         [HttpDelete("id")]
-        public async Task<IActionResult> DeleteMovie(int id)
+        public async Task<IActionResult> DeleteMovie(Guid id)
         {
             if(_dbContext.Movies == null)
             {
