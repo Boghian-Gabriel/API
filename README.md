@@ -4,6 +4,10 @@
 
 :two:. Work with GitHub
 
-:three:. I will implement several tables with links between them.
+:three: Implement Web Api for CRUD.
 
-:four:. I will also learn to implement the authentication and authorization part.
+:four:  Consume Web API in .NET using Microsoft.AspNet.WebApi.Client
+
+:five:. I will implement several tables with links between them.
+
+:six:. I will also learn to implement the authentication and authorization part.
