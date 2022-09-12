@@ -4,9 +4,9 @@
 
 :two:. Work with GitHub
 
-:three: Implement Web Api for CRUD.
+:three:. Implement Web Api for CRUD.
 
-:four:  Consume Web API in .NET using Microsoft.AspNet.WebApi.Client
+:four:.  Consume Web API in .NET using Microsoft.AspNet.WebApi.Client
 
 :five:. I will implement several tables with links between them.
 
