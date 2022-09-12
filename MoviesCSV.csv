@@ -1,0 +1,12 @@
+Movie,Movie.Id,Movie.Title,Movie.Genre,Movie.RealeseDate
+API.Model.Movie,5ac2c197-402e-4962-489e-08da94a8648c,Samurai2,Actions,"9/13/2022 12:12:00 AM"
+API.Model.Movie,632bf476-556e-4cd2-4738-08da94aa60bf,"Extrem 3",Actoion,"9/14/2022 12:12:00 PM"
+API.Model.Movie,116fa93d-e33f-4bce-97e8-157c3cfdc9f9,"How are you?",Comedy,"2/22/2010 12:00:00 AM"
+API.Model.Movie,3fa85f64-5717-4562-b3fc-2c963f66afa6,Strrrrrr,Str2,"9/12/2022 5:32:53 AM"
+API.Model.Movie,c7b5f0b3-8933-446c-a64d-2dbd5a5ad890,"How are you?3",Comedy,"2/22/2014 12:00:00 AM"
+API.Model.Movie,b4db24e0-8c4d-4597-900b-49ebb6f40440,"How are you?4",Comedy,"2/22/2016 12:00:00 AM"
+API.Model.Movie,444810f2-fd8f-4834-a965-6a8c117d09f0,"How are you?2",Comedy,"2/22/2012 12:00:00 AM"
+API.Model.Movie,d2ac2d5d-87e6-4222-82e3-6dc4f183ada0,"How are you?",Comedy,"2/22/2010 12:00:00 AM"
+API.Model.Movie,d2872bd4-8173-43fc-a352-b1a0f63bae13,"How are you?3",Comedy,"2/22/2014 12:00:00 AM"
+API.Model.Movie,73e11531-4dfa-45f6-b940-f64351109cb1,"How are you?2",Comedy,"2/22/2012 12:00:00 AM"
+API.Model.Movie,de375e29-8793-4e2b-979f-fa8e4542e0d6,"How are you?4",Comedy,"2/22/2016 12:00:00 AM"

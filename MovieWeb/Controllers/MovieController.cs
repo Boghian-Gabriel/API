@@ -73,14 +73,41 @@ namespace MovieWeb.Controllers
 
 
         #region "Put Method"
-        public IActionResult Put()
+        public IActionResult EditMovie(int id)
         {
-            return View();
+            Movie? movie = null;
+
+            using(var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7165/api/");
+
+                //Http Get
+                var responseTask = client.GetAsync("Movies?id=" + id.ToString());
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<Movie>();
+                    readTask.Wait();
+
+                    movie = readTask.Result;
+                }
+            }
+
+            return View(movie);
         }
         #endregion
 
         #region "Delete Method"
         public IActionResult Delete()
+        {
+            return View();
+        }
+        #endregion
+
+        #region "Details Method"
+        public IActionResult Details()
         {
             return View();
         }
