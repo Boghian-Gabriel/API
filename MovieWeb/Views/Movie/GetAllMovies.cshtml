@@ -8,7 +8,9 @@
 <h1>List with all Movies</h1>
 
 <p>
-    <button type="button" class="btn btn-primary" asp-action="Create">Add movie</button>
+@*    <input type="submit" value="Add new movie" asp-action="CreateMovie" class="btn btn-primary" />
+*@   
+    @Html.ActionLink("Create New Movie", "CreateMovie")
 </p>
 <table class="table">
     <thead>
