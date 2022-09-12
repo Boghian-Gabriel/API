@@ -12,7 +12,7 @@
 *@   
     @Html.ActionLink("Create New Movie", "CreateMovie")
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th style="display: none">
@@ -46,9 +46,9 @@
                 @Html.DisplayFor(modelItem => item.RealeseDate)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
+                @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id, title=item.Title, genre=item.Genre, realeasedate = item.RealeseDate  }) |
+                @Html.ActionLink("Details", "DetailsMovie", new {  id=item.Id }) |
+                @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id })
             </td>
         </tr>
 }

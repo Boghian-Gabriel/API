@@ -100,14 +100,30 @@ namespace MovieWeb.Controllers
         #endregion
 
         #region "Delete Method"
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7165/api/");
+
+                //HTTP DELETE
+                var deleteTask = client.DeleteAsync("Movies/" + id.ToString());
+                deleteTask.Wait();
+
+                var result = deleteTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+                    return RedirectToAction("GetAllMovies");
+                }
+            }
+
+            return RedirectToAction("GetAllMovies");
         }
         #endregion
 
         #region "Details Method"
-        public IActionResult Details()
+        public IActionResult DetailsMovie()
         {
             return View();
         }
