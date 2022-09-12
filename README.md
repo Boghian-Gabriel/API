@@ -4,9 +4,9 @@
 
 :two:. Work with GitHub.
 
-:three:. Implement Web Api for CRUD ➡️ The API Folder.
+:three:. Implement Web Api for CRUD ➡️ The API Application.
 
-:four:.  Consume Web API in .NET using Microsoft.AspNet.WebApi.Client ➡️ The MovieWeb Folder.
+:four:.  Consume Web API in .NET using Microsoft.AspNet.WebApi.Client ➡️ The MovieWeb Application.
 
 :five:. I will implement several tables with links between them.
 
