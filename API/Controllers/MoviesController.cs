@@ -99,7 +99,7 @@ namespace API.Controllers
             return (_dbContext.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-
+        #region "Delete"
         //DELETE
         [HttpDelete("id")]
         public async Task<IActionResult> DeleteMovie(Guid id)
@@ -120,5 +120,6 @@ namespace API.Controllers
 
             return NoContent();
         }
+        #endregion
     }
 }

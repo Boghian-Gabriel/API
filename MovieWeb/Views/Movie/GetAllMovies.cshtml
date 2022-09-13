@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieWeb.Models.Movie>
+﻿@model IEnumerable<API.Model.Movie>
 
 @{
     ViewData["Title"] = "GetAllMovies";
@@ -46,8 +46,8 @@
                 @Html.DisplayFor(modelItem => item.RealeseDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id, title=item.Title, genre=item.Genre, realeasedate = item.RealeseDate  }) |
-                @Html.ActionLink("Details", "DetailsMovie", new {  id=item.Id }) |
+                @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }) |
+                @Html.ActionLink("Details", "GetMovie", new {  id=item.Id }) |
                 @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id })
             </td>
         </tr>

@@ -1,4 +1,4 @@
-﻿@model MovieWeb.Models.Movie
+﻿@model API.Model.Movie
 
 @{
     ViewData["Title"] = "CreateMovie";
@@ -36,15 +36,25 @@
             <p>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="GetAllMovies">Back to List</a>
             </div>
             </p>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="GetAllMovies">Back to List</a>
-</div>
+@{
+    try
+    {
+        if(ViewBag.msg != null)
+        {
+            <label style="color:darkgreen">@ViewBag.msg</label>
+        }
+    }catch(Exception ex)
+    {
+        
+    }
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
