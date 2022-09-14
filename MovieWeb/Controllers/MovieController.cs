@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Localization;
 using API.Model;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace MovieWeb.Controllers
 {
@@ -38,7 +39,7 @@ namespace MovieWeb.Controllers
             //    }
             //}
            
-            List<API.Model.Movie> movies = new List<API.Model.Movie>();
+            List<Movie> movies = new List<Movie>();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:7165/");
@@ -62,7 +63,7 @@ namespace MovieWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateMovie(Movie movie)
+        public IActionResult CreateMovie(Movie movie)
         {
             using (var client = new HttpClient())
             {
@@ -83,7 +84,6 @@ namespace MovieWeb.Controllers
                 {
                     ViewBag.msg = "Something went wrong...";
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
-
                 }
             }
 
@@ -93,41 +93,42 @@ namespace MovieWeb.Controllers
 
 
         #region "Put Method"
-    
-        [HttpGet("id")]
-        public async Task<ActionResult> EditMovie(Guid id)
+        [HttpGet]
+        public async Task<ActionResult> EditMovieAsync(Guid id)
         {
-            //Movie? movie = null;
-
-            //using(var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7165/");
-
-            //    //Http Get
-            //    var responseTask = client.GetAsync("api/Movies/id?id=" + id.ToString());
-            //    responseTask.Wait();
-
-            //    var result = responseTask.Result;
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        var resTask = result.Content.ReadAsStringAsync().Result;
-            //        movie = JsonConvert.DeserializeObject<Movie>(resTask);
-
-            //    }
-            //}
             Movie movie = new Movie();
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:7165/");
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage result = await client.GetAsync("api/Movies/id?id=" + id.ToString());
+
+                //Http Get
+                var responseTask = client.GetAsync("api/Movies/id?id=" + id.ToString());
+                responseTask.Wait();
+
+                var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
                     var resTask = result.Content.ReadAsStringAsync().Result;
                     movie = JsonConvert.DeserializeObject<Movie>(resTask);
+
                 }
             }
+
+            //Method -> 2
+            //    using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:7165/");
+            //    client.DefaultRequestHeaders.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //    HttpResponseMessage result = await client.GetAsync("api/Movies/id?id=" + id.ToString());
+            //    if (result.IsSuccessStatusCode)
+            //    {
+            //        var resTask = result.Content.ReadAsStringAsync().Result;
+            //        movie = JsonConvert.DeserializeObject<Movie>(resTask);
+            //    }
+            //}
+             
             return View(movie);
         }
 
@@ -138,7 +139,7 @@ namespace MovieWeb.Controllers
                 client.BaseAddress = new Uri("https://localhost:7165/");
 
                 //Http Post
-                var postTask = client.PutAsJsonAsync<Movie>("api/Movies/"+movie.Id, movie);
+                var postTask = client.PutAsJsonAsync<Movie>("api/Movies/" + movie.Id.ToString(), movie);
                 postTask.Wait();
 
                 var result = postTask.Result;
@@ -152,10 +153,25 @@ namespace MovieWeb.Controllers
                 {
                     ViewBag.msg = "Something went wrong...";
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
-
                 }
             }
-
+            //Method -> 2 
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:7165/");
+            //    client.DefaultRequestHeaders.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //    HttpResponseMessage result = client.PutAsJsonAsync("api/Movies/" + movie.Id.ToString(), movie).Result;
+            //    if (result.IsSuccessStatusCode)
+            //    {
+            //        ViewBag.msg = "Edit successfully";
+            //        ModelState.Clear();
+            //    }
+            //    else
+            //    {
+            //        ViewBag.msg = "Something went wrong...";
+            //    }
+            //}
             return View(movie);
         }
         #endregion

@@ -67,7 +67,7 @@ namespace API.Controllers
 
         //PUT
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(Guid id, Movie movie)
+        public async Task<IActionResult> UpdateMovie(Guid id, Movie movie)
         {
             if( id != movie.Id)
             {

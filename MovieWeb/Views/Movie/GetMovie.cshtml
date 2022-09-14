@@ -38,5 +38,8 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "EditMovie", new {  id = Model.Id  }) |
-    <a asp-action="GetAllMovies">Back to List</a>
+    @*<a asp-action="GetAllMovies">Back to List</a>*@
+    <button class="btn btn-outline-info" type="submit" onclick="location.href='@Url.Action("GetAllMovies", "Movie")'">Back to List</button>
+
+
 </div>

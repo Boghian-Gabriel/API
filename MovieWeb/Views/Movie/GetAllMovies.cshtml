@@ -8,10 +8,9 @@
 <h1>List with all Movies</h1>
 
 <p>
-@*    <input type="submit" value="Add new movie" asp-action="CreateMovie" class="btn btn-primary" />
-*@   
-    @Html.ActionLink("Create New Movie", "CreateMovie")
-</p>
+    <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
+@*    @Html.ActionLink("Create new movie", "CreateMovie")
+*@</p>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -27,7 +26,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.RealeseDate)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
