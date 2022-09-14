@@ -50,7 +50,6 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-
             return movie;
         }
 
