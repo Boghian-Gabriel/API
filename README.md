@@ -1,5 +1,7 @@
 # API
 
+:information_source:  To run both projects you need to right click on the solution ➡️ properties and select multiple start projects ➡️ then select start for both projects. Then, once you've done that, both the API and MovieWeb projects will run where we display and perform operations based on those services.
+
 :one:. Learn about API using ASP.NET 6.0  EF Core (Code First Approach).
 
 :two:. Work with GitHub.
