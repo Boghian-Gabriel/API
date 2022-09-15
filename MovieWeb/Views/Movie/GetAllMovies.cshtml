@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron bg-secondary bg-gradient text-white p-5">
+<div class="jumbotron bg-secondary bg-gradient text-white p-5 shadow-sm">
     <h1 class="display-4">Hello, friends!</h1>
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
@@ -28,7 +28,7 @@
 </div>
 
 
-<table class="table table-striped">
+<table class="table table-striped shadow-sm">
     <thead>
         <tr>
             <th style="display: none">
@@ -65,8 +65,8 @@
                 @Html.DisplayFor(modelItem => item.RealeseDate)
             </td>
             <td>
-                    <button class="btn btn-sm btn-primary">@Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button> |
-                    <button class="btn btn-sm btn-info">@Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @style="text-decoration:none; color:#000000" })</button> |
+                    <button class="btn btn-sm btn-primary">@Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button> 
+                    <button class="btn btn-sm btn-info">@Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @style="text-decoration:none; color:#000000" })</button> 
                     <button class="btn btn-sm btn-danger">@Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button>
             </td>
         </tr>
