@@ -5,18 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron ">
+<div class="jumbotron bg-secondary bg-gradient text-white p-5">
     <h1 class="display-4">Hello, friends!</h1>
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
     <p>List with all Movies</p>
-    <a class="btn btn-sm btn-primary" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
+    <a class="btn btn-sm btn-outline-secondary text-white" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
 </div>
 
-<p class="mt-4"">
-    <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
-@*    @Html.ActionLink("Create new movie", "CreateMovie")
-*@</p>
+<div class="mt-4 d-flex justify-content-between mb-1">
+    <div>
+        <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
+    </div>
+    @*@Html.ActionLink("Create new movie", "CreateMovie")*@
+
+    @using(Html.BeginForm()){
+    <div class="d-sm-flex">
+            @Html.TextBox("searchString",  null, new {@class="form-control me-2", @placeholder = "Search" })
+            <button class="btn btn-outline-success " type="submit">Search</button>
+    </div>    
+    }  
+</div>
+
+
 <table class="table table-striped">
     <thead>
         <tr>

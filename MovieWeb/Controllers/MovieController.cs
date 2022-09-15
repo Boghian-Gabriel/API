@@ -10,7 +10,7 @@ namespace MovieWeb.Controllers
     public class MovieController : Controller
     {
         #region GetMethod
-        public async Task<IActionResult> GetAllMovies(string sortOrder)
+        public async Task<IActionResult> GetAllMovies(string sortOrder, string searchString)
         {
             //IEnumerable<Movie>? movies = null;
 
@@ -63,6 +63,13 @@ namespace MovieWeb.Controllers
 
             var moviesss = from m in movies
                            select m;
+
+            //searching
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                moviesss = moviesss.Where(m => m.Title.Contains(searchString)
+                                       || m.Genre.Contains(searchString));
+            }
 
             switch (sortOrder)
             {
