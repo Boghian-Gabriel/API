@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<API.Model.Movie>
+@*@using PagedList.Mvc;
+@model PagedList.IPagedList<API.Model.Movie>*@
 
 @{
     ViewData["Title"] = "GetAllMovies";
@@ -21,7 +23,7 @@
 
     @using(Html.BeginForm()){
     <div class="d-sm-flex">
-            @Html.TextBox("searchString",  null, new {@class="form-control me-2", @placeholder = "Search" })
+            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control me-2", @placeholder = "Search" })
             <button class="btn btn-outline-success " type="submit">Search</button>
     </div>    
     }  
@@ -31,9 +33,6 @@
 <table class="table table-striped shadow-sm">
     <thead>
         <tr>
-            <th style="display: none">
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @* @Html.DisplayNameFor(model => model.Title)*@
                 @Html.ActionLink("Title", "GetAllMovies", new { sortOrder = ViewBag.TitleSortParam })
@@ -71,5 +70,11 @@
             </td>
         </tr>
 }
+
+        <br />
+@*        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("GetAllMovies",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
     </tbody>
 </table>

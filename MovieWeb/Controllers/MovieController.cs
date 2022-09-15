@@ -11,7 +11,7 @@ namespace MovieWeb.Controllers
     public class MovieController : Controller
     {
         #region GetMethod
-        public async Task<IActionResult> GetAllMovies(string sortOrder, string searchString)
+        public async Task<IActionResult> GetAllMovies(string sortOrder, string currentFilter, string searchString, int? page)
         {
             #region "Method1"
             //IEnumerable<Movie>? movies = null;
@@ -45,6 +45,7 @@ namespace MovieWeb.Controllers
             /*
              The three ViewBag variables are used so that the view can configure the column heading hyperlinks with the appropriate query string values:
              */
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParam = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.GenreSortParam = String.IsNullOrEmpty(sortOrder) ? "genre_desc" : "genre_asc";
             ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";           
@@ -62,6 +63,18 @@ namespace MovieWeb.Controllers
                     movies = JsonConvert.DeserializeObject<List<Movie>>(resTask);
                 }
             }
+
+            //pagination
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
 
              var moviesss = from m in movies
                             select m;
@@ -94,7 +107,15 @@ namespace MovieWeb.Controllers
                     moviesss = moviesss.OrderBy(m => m.Title);
                     break;
             }
-            return View(moviesss.ToList());
+
+            int pageSize = 3;
+            /*
+           The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null; 
+           otherwise, it evaluates the right-hand operand and returns its result. The ?? operator doesn't evaluate its right-hand operand if the left-hand operand evaluates to non-null.
+           */
+            int pageNumber = (page ?? 1);
+            //return View(moviesss.ToPagedList(pageNumber,pageSize));
+            return View(moviesss);
         }
         #endregion
 
