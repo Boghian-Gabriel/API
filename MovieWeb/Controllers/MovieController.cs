@@ -4,6 +4,7 @@ using API.Model;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Linq;
+using PagedList;
 
 namespace MovieWeb.Controllers
 {
@@ -12,6 +13,7 @@ namespace MovieWeb.Controllers
         #region GetMethod
         public async Task<IActionResult> GetAllMovies(string sortOrder, string searchString)
         {
+            #region "Method1"
             //IEnumerable<Movie>? movies = null;
 
             //using (var client = new HttpClient())
@@ -39,14 +41,14 @@ namespace MovieWeb.Controllers
             //        ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
             //    }
             //}
-
+            #endregion
             /*
              The three ViewBag variables are used so that the view can configure the column heading hyperlinks with the appropriate query string values:
              */
             ViewBag.TitleSortParam = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.GenreSortParam = String.IsNullOrEmpty(sortOrder) ? "genre_desc" : "genre_asc";
             ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";           
-
+            
             List<Movie> movies = new List<Movie>();
             using (var client = new HttpClient())
             {
@@ -61,8 +63,8 @@ namespace MovieWeb.Controllers
                 }
             }
 
-            var moviesss = from m in movies
-                           select m;
+             var moviesss = from m in movies
+                            select m;
 
             //searching
             if (!String.IsNullOrEmpty(searchString))
@@ -155,7 +157,7 @@ namespace MovieWeb.Controllers
                 }
             }
 
-            //Method -> 2
+            #region "Method 2"
             //    using (var client = new HttpClient())
             //{
             //    client.BaseAddress = new Uri("https://localhost:7165/");
@@ -168,7 +170,7 @@ namespace MovieWeb.Controllers
             //        movie = JsonConvert.DeserializeObject<Movie>(resTask);
             //    }
             //}
-             
+            #endregion
             return View(movie);
         }
 
@@ -195,7 +197,7 @@ namespace MovieWeb.Controllers
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
                 }
             }
-            //Method -> 2 
+            #region "Method 2" 
             //using (var client = new HttpClient())
             //{
             //    client.BaseAddress = new Uri("https://localhost:7165/");
@@ -212,6 +214,8 @@ namespace MovieWeb.Controllers
             //        ViewBag.msg = "Something went wrong...";
             //    }
             //}
+            #endregion
+
             return View(movie);
         }
         #endregion
