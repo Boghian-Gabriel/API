@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using API.Model;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Linq;
 
 namespace MovieWeb.Controllers
 {
     public class MovieController : Controller
     {
         #region GetMethod
-        public async Task<IActionResult> GetAllMovies()
+        public async Task<IActionResult> GetAllMovies(string sortOrder)
         {
             //IEnumerable<Movie>? movies = null;
 
@@ -38,7 +39,14 @@ namespace MovieWeb.Controllers
             //        ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
             //    }
             //}
-           
+
+            /*
+             The three ViewBag variables are used so that the view can configure the column heading hyperlinks with the appropriate query string values:
+             */
+            ViewBag.TitleSortParam = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.GenreSortParam = String.IsNullOrEmpty(sortOrder) ? "genre_desc" : "genre_asc";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";           
+
             List<Movie> movies = new List<Movie>();
             using (var client = new HttpClient())
             {
@@ -52,7 +60,32 @@ namespace MovieWeb.Controllers
                     movies = JsonConvert.DeserializeObject<List<Movie>>(resTask);
                 }
             }
-            return View(movies);
+
+            var moviesss = from m in movies
+                           select m;
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    moviesss = moviesss.OrderByDescending(m => m.Title);
+                    break;
+                case "genre_desc":
+                    moviesss = moviesss.OrderByDescending(m => m.Genre);
+                    break;
+                case "genre_asc":
+                    moviesss = moviesss.OrderBy(m => m.Genre);
+                    break;
+                case "date_desc":
+                    moviesss = moviesss.OrderByDescending(m => m.RealeseDate);
+                    break;
+                case "Date":
+                    moviesss = moviesss.OrderBy(m => m.RealeseDate);
+                    break;
+                default:
+                    moviesss = moviesss.OrderBy(m => m.Title);
+                    break;
+            }
+            return View(moviesss.ToList());
         }
         #endregion
 

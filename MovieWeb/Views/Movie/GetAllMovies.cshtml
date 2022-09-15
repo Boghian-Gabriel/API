@@ -24,13 +24,16 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @* @Html.DisplayNameFor(model => model.Title)*@
+                @Html.ActionLink("Title", "GetAllMovies", new { sortOrder = ViewBag.TitleSortParam })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @*@Html.DisplayNameFor(model => model.Genre)*@
+                @Html.ActionLink("Genre", "GetAllMovies", new { sortOrder = ViewBag.GenreSortParam })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RealeseDate)
+                @*@Html.DisplayNameFor(model => model.RealeseDate)*@
+                @Html.ActionLink("RealeseDate", "GetAllMovies", new { sortOrder = ViewBag.DateSortParam })
             </th>
             <th>Actions</th>
         </tr>
