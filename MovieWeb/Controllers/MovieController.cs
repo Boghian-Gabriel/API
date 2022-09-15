@@ -153,7 +153,6 @@ namespace MovieWeb.Controllers
                 {
                     var resTask = result.Content.ReadAsStringAsync().Result;
                     movie = JsonConvert.DeserializeObject<Movie>(resTask);
-
                 }
             }
 
