@@ -6,11 +6,16 @@ namespace API.Model
     public class Movie
     {
         public Guid Id { get; set; }
+
         [Required]
         public string? Title { get; set; }
+
         [Required]
         public string? Genre { get; set; }
+
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime RealeseDate { get; set; }
 
         /*  EF Core is an object-relational mapping (ORM)
