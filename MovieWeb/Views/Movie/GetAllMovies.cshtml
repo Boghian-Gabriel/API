@@ -5,15 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron">
+<div class="jumbotron ">
     <h1 class="display-4">Hello, friends!</h1>
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
     <p>List with all Movies</p>
-    <a class="btn btn-primary btn-lg" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
+    <a class="btn btn-sm btn-primary" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
 </div>
 
-<p>
+<p class="mt-4"">
     <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
 @*    @Html.ActionLink("Create new movie", "CreateMovie")
 *@</p>
