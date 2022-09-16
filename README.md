@@ -15,3 +15,15 @@
 :six:. I will also learn to implement the authentication and authorization part.
 
 :seven: Testing with swagger & Postman
+
+:eight: Added sample report rdlc in ASP.NET Core 6.0:
+        1. Create a new WinForms project.
+        2. After that you have to go up to Extensions ➡️ ManageExtensions and look for REPORT RDLC (:eyes: - :arrow_down:):
+        ![Fig1](https://user-images.githubusercontent.com/69756449/190609473-d971ab85-53fc-49c5-9c38-f162de013a4a.PNG)
+
+        3. Close all projects and Visual Studio, then install RDLC Report,
+        4. After finishing the installation, create a new report type file in the WinForms Application.
+        5. Then, using the tools that appear, add what you need to the report( :eyes: - :arrow_down: ):
+        ![Fig2](https://user-images.githubusercontent.com/69756449/190611276-5072d78b-9ef8-43c2-9a5f-7a29596ebbe9.PNG)
+        
+        6. Next, you need to create a controller in the web application to generate this created report.
