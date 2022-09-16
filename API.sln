@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWeb", "MovieWeb\MovieWeb.csproj", "{CA49F0E9-B974-4C2A-A67C-79AC188D89DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDLCDesign", "RDLCDesign\RDLCDesign.csproj", "{AC4C2CA5-DE36-4F36-82D2-EF0C0627EA3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CA49F0E9-B974-4C2A-A67C-79AC188D89DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA49F0E9-B974-4C2A-A67C-79AC188D89DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA49F0E9-B974-4C2A-A67C-79AC188D89DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4C2CA5-DE36-4F36-82D2-EF0C0627EA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4C2CA5-DE36-4F36-82D2-EF0C0627EA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4C2CA5-DE36-4F36-82D2-EF0C0627EA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4C2CA5-DE36-4F36-82D2-EF0C0627EA3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

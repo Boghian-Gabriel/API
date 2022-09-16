@@ -5,11 +5,38 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Linq;
 using PagedList;
+using AspNetCore.Reporting;
 
 namespace MovieWeb.Controllers
 {
     public class MovieController : Controller
     {
+        //for reporting
+        public readonly IWebHostEnvironment _webHostEnvironment;
+        public MovieController(IWebHostEnvironment webHostEnvironment)
+        {
+            this._webHostEnvironment = webHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        }
+
+        public IActionResult Report()
+        {
+            return View();
+        }
+        public IActionResult PrintReport()
+        {
+            string mintype = "";
+            int extension = 1;
+            var path = $"{this._webHostEnvironment.WebRootPath}\\Reports\\RptMovies.rdlc";
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("rp1", "Raport with movies details");
+
+            LocalReport localReport = new LocalReport(path);
+            var result = localReport.Execute(RenderType.Pdf, extension, param, mintype);
+
+            return File(result.MainStream, "application/pdf");
+        }
+
         #region GetMethod
         public async Task<IActionResult> GetAllMovies(string sortOrder, string currentFilter, string searchString, int? page)
         {
