@@ -18,6 +18,7 @@
 <div class="mt-4 d-flex justify-content-between mb-1">
     <div>
         <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
+        <input type="submit" value="Create Raport" class="btn btn-outline-primary"/>
     </div>
     @*@Html.ActionLink("Create new movie", "CreateMovie")*@
 
@@ -72,7 +73,7 @@
 }
 
         <br />
-@*        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@*      Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
         @Html.PagedListPager(Model, page => Url.Action("GetAllMovies",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
