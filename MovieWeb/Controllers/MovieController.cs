@@ -18,11 +18,12 @@ namespace MovieWeb.Controllers
             this._webHostEnvironment = webHostEnvironment;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
-
+        //View catre pagina de unde poti genera raportul
         public IActionResult Report()
         {
             return View();
         }
+        //actiunea care trebuie facuta cand se apasa bunotul de generare raport
         public IActionResult PrintReport()
         {
             string mintype = "";
