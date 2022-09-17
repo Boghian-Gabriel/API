@@ -17,15 +17,15 @@
 
 <div class="mt-4 d-flex justify-content-between mb-1">
     <div>
-        <input type="submit" value="Create new movie" class="btn btn-primary" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
-        <input type="submit" value="Generate Report" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Report", "Movie")'" />
+        <input type="submit" value="Create new movie" class="btn btn-primary btnStyle" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
+        <input type="submit" value="Generate Report" class="btn btn-outline-primary btnStyle" onclick="location.href='@Url.Action("Report", "Movie")'" />
 </div>
     @*@Html.ActionLink("Create new movie", "CreateMovie")*@
 
     @using(Html.BeginForm()){
     <div class="d-sm-flex">
-            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control me-2", @placeholder = "Search" })
-            <button class="btn btn-outline-success " type="submit">Search</button>
+            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control me-2 inputStyle", @placeholder = "Search" })
+            <button class="btn btn-outline-success btnStyle" type="submit">Search</button>
     </div>    
     }  
 </div>
@@ -65,9 +65,14 @@
                 @Html.DisplayFor(modelItem => item.RealeseDate)
             </td>
             <td>
+                  @*  
                     <button class="btn btn-sm btn-primary">@Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button> 
                     <button class="btn btn-sm btn-info">@Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @style="text-decoration:none; color:#000000" })</button> 
                     <button class="btn btn-sm btn-danger">@Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button>
+                    *@ 
+                    @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @class="btn btn-primary btnStyle" })
+                    @Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @class="btn btn-success btnStyle" }) 
+                    @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @class="btn btn-danger btnStyle" })
             </td>
         </tr>
 }
