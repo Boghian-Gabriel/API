@@ -6,5 +6,11 @@ namespace RDLCDesign
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            reportViewer1.LocalReport.ReportEmbeddedResource = "RDLCDesign.RptMovies.rdlc";
+            reportViewer1.RefreshReport();
+        }
     }
 }

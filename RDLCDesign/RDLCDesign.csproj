@@ -8,4 +8,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="RptMovies.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RptMovies.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.17" />
+  </ItemGroup>
+
 </Project>
