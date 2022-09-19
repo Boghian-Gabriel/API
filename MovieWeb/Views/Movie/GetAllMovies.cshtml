@@ -24,8 +24,8 @@
 
     @using(Html.BeginForm()){
     <div class="d-sm-flex">
-            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control me-2 inputStyle", @placeholder = "Search" })
-            <button class="btn btn-outline-success btnStyle" type="submit">Search</button>
+            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search" })
+            <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>
     </div>    
     }  
 </div>
