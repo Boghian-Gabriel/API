@@ -27,9 +27,10 @@
     @*@Html.ActionLink("Create new movie", "CreateMovie")*@
 
     @using(Html.BeginForm()){
-    <div class="d-sm-flex">
-            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search" })
-            <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>
+    <div class="d-sm-flex input-group">      
+        <button class="btn btn-sm btn-secondary btnStyle" id="clear"><i class="bi bi-x"></i></button>
+        @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search", @id = "enter" })
+        <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>        
     </div>    
     }  
 </div>
@@ -88,3 +89,13 @@
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
     </tbody>
 </table>
+
+@*Add script for clear search input field*@
+<script>
+    window.addEventListener('load', () => {
+        const button = document.querySelector('#clear');
+        button.addEventListener('click', () => {
+            document.querySelector('#enter').value = "";
+        });
+    });
+</script>
