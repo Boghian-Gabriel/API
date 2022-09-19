@@ -17,7 +17,7 @@
 
 <div class="mt-4 d-flex justify-content-between mb-1">
     <div class="d-flex">
-        <input type="submit" value="Create movie" class="btn btn-primary me-2 btnStyle" onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
+        <input type="submit" value="Create movie" class="btn btn-primary me-2 btnStyleLeft btnStyle " onclick="location.href='@Url.Action("CreateMovie", "Movie")'" />
         @*Create Report using another VIEW*@
         @*<input type="submit" value="Generate Report" class="btn btn-outline-primary btnStyle" onclick="location.href='@Url.Action("Report", "Movie")'" />*@        
         <form asp-action="PrintReport">
@@ -30,7 +30,7 @@
     <div class="d-sm-flex input-group">      
         <button class="btn btn-sm btn-secondary btnStyle" disabled="disabled" id="btnClear"><i class="bi bi-x"></i></button>
             @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search", @id = "txtEnter", @onkeydown="EnableDisable(this);" })
-            <button class="btn btn-outline-success btnStyle" disabled="disabled" id="btnSearch" onkeydown="EnableDisable(this)" type="submit"><i class="bi bi-search"></i></button>
+            <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>
     </div>    
     }  
 </div>
@@ -101,16 +101,16 @@
     function EnableDisable(txtEnter) {
         //Reference the Button.
         var btnClear = document.getElementById("btnClear");
-        var btnSearch = document.getElementById("btnSearch");
+        //var btnSearch = document.getElementById("btnSearch");
         //Verify the TextBox value.
         if (txtEnter.value.trim() != "") {
             //Enable the TextBox when TextBox has value.
             btnClear.disabled = false;
-            btnSearch.disabled = false;
+            //btnSearch.disabled = false;
         } else {
             //Disable the TextBox when TextBox is empty.
             btnClear.disabled = true;
-            btnSearch.disabled = true;
+            //btnSearch.disabled = true;
         }
     };
 </script>

@@ -33,7 +33,6 @@ namespace API.Controllers
             return await _dbContext.Movies.ToListAsync();
         }
 
-
         //1. GET Method:   api/Movies/5
         
         [HttpGet("id")]

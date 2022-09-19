@@ -12,3 +12,10 @@
     margin-top: -8px;
 }
 /*style="height:25px; width:25px; margin-top:-7px;"*/
+
+@media only screen and (max-width: 484px) {
+    .btnStyleLeft {
+        margin-left: 1px;
+    }
+
+}
