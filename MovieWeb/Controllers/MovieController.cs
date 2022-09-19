@@ -33,9 +33,33 @@ namespace MovieWeb.Controllers
             param.Add("rp1", "Raport with movies details");
 
             LocalReport localReport = new LocalReport(path);
+            //add signature to PrintReport
+            //var result = localReport.Execute(GetRenderType(reportType), extension, param, mintype);
+
             var result = localReport.Execute(RenderType.Pdf, extension, param, mintype);
 
-            return File(result.MainStream, "application/pdf");
+            return File(result.MainStream, $"application/pdf");
+        }
+        // To do...
+        private RenderType GetRenderType(string reportType)
+        {
+            var rederType = RenderType.Pdf;
+
+            switch (reportType.ToUpper())
+            {
+                default:
+                case "PDF":
+                    rederType = RenderType.Pdf;
+                    break;
+                case "XLS":
+                    rederType = RenderType.Excel;
+                    break;
+                case "WORD":
+                    rederType = RenderType.Word;
+                    break;
+            }
+
+            return rederType;
         }
 
         #region GetMethod

@@ -28,13 +28,12 @@
 
     @using(Html.BeginForm()){
     <div class="d-sm-flex input-group">      
-        <button class="btn btn-sm btn-secondary btnStyle" id="clear"><i class="bi bi-x"></i></button>
-        @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search", @id = "enter" })
-        <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>        
+        <button class="btn btn-sm btn-secondary btnStyle" disabled="disabled" id="btnClear"><i class="bi bi-x"></i></button>
+            @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search", @id = "txtEnter", @onkeydown="EnableDisable(this);" })
+            <button class="btn btn-outline-success btnStyle" disabled="disabled" id="btnSearch" onkeydown="EnableDisable(this)" type="submit"><i class="bi bi-search"></i></button>
     </div>    
     }  
 </div>
-
 
 <table class="table table-striped shadow-sm">
     <thead>
@@ -93,9 +92,25 @@
 @*Add script for clear search input field*@
 <script>
     window.addEventListener('load', () => {
-        const button = document.querySelector('#clear');
+        const button = document.querySelector('#btnClear');
         button.addEventListener('click', () => {
-            document.querySelector('#enter').value = "";
+            document.querySelector('#txtEnter').value = "";
         });
     });
+
+    function EnableDisable(txtEnter) {
+        //Reference the Button.
+        var btnClear = document.getElementById("btnClear");
+        var btnSearch = document.getElementById("btnSearch");
+        //Verify the TextBox value.
+        if (txtEnter.value.trim() != "") {
+            //Enable the TextBox when TextBox has value.
+            btnClear.disabled = false;
+            btnSearch.disabled = false;
+        } else {
+            //Disable the TextBox when TextBox is empty.
+            btnClear.disabled = true;
+            btnSearch.disabled = true;
+        }
+    };
 </script>
