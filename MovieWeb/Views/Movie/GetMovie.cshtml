@@ -37,8 +37,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "EditMovie", new {  id = Model.Id }, new { @class="btn btn-primary" })
+    @Html.ActionLink("Edit", "EditMovie", new {  id = Model.Id }, new { @class="btn btn-primary btnStyle" })
     <button class="btn btn-secondary" type="submit" onclick="location.href='@Url.Action("GetAllMovies", "Movie")'">Back to List</button>
-
-
 </div>

@@ -18,25 +18,25 @@
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="Title" class="form-control" id="floatingInput" placeholder="the movie name" />
+                <label asp-for="Title" for="floatingInput"></label>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="Genre" class="form-control" id="floatingInput" placeholder="the genre name" />
+                <label asp-for="Genre" for="floatingInput"></label>
                 <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RealeseDate" class="control-label"></label>
-                <input asp-for="RealeseDate" class="form-control" />
+            <div class="form-floating mb-2">
+                <input asp-for="RealeseDate" class="form-control" id="floatingInput" placeholder="the datetime" />
+                <label asp-for="RealeseDate" for="floatingInput"></label>
                 <span asp-validation-for="RealeseDate" class="text-danger"></span>
             </div>
             <p>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <button class="btn btn-secondary"><a style="text-decoration:none; color:white" asp-action="GetAllMovies">Back to movies list</a></button>
+                <button class="btn btn-secondary btnStyle"><a style="text-decoration:none; color:white" asp-action="GetAllMovies">Back to movies list</a></button>                          
             </div>
             </p>
         </form>
