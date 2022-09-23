@@ -69,14 +69,11 @@
                 @Html.DisplayFor(modelItem => item.RealeseDate)
             </td>
             <td>
-                  @*  
-                    <button class="btn btn-sm btn-primary">@Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button> 
-                    <button class="btn btn-sm btn-info">@Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @style="text-decoration:none; color:#000000" })</button> 
-                    <button class="btn btn-sm btn-danger">@Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @style="text-decoration:none; color:white" })</button>
-                    *@ 
+                <div class="btn-group">
                     @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @class="btn btn-primary btnStyle" })
                     @Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @class="btn btn-success btnStyle" }) 
                     @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @class="btn btn-danger btnStyle" })
+                </div>
             </td>
         </tr>
 }
