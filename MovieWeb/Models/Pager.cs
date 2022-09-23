@@ -36,9 +36,9 @@ namespace MovieWeb.Models
             if (endPage > totalPages)
             {
                 endPage = totalPages;
-                if (endPage > 10)
+                if (endPage > 5)
                 {
-                    startPage = endPage - 9;
+                    startPage = endPage - 4;
                 }
             }
 

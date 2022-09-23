@@ -16,12 +16,12 @@
     }
 }
 
-<div class="jumbotron bg-secondary bg-gradient text-white p-5 shadow-sm">
+<div class="jumbotron bg-light bg-gradient text-secondary p-5 shadow-sm">
     <h1 class="display-4">Hello, friends!</h1>
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
     <p>List with all Movies</p>
-    <a class="btn btn-sm btn-outline-secondary text-white" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
+    <a class="btn btn-sm btn-outline-secondary text-secondary" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
 </div>
 
 <div class="mt-4 d-flex justify-content-between mb-1">
@@ -98,39 +98,19 @@
         </tr>
         }
     </tbody>
-@*    <tfoot>
-        <tr>
-            <td class="text-center">
-@*Page @(pager.TotalPages < pager ? 0 : Model.PageNumber) of @Model.PageCount
-
-            </td>
-            <td class="text-center" colspan="3">
-                <ul class="pagination justify-content-center">
-                    @for(var pge = pager.StartPage; pge<= pager.EndPage; pge++){
-                        <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
-                            @*asp-route-page="@pge" -> parameter function from MovieControler and action is GetAllMovies
-                            page is signature from GeAllMovies
-                            
-                            <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@pge">@pge</a>
-                        </li>
-                    }
-                </ul>
-            </td>
-        </tr>
-    </tfoot>
-    *@
 </table>
 
 <div class="container">
+    <p>Item @if(pager.)</p>
     <ul class="pagination justify-content-center">
         
          @* add Previous and First*@
-        @if(pager.CurrentPage < pager.TotalPages){
+        @if(pager.CurrentPage > 1){
             <li class="page-item">
-                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.CurrentPage - 1)">Previous</a>
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="1">First</a>
             </li>
             <li class="page-item">
-                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.StartPage)">First</a>
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.CurrentPage - 1)">Previous</a>
             </li>
         }
         
