@@ -21,7 +21,7 @@
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
     <p>List with all Movies</p>
-    <a class="btn btn-sm btn-outline-secondary text-secondary" href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
+    <a class="btn btn-sm btn-outline-info  " href="https://github.com/Boghian-Gabriel/API" role="button">Learn more about this project</a>
 </div>
 
 <div class="mt-4 d-flex justify-content-between mb-1">
@@ -100,10 +100,9 @@
     </tbody>
 </table>
 
-<div class="container">
-    <p>Item @if(pager.)</p>
-    <ul class="pagination justify-content-center">
-        
+<div class="container d-flex justify-content-between">
+    <p>Page @pager.CurrentPage of @pager.TotalPages</p>
+    <ul class="pagination">    
          @* add Previous and First*@
         @if(pager.CurrentPage > 1){
             <li class="page-item">
