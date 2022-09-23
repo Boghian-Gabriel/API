@@ -1,10 +1,19 @@
 ﻿@model IEnumerable<API.Model.Movie>
-@*@using PagedList.Mvc;
-@model PagedList.IPagedList<API.Model.Movie>*@
+@*@model  IPagedList<API.Model.Movie> *@
 
 @{
     ViewData["Title"] = "GetAllMovies";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //script in html
+
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+    if(ViewBag.Pager != null){
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <div class="jumbotron bg-secondary bg-gradient text-white p-5 shadow-sm">
@@ -35,56 +44,118 @@
     }  
 </div>
 
-<table class="table table-striped shadow-sm">
+<table class="table table-striped shadow-sm table-responsive table-bordered">
     <thead>
         <tr>
-            <th>
+            <th class="text-center">
                 @* @Html.DisplayNameFor(model => model.Title)*@
                 @Html.ActionLink("Title", "GetAllMovies", new { sortOrder = ViewBag.TitleSortParam })
             </th>
-            <th>
+            <th class="text-center">
                 @*@Html.DisplayNameFor(model => model.Genre)*@
                 @Html.ActionLink("Genre", "GetAllMovies", new { sortOrder = ViewBag.GenreSortParam })
             </th>
-            <th>
+            <th class="text-center">
                 @*@Html.DisplayNameFor(model => model.RealeseDate)*@
                 @Html.ActionLink("RealeseDate", "GetAllMovies", new { sortOrder = ViewBag.DateSortParam })
             </th>
-            <th>Actions</th>
+            <th class ="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @if (Model.Count() != 0)
+        {
+            @foreach (var item in Model) {         
+                <tr>
+                    <td style="display: none">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RealeseDate)
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @class="btn btn-primary btnStyle" })
+                            @Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @class="btn btn-success btnStyle" }) 
+                            @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @class="btn btn-danger btnStyle" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
         <tr>
-            <td style="display: none">
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RealeseDate)
-            </td>
-            <td>
-                <div class="btn-group">
-                    @Html.ActionLink("Edit", "EditMovie", new {  id=item.Id }, new { @class="btn btn-primary btnStyle" })
-                    @Html.ActionLink("Details", "GetMovie", new { id=item.Id }, new { @class="btn btn-success btnStyle" }) 
-                    @Html.ActionLink("Delete", "DeleteMovie", new {  id=item.Id }, new { @class="btn btn-danger btnStyle" })
-                </div>
+            <td class="text-center text-danger" colspan="4">
+                Nu exista informatii in baza de date!
             </td>
         </tr>
-}
-
-        <br />
-@*      Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("GetAllMovies",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
+        }
     </tbody>
+@*    <tfoot>
+        <tr>
+            <td class="text-center">
+@*Page @(pager.TotalPages < pager ? 0 : Model.PageNumber) of @Model.PageCount
+
+            </td>
+            <td class="text-center" colspan="3">
+                <ul class="pagination justify-content-center">
+                    @for(var pge = pager.StartPage; pge<= pager.EndPage; pge++){
+                        <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                            @*asp-route-page="@pge" -> parameter function from MovieControler and action is GetAllMovies
+                            page is signature from GeAllMovies
+                            
+                            <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@pge">@pge</a>
+                        </li>
+                    }
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
+    *@
 </table>
+
+<div class="container">
+    <ul class="pagination justify-content-center">
+        
+         @* add Previous and First*@
+        @if(pager.CurrentPage < pager.TotalPages){
+            <li class="page-item">
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.CurrentPage - 1)">Previous</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.StartPage)">First</a>
+            </li>
+        }
+        
+        @* pages between First Previous [] Next Last *@
+        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+        {
+            <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                @*asp-route-page="@pge" -> parameter function from MovieControler and action is GetAllMovies
+            page is signature from GeAllMovies
+            *@
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@pge">@pge</a>
+            </li>
+        }
+
+        @* add Next and Last*@
+        @if(pager.CurrentPage < pager.TotalPages){
+            <li class="page-item">
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-controller="Movie" asp-action="GetAllMovies" asp-route-page="@(pager.TotalPages)">Last</a>
+            </li>
+        }
+    </ul>
+</div>
 
 @*Add script for clear search input field*@
 <script>

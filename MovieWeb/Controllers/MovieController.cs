@@ -4,8 +4,9 @@ using API.Model;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Linq;
-using PagedList;
+using X.PagedList;
 using AspNetCore.Reporting;
+using MovieWeb.Models;
 
 namespace MovieWeb.Controllers
 {
@@ -63,7 +64,7 @@ namespace MovieWeb.Controllers
         }
 
         #region GetMethod
-        public async Task<IActionResult> GetAllMovies(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> GetAllMovies(string sortOrder, string currentFilter, string searchString, int page = 1)
         {
             #region "Method1"
             //IEnumerable<Movie>? movies = null;
@@ -160,14 +161,26 @@ namespace MovieWeb.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            //int pageSize = 4;
             /*
            The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null; 
            otherwise, it evaluates the right-hand operand and returns its result. The ?? operator doesn't evaluate its right-hand operand if the left-hand operand evaluates to non-null.
            */
-            int pageNumber = (page ?? 1);
+            //int pageNumber = (page ?? 1);
             //return View(moviesss.ToPagedList(pageNumber,pageSize));
-            return View(moviesss);
+
+            //Another Pagination
+            const int pageSize = 4;
+            if (page < 1) page = 1;
+
+            int movCount = moviesss.Count();
+            var pager = new Pager(movCount, page, pageSize);
+            //if page no is 2 and page size is 5 then recSkip = (2-1)*5 =>5
+            int recSkip = (page - 1 ) * pageSize;
+            var data = moviesss.Skip(recSkip).Take(pager.PageSize).ToList();
+            ViewBag.Pager = pager;
+
+            return View(data);
         }
         #endregion
 
