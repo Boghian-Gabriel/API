@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
-    [DbContext(typeof(MovieDB))]
+    [DbContext(typeof(ContextDB))]
     [Migration("20220927073656_ManyToMany")]
     partial class ManyToMany
     {

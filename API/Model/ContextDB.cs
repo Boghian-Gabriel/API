@@ -7,12 +7,12 @@ namespace API.Model
      EF functionality for a data model. This class is created by deriving
      from the Microfost.EntityFrameworkCore.DbContext class.
      */
-    public class MovieDB : DbContext
+    public class ContextDB : DbContext
     {
         /*
          DbContextOptions<MovieContext> -> name DB
          */
-        public MovieDB(DbContextOptions<MovieDB> option)
+        public ContextDB(DbContextOptions<ContextDB> option)
             : base(option)
         { 
         }

@@ -9,78 +9,78 @@ namespace API.Controllers
 
     //Acest atribut indica faptul ca controlul raspunde la solicitarile API-ului web
     [ApiController]
-    public class MoviesController : Controller
+    public class ActorsController : Controller
     {
         //inject the database context 
         private readonly ContextDB _dbContext;
 
-        public MoviesController(ContextDB dbContext)
+        public ActorsController(ContextDB dbContext)
         {
             _dbContext = dbContext;
         }
 
         //We will add CRUD action
 
-        //1. GET Method:   api/Movies
+        //1. GET Method:   api/Actors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
         {
-            if (_dbContext.Movies == null)
+            if (_dbContext.Actors == null)
             {
                 return NotFound();
             }
 
-            return await _dbContext.Movies.ToListAsync();
+            return await _dbContext.Actors.ToListAsync();
         }
 
-        //1. GET Method:   api/Movies/5
-        
+        //1. GET Method:   api/Actors/5
+
         [HttpGet("id")]
-        public async Task<ActionResult<Movie>> GetMovie(Guid id)
+        public async Task<ActionResult<Actor>> GetActor(Guid id)
         {
-            if (_dbContext.Movies == null)
+            if (_dbContext.Actors == null)
             {
                 return NotFound();
             }
 
-            var movie =  await _dbContext.Movies.FindAsync(id);
-        
-            if (movie == null)
+            var Actor = await _dbContext.Actors.FindAsync(id);
+
+            if (Actor == null)
             {
                 return NotFound();
             }
-            return movie;
+            return Actor;
         }
 
         //post
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<Actor>> PostActor(Actor Actor)
         {
-            _dbContext.Movies.Add(movie);
+            _dbContext.Actors.Add(Actor);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetActor), new { id = Actor.Id }, Actor);
         }
 
 
         //PUT
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMovie(Guid id, Movie movie)
+        public async Task<IActionResult> UpdateActor(Guid id, Actor Actor)
         {
-            if( id != movie.Id)
+            if (id != Actor.Id)
             {
                 return BadRequest();
             }
 
-            _dbContext.Entry(movie).State = EntityState.Modified;
-            
+            _dbContext.Entry(Actor).State = EntityState.Modified;
+
             try
             {
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(id))
+                if (!ActorExists(id))
                 {
                     return NotFound();
                 }
@@ -92,28 +92,28 @@ namespace API.Controllers
             return NoContent();
         }
 
-        private bool MovieExists(Guid id)
+        private bool ActorExists(Guid id)
         {
-            return (_dbContext.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_dbContext.Actors?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         #region "Delete"
         //DELETE
         [HttpDelete("id")]
-        public async Task<IActionResult> DeleteMovie(Guid id)
+        public async Task<IActionResult> DeleteActor(Guid id)
         {
-            if(_dbContext.Movies == null)
+            if (_dbContext.Actors == null)
             {
                 return NotFound();
             }
 
-            var movie = await _dbContext.Movies.FindAsync(id);
-            if(movie == null)
+            var Actor = await _dbContext.Actors.FindAsync(id);
+            if (Actor == null)
             {
                 return NotFound();
             }
 
-            _dbContext.Movies.Remove(movie);
+            _dbContext.Actors.Remove(Actor);
             await _dbContext.SaveChangesAsync();
 
             return NoContent();

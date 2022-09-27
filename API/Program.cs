@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //ADDED BY ME
-builder.Services.AddDbContext<MovieDB>(option =>
+builder.Services.AddDbContext<ContextDB>(option =>
       option.UseSqlServer(builder.Configuration.GetConnectionString("MovieDB")));
 
 builder.Services.AddControllers();
