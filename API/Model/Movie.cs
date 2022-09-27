@@ -7,7 +7,7 @@ namespace API.Model
     {
         public Guid Id { get; set; }
 
-        [StringLength(25, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         [Required]
         public string? Title { get; set; }
 
@@ -19,6 +19,10 @@ namespace API.Model
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime RealeseDate { get; set; }
+
+        //Navigation Properties
+        public List<MovieActor> MovieActors { get; set; }
+
 
         /*  EF Core is an object-relational mapping (ORM)
             framework that simplifies the data access code.

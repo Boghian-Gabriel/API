@@ -19,6 +19,24 @@ namespace API.Model
         //interesant ca pune la final !
         // fara ' ! ' => mesajul "Cannot convert null literal to non-nulable reference type"
         public DbSet<Movie> Movies { get; set; } = null!;
+        public DbSet<Actor> Actors { get; set; } = null!;
+        public DbSet<MovieActor> MoviesActors { get; set; } = null!;
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //relationship many to many
+            modelBuilder.Entity<MovieActor>()
+                .HasOne(m => m. Movie)
+                .WithMany(ma => ma.MovieActors)
+                .HasForeignKey(mi => mi.MovieId);
+
+            modelBuilder.Entity<MovieActor>()
+                .HasOne(a => a.Actor)
+                .WithMany(ma => ma.MovieActors)
+                .HasForeignKey(ai => ai.ActorId);
+        }
+
         /*
          In terminologia Entity Framework, 
         un set de entitati corespunde de obicei unui tabel al BD, 
