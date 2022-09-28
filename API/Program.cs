@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //ADDED BY ME
 builder.Services.AddDbContext<ContextDB>(option =>
-      option.UseSqlServer(builder.Configuration.GetConnectionString("MovieDB")));
+      option.UseSqlServer(builder.Configuration.GetConnectionString("MovieDBv2")));
 
 builder.Services.AddControllers();
 
