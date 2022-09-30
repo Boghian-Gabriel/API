@@ -5,12 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Add Movie</h1>
+<h1>In this page you can add a movie</h1>
 
-<h4>Movie</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="CreateMovie">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display: none  ">
@@ -26,6 +25,7 @@
             <div class="form-floating mb-3">
                 <input asp-for="Genre" class="form-control" id="floatingInput" placeholder="the genre name" />
                 <label asp-for="Genre" for="floatingInput"></label>
+                <input asp-for="Genre" class="form-select" id="floatingInput" placeholder="the adasdads" />
                 <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
             <div class="form-floating mb-2">

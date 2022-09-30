@@ -17,7 +17,7 @@
 }
 
 <div class="jumbotron bg-light bg-gradient text-secondary p-5 shadow-sm">
-    <h1 class="display-4">Hello, friends!</h1>
+    <h1 class="display-4">Hello, in this page you ca see all the available movies.</h1>
     <p class="lead">Learn about API using ASP.NET 6.0 EF Core (Code First Approach). </p>
     <hr class="my-4">
     <p>List with all Movies</p>
@@ -36,7 +36,7 @@
     @*@Html.ActionLink("Create new movie", "CreateMovie")*@
 
     @using(Html.BeginForm()){
-    <div class="d-sm-flex input-group">      
+        <div class="d-sm-flex input-group">   
         <button class="btn btn-sm btn-secondary btnStyle" disabled="disabled" id="btnClear"><i class="bi bi-x"></i></button>
             @Html.TextBox("searchString",  ViewBag.CurrentFilter as string, new {@class="form-control inputStyle", @placeholder = "Search", @id = "txtEnter", @onkeydown="EnableDisable(this);" })
             <button class="btn btn-outline-success btnStyle" type="submit"><i class="bi bi-search"></i></button>
