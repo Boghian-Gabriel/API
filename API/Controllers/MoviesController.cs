@@ -30,7 +30,10 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return await _dbContext.Movies.ToListAsync();
+            //Include another table
+            var rezult = await _dbContext.Movies.Include(g => g.Genre).ToListAsync();
+
+            return rezult;
         }
 
         //1. GET Method:   api/Movies/5
@@ -43,8 +46,11 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var movie =  await _dbContext.Movies.FindAsync(id);
-        
+            //var movie =  await _dbContext.Movies.FindAsync(id);
+            var movie = await _dbContext.Movies
+               .Include(m => m.Genre)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
             if (movie == null)
             {
                 return NotFound();

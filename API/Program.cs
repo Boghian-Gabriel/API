@@ -1,5 +1,6 @@
 using API.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 //ADDED BY ME
 builder.Services.AddDbContext<ContextDB>(option =>
-      option.UseSqlServer(builder.Configuration.GetConnectionString("MovieDBv2")));
+      option.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
 builder.Services.AddControllers();
+
+builder.Services.AddControllers()
+           .AddJsonOptions(o => o.JsonSerializerOptions
+               .ReferenceHandler = ReferenceHandler.Preserve);
 
 // We can see that Swagger support is added automatically to
 // our project:

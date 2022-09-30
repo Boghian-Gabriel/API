@@ -4,7 +4,6 @@ using API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    [Migration("20220928075427_ChangeDb")]
-    partial class ChangeDb
+    partial class ContextDBModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,16 +22,29 @@ namespace API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("API.Model.Genre", b =>
+                {
+                    b.Property<Guid>("IdGenre")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GenreName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdGenre");
+
+                    b.ToTable("Genres");
+                });
+
             modelBuilder.Entity("API.Model.Movie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                    b.Property<Guid>("IdRefGenre")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("RealeseDate")
                         .HasColumnType("datetime2");
@@ -45,7 +56,25 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdRefGenre");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("API.Model.Movie", b =>
+                {
+                    b.HasOne("API.Model.Genre", "Genre")
+                        .WithMany("Movies")
+                        .HasForeignKey("IdRefGenre")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("API.Model.Genre", b =>
+                {
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }

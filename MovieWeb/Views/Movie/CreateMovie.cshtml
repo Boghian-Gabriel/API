@@ -22,16 +22,14 @@
                 <label asp-for="Title" for="floatingInput"></label>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Genre" class="form-control" id="floatingInput" placeholder="the genre name" />
-                <label asp-for="Genre" for="floatingInput"></label>
-                <input asp-for="Genre" class="form-select" id="floatingInput" placeholder="the adasdads" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
-            </div>
             <div class="form-floating mb-2">
                 <input asp-for="RealeseDate" class="form-control" id="floatingInput" placeholder="the datetime" />
                 <label asp-for="RealeseDate" for="floatingInput"></label>
                 <span asp-validation-for="RealeseDate" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-2">
+                <label asp-for="IdRefGenre" class="control-label" id="floatingInput" placeholder="the genre name"></label>
+                <select asp-for="IdRefGenre" class="form-control" asp-items="ViewBag.IdRefGenre"></select>
             </div>
             <p>
             <div class="form-group">

@@ -19,7 +19,7 @@ namespace API.Model
         //interesant ca pune la final !
         // fara ' ! ' => mesajul "Cannot convert null literal to non-nulable reference type"
         public DbSet<Movie> Movies { get; set; } = null!;
-
+        public DbSet<Genre> Genres { get; set; } = null!;
         /*
          In terminologia Entity Framework, 
         un set de entitati corespunde de obicei unui tabel al BD, 
