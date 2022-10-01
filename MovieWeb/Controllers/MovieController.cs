@@ -7,6 +7,7 @@ using System.Linq;
 using X.PagedList;
 using AspNetCore.Reporting;
 using MovieWeb.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MovieWeb.Controllers
 {
@@ -135,21 +136,14 @@ namespace MovieWeb.Controllers
             //searching
             if (!String.IsNullOrEmpty(searchString))
             {
-                moviesss = moviesss.Where(m => m.Title.Contains(searchString)
-                                       || m.Genre.Contains(searchString));
+                moviesss = moviesss.Where(m => m.Title.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "title_desc":
                     moviesss = moviesss.OrderByDescending(m => m.Title);
-                    break;
-                case "genre_desc":
-                    moviesss = moviesss.OrderByDescending(m => m.Genre);
-                    break;
-                case "genre_asc":
-                    moviesss = moviesss.OrderBy(m => m.Genre);
-                    break;
+                    break;               
                 case "date_desc":
                     moviesss = moviesss.OrderByDescending(m => m.RealeseDate);
                     break;
@@ -214,7 +208,7 @@ namespace MovieWeb.Controllers
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
                 }
             }
-
+            //asda
             return View(movie);
         }
         #endregion

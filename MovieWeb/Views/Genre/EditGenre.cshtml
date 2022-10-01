@@ -1,0 +1,50 @@
+﻿@model API.Model.Genre
+
+@{
+    ViewData["Title"] = "UpdateGenre";
+}
+
+<h1>In this page you can edit a genre</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="EditGenre">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display:none">
+                <label asp-for="IdGenre" class="control-label"></label>
+                <input asp-for="IdGenre" class="form-control" />
+                <span asp-validation-for="IdGenre" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="GenreName" class="form-control" id="floatingInput" placeholder="the genre name" />
+                <label asp-for="GenreName" for="floatingInput"></label>
+                <span asp-validation-for="GenreName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btnStyle" />
+                <button class="btn btn-secondary" asp-action="GetAllGenres">Back to genres list</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    try
+    {
+        if (ViewBag.msg != null)
+        {
+            <label style="color:darkgreen">@ViewBag.msg</label>
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
