@@ -1,4 +1,5 @@
 ﻿using API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -99,6 +100,7 @@ namespace API.Controllers
         #region "Delete"
         //DELETE
         [HttpDelete("id")]
+        [Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
             if (_dbContext.Genres == null)

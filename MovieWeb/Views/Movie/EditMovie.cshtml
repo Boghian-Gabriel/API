@@ -26,6 +26,11 @@
                 <label asp-for="RealeseDate" for="floatingInput"></label>
                 <span asp-validation-for="RealeseDate" class="text-danger"></span>
             </div>
+             <div class="form-floating mb-2">
+                <select asp-for="IdRefGenre" class="form-control" asp-items="ViewBag.IdRefGenre"></select>
+                <label asp-for="IdRefGenre" for="floatingInput"></label>
+                <span asp-validation-for="IdRefGenre" class="text-danger"></span>
+            </div>
             <div class="form-group" >
                 <input type="submit" value="Save" class="btn btn-primary btnStyle" />
                 <button class="btn btn-secondary" asp-action="GetAllMovies">Back to movies list</button>

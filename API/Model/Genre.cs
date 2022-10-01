@@ -10,6 +10,7 @@ namespace API.Model
         [Required]
         public string? GenreName { get; set; }
 
+        //mai multe filme pot avea acelasi gen
         public ICollection<Movie>? Movies { get; set; }
     }
 }

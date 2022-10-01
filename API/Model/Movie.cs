@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,8 @@ namespace API.Model
 
         //reference to Genre table
         //IdRefGenre is FK in Movie and OK in Genre
+        //un singur gen  1(movies):N(genres)
+        [JsonIgnore]
         [ForeignKey("Genre")]
         public Guid IdRefGenre { get; set; }
         public Genre Genre { get; set; }

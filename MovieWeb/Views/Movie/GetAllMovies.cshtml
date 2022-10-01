@@ -56,7 +56,8 @@
                 @Html.ActionLink("RealeseDate", "GetAllMovies", new { sortOrder = ViewBag.DateSortParam })
             </th>
             <th class="text-center">
-                @Html.DisplayNameFor(model => model.Genre)
+               @* @Html.DisplayNameFor(model => model.Genre, new { sortOrder = ViewBag.GenreSortParam })*@
+                @Html.ActionLink("Genre", "GetAllMovies", new { sortOrder = ViewBag.GenreSortParam })
             </th>
             <th class ="text-center">Actions</th>
         </tr>

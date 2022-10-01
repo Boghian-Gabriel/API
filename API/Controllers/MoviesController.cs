@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using API.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -9,6 +10,8 @@ namespace API.Controllers
 
     //Acest atribut indica faptul ca controlul raspunde la solicitarile API-ului web
     [ApiController]
+
+
     public class MoviesController : Controller
     {
         //inject the database context 
@@ -65,7 +68,9 @@ namespace API.Controllers
             _dbContext.Movies.Add(movie);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.IdRefGenre }, movie);
+
+            //return await GetMovie(movie.IdRefGenre);
         }
 
 
