@@ -11,7 +11,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JwtTokenController : ControllerBase
+    public class JwtTokenController : Controller
     {
         public IConfiguration _configuration;
         public readonly ContextDB _context;
@@ -60,10 +60,39 @@ namespace API.Controllers
                 return BadRequest("Invalid Credentials");
             }
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        //{
+        //    if (_context.Users == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    //Include another table
+        //    var rezult = await _context.Users.ToListAsync();
+
+        //    return rezult;
+        //}
+
         [HttpGet]
-        private async Task<User> GetUser(string userName, string password)
+        public async Task<ActionResult<User>> GetUser(string userName, string password)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);
+            //return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);
+
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            //List<User> users = new List<User>();
+            //users = await _context.Users.ToListAsync();
+            var rezult = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);
+
+            if (rezult == null)
+            {
+                return NotFound();
+            }
+            return rezult;
         }
     }
 }
