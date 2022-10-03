@@ -38,8 +38,8 @@ namespace API.Controllers
             return rezult;
         }
 
-        [HttpGet("name")]
-        public async Task<ActionResult<ActorAdress>> GetActorByName(int zip)
+        [HttpGet("zip")]
+        public async Task<ActionResult<ActorAdress>> GetActorAdressByZipCode(int zip)
         {
             var rezult = await _actorAdressRepository.GetActorAdressByZipCode(zip);
             return rezult;
@@ -49,7 +49,7 @@ namespace API.Controllers
         [HttpPost]
         [Authorize]
 
-        public async Task<ActionResult<ActorAdress>> PostActor(ActorAdress actorAdr)
+        public async Task<ActionResult<ActorAdress>> PostActorAdress(ActorAdress actorAdr)
         {
             var rezult = await _actorAdressRepository.PostActorAdress(actorAdr);
 
@@ -63,7 +63,7 @@ namespace API.Controllers
          example update API
 
          */
-        public async Task<IActionResult> UpdateActor(Guid id, ActorAdress actorAdr)
+        public async Task<IActionResult> UpdateActorAdress(Guid id, ActorAdress actorAdr)
         {
             var rezult = await _actorAdressRepository.UpdateActorAdress(id, actorAdr);
             return rezult;
