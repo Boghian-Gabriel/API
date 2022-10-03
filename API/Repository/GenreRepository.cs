@@ -32,7 +32,7 @@ namespace API.Repository
 
         //1. GET Method:   api/Movies/5
 
-        public async Task<ActionResult<Genre>> GetGenre(Guid id)
+        public async Task<ActionResult<Genre>> GetGenreById(Guid id)
         {
             if (_dbContext.Genres == null)
             {
@@ -48,13 +48,31 @@ namespace API.Repository
             return rezult;
         }
 
+        public async Task<ActionResult<Genre>> GetGenreByName(string name)
+        {
+            if (_dbContext.Genres == null)
+            {
+                return NotFound();
+            }
+            List<Genre> genres = new List<Genre>();
+            genres = await _dbContext.Genres.ToListAsync();
+            var rezult = genres.Where(p => p.GenreName == name).FirstOrDefault();
+            //var rezult = await _dbContext.Genres.FinWdAsync(name);
+
+            if (rezult == null)
+            {
+                return NotFound();
+            }
+            return rezult;
+        }
+
         //post
         public async Task<ActionResult<Genre>> PostGenre(Genre genre)
         {
             _dbContext.Genres.Add(genre);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetGenre), new { id = genre.IdGenre }, genre);
+            return CreatedAtAction(nameof(GetGenreById), new { id = genre.IdGenre }, genre);
         }
 
 

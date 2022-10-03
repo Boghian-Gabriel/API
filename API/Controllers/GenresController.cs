@@ -32,14 +32,29 @@ namespace API.Controllers
         //1. GET Method:   api/Movies/5
 
         [HttpGet("id")]
-        public async Task<ActionResult<Genre>> GetGenre(Guid id)
+        public async Task<ActionResult<Genre>> GetGenreById(Guid id)
         {
-           var rezult = await _genreRepository.GetGenre(id);
+           var rezult = await _genreRepository.GetGenreById(id);
+            return rezult;
+        }
+
+        [HttpGet("name")]
+        public async Task<ActionResult<Genre>> GetGenreByName(string name)
+        {
+            var rezult = await _genreRepository.GetGenreByName(name);
             return rezult;
         }
 
         //post
         [HttpPost]
+        [Authorize]
+        /*
+        example post API  in Swagger or PostMan
+        {
+            "GenreName": "Action X2",
+            "Movies": []
+        }
+        */
         public async Task<ActionResult<Genre>> PostGenre(Genre genre)
         {
             var rezult = await _genreRepository.PostGenre(genre);
@@ -50,6 +65,10 @@ namespace API.Controllers
         //PUT
         [HttpPut("{id}")]
         [Authorize]
+        /*
+         example update API
+
+         */
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
             var rezult = await _genreRepository.UpdateGenre(id, genre);
