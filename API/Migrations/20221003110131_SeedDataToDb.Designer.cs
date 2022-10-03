@@ -4,6 +4,7 @@ using API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    partial class ContextDBModelSnapshot : ModelSnapshot
+    [Migration("20221003110131_SeedDataToDb")]
+    partial class SeedDataToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,80 +112,10 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0e122a87-8020-4761-99a3-24da88a4eede"),
+                            Id = new Guid("db0e705c-1f7b-4a61-93d3-087799c35d3f"),
                             IdRefGenre = new Guid("7c6abc48-36c0-4cec-aed7-0a5161c22b0f"),
                             RealeseDate = new DateTime(2012, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "John Wick 1"
-                        },
-                        new
-                        {
-                            Id = new Guid("1fba347d-d47a-4b1d-811a-f3074a238d7a"),
-                            IdRefGenre = new Guid("7c6abc48-36c0-4cec-aed7-0a5161c22b0f"),
-                            RealeseDate = new DateTime(207, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "John Wick 2"
-                        },
-                        new
-                        {
-                            Id = new Guid("3e988992-a16c-41bf-9cc5-f9e48ce60918"),
-                            IdRefGenre = new Guid("917c3492-f531-44de-a321-b9b17a7a90e4"),
-                            RealeseDate = new DateTime(2008, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Avatar 1"
-                        },
-                        new
-                        {
-                            Id = new Guid("9432b9cb-b23f-4809-8c68-aff8d71c45d3"),
-                            IdRefGenre = new Guid("917c3492-f531-44de-a321-b9b17a7a90e4"),
-                            RealeseDate = new DateTime(2022, 12, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Avatar 2"
-                        },
-                        new
-                        {
-                            Id = new Guid("caefe546-1d73-48ac-a648-7054d886219c"),
-                            IdRefGenre = new Guid("7252f1ba-4885-411e-9ae2-5b8b801be464"),
-                            RealeseDate = new DateTime(2008, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Mr. Bean"
-                        },
-                        new
-                        {
-                            Id = new Guid("bc1bd1ee-cb75-48e3-b4eb-e3507092de26"),
-                            IdRefGenre = new Guid("1ce57ea2-8b3b-4074-9264-60a92872dd98"),
-                            RealeseDate = new DateTime(2010, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Film Example3"
-                        },
-                        new
-                        {
-                            Id = new Guid("ddbdf787-5c2c-4699-b2c7-ae9c398b5a3c"),
-                            IdRefGenre = new Guid("d3dbc108-f55a-4acb-28d7-08daa4ff6e55"),
-                            RealeseDate = new DateTime(2008, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Western P2"
-                        },
-                        new
-                        {
-                            Id = new Guid("de303a78-5f0d-4ceb-8b72-4cc1826d5e53"),
-                            IdRefGenre = new Guid("133d337e-5a77-4107-89de-210783900c1d"),
-                            RealeseDate = new DateTime(2000, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Mascatul"
-                        },
-                        new
-                        {
-                            Id = new Guid("c537a849-4bff-4de7-9d55-38da6e677d7d"),
-                            IdRefGenre = new Guid("7c6abc48-36c0-4cec-aed7-0a5161c22b0f"),
-                            RealeseDate = new DateTime(1934, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Film Example6"
-                        },
-                        new
-                        {
-                            Id = new Guid("ff5d2ace-7351-48f2-b809-3926b8fed5ba"),
-                            IdRefGenre = new Guid("133d337e-5a77-4107-89de-210783900c1d"),
-                            RealeseDate = new DateTime(1995, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Mascatul P2"
-                        },
-                        new
-                        {
-                            Id = new Guid("054fefe2-aab3-4ed2-93a2-df3491be349e"),
-                            IdRefGenre = new Guid("2b44ee54-2d50-437c-996d-40525e268186"),
-                            RealeseDate = new DateTime(2007, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "The horses"
                         });
                 });
 
