@@ -18,7 +18,6 @@ namespace API.Repository
         //We will add CRUD action
 
         //1. GET Method:   api/Movies
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
             if (_dbContext.Movies == null)
@@ -33,8 +32,6 @@ namespace API.Repository
         }
 
         //1. GET Method:   api/Movies/5
-
-        [HttpGet("id")]
         public async Task<ActionResult<Movie>> GetMovie(Guid id)
         {
             if (_dbContext.Movies == null)
@@ -69,7 +66,6 @@ namespace API.Repository
             }
         }
          */
-        [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
             _dbContext.Movies.Add(movie);
@@ -80,9 +76,7 @@ namespace API.Repository
             //return await GetMovie(movie.IdRefGenre);
         }
 
-
-        //PUT
-        [HttpPut("{id}")]
+        //put
         public async Task<IActionResult> UpdateMovie(Guid id, Movie movie)
         {
             if (id != movie.Id)
@@ -117,7 +111,6 @@ namespace API.Repository
 
         #region "Delete"
         //DELETE
-        [HttpDelete("id")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             if (_dbContext.Movies == null)
