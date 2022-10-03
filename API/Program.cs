@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 //ADDED BY ME
 builder.Services.AddDbContext<ContextDB>(option =>
       option.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+
+//add dependecy injection
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {

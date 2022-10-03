@@ -3,23 +3,21 @@ using Microsoft.AspNetCore.Http;
 using API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using API.Repository;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-
     //Acest atribut indica faptul ca controlul raspunde la solicitarile API-ului web
     [ApiController]
-
-
     public class MoviesController : Controller
     {
         //inject the database context 
-        private readonly ContextDB _dbContext;
-
-        public MoviesController(ContextDB dbContext)
+        private IMovieRepository _movieRepository;
+        //Dependency Injection => atunci cand  este nevoie se instantiaza clasa 
+        public MoviesController(IMovieRepository movieRepository)
         {
-            _dbContext = dbContext;
+            _movieRepository = movieRepository;
         }
 
         //We will add CRUD action
@@ -28,13 +26,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
-            if (_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
-
-            //Include another table
-            var rezult = await _dbContext.Movies.Include(g => g.Genre).ToListAsync();
+            var rezult = await _movieRepository.GetMovies();
 
             return rezult;
         }
@@ -44,33 +36,18 @@ namespace API.Controllers
         [HttpGet("id")]
         public async Task<ActionResult<Movie>> GetMovie(Guid id)
         {
-            if (_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
+            var rezult = await _movieRepository.GetMovie(id);
 
-            //var movie =  await _dbContext.Movies.FindAsync(id);
-            var movie = await _dbContext.Movies
-               .Include(m => m.Genre)
-               .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (movie == null)
-            {
-                return NotFound();
-            }
-            return movie;
+            return rezult;
         }
 
         //post
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
-            _dbContext.Movies.Add(movie);
-            await _dbContext.SaveChangesAsync();
+            var rezult = await _movieRepository.PostMovie(movie);
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.IdRefGenre }, movie);
-
-            //return await GetMovie(movie.IdRefGenre);
+            return rezult;
         }
 
 
@@ -78,34 +55,9 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie(Guid id, Movie movie)
         {
-            if( id != movie.Id)
-            {
-                return BadRequest();
-            }
+            var rezult = await _movieRepository.UpdateMovie(id, movie);
 
-            _dbContext.Entry(movie).State = EntityState.Modified;
-            
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MovieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
-
-        private bool MovieExists(Guid id)
-        {
-            return (_dbContext.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
+            return rezult;
         }
 
         #region "Delete"
@@ -113,21 +65,9 @@ namespace API.Controllers
         [HttpDelete("id")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            if(_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
+            var rezult = await _movieRepository.DeleteMovie(id);
 
-            var movie = await _dbContext.Movies.FindAsync(id);
-            if(movie == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Movies.Remove(movie);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            return rezult;
         }
         #endregion
     }

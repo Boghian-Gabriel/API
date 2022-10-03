@@ -1,4 +1,5 @@
 ﻿using API.Model;
+using API.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,12 @@ namespace API.Controllers
     [ApiController]
     public class GenresController : Controller
     {
-        public readonly ContextDB _dbContext;
+        private IGenreRepository _genreRepository;
 
-        public GenresController(ContextDB dbContext)
+        //Dependency Injection => atunci cand  este nevoie se instantiaza clasa 
+        public GenresController(IGenreRepository genreRepository)
         {
-            _dbContext = dbContext;
+            _genreRepository = genreRepository;
         }
         //We will add CRUD action
 
@@ -22,13 +24,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
-
-            //Include another table
-            var rezult = await _dbContext.Genres.ToListAsync();
+            var rezult = await _genreRepository.GetGenres();
 
             return rezult;
         }
@@ -38,17 +34,7 @@ namespace API.Controllers
         [HttpGet("id")]
         public async Task<ActionResult<Genre>> GetGenre(Guid id)
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
-
-            var rezult = await _dbContext.Genres.FindAsync(id);
-
-            if (rezult == null)
-            {
-                return NotFound();
-            }
+           var rezult = await _genreRepository.GetGenre(id);
             return rezult;
         }
 
@@ -56,46 +42,19 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Genre>> PostGenre(Genre genre)
         {
-            _dbContext.Genres.Add(genre);
-            await _dbContext.SaveChangesAsync();
+            var rezult = await _genreRepository.PostGenre(genre);
 
-            return CreatedAtAction(nameof(GetGenre), new { id = genre.IdGenre }, genre);
+            return rezult;
         }
-
 
         //PUT
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
-            if (id != genre.IdGenre)
-            {
-                return BadRequest();
-            }
-
-            _dbContext.Entry(genre).State = EntityState.Modified;
-
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GenreExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
+            var rezult = await _genreRepository.UpdateGenre(id, genre);
+            return rezult;
         }
 
-        private bool GenreExists(Guid id)
-        {
-            return (_dbContext.Genres?.Any(e => e.IdGenre == id)).GetValueOrDefault();
-        }
 
         #region "Delete"
         //DELETE
@@ -103,21 +62,9 @@ namespace API.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
+            var rezult = await _genreRepository.DeleteGenre(id);
 
-            var genre = await _dbContext.Genres.FindAsync(id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Genres.Remove(genre);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            return rezult;
         }
         #endregion
     }
