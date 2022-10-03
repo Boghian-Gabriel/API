@@ -18,6 +18,8 @@ builder.Services.AddDbContext<ContextDB>(option =>
 //add dependecy injection
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IActorAdressRepository, ActorAdressRepository>();
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
