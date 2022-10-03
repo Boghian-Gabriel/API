@@ -55,6 +55,20 @@ namespace API.Repository
         }
 
         //post
+        /*
+         Post movie
+
+        {
+          "Title": "Ceva Nou v2.0",
+          "RealeseDate": "2022-10-03",
+          "IdRefGenre": "d5581b46-80e8-4ba0-b357-824130f9a779",
+          "Genre": {
+            "IdGenre": "d5581b46-80e8-4ba0-b357-824130f9a679",
+            "GenreName": "Historicaal",
+            "Movies": []
+            }
+        }
+         */
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {

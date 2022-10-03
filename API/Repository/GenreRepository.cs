@@ -17,7 +17,6 @@ namespace API.Repository
 
         public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
         {
-
             if (_dbContext.Genres == null)
             {
                 return NotFound();
@@ -27,7 +26,6 @@ namespace API.Repository
             var rezult = await _dbContext.Genres.ToListAsync();
 
             return rezult;
-
         }
 
         //1. GET Method:   api/Movies/5
