@@ -49,6 +49,7 @@ namespace API.Controllers
 
         //PUT
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
             var rezult = await _genreRepository.UpdateGenre(id, genre);
@@ -59,6 +60,7 @@ namespace API.Controllers
         #region "Delete"
         //DELETE
         [HttpDelete("id")]
+        //auth
         [Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {

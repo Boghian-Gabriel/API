@@ -151,10 +151,10 @@ namespace MovieWeb.Controllers
                     moviesss = moviesss.OrderBy(m => m.RealeseDate);
                     break;
                 case "genre_desc":
-                    moviesss = moviesss.OrderByDescending(m => m.Genre);
+                    moviesss = moviesss.OrderByDescending(m => m.Genre.GenreName);
                     break;
                 case "genre_asc":
-                    moviesss = moviesss.OrderBy(m => m.Genre);
+                    moviesss = moviesss.OrderBy(m => m.Genre.GenreName);
                     break;
                 default:
                     moviesss = moviesss.OrderBy(m => m.Title);
