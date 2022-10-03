@@ -20,6 +20,8 @@ namespace API.Model
         // fara ' ! ' => mesajul "Cannot convert null literal to non-nulable reference type"
         public DbSet<Movie> Movies { get; set; } = null!;
         public DbSet<Genre> Genres { get; set; } = null!;
+        public DbSet<Actor> Actors { get; set; } = null!;
+        public DbSet<ActorAdress> ActorAdress { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         /*
          In terminologia Entity Framework, 
@@ -77,6 +79,35 @@ namespace API.Model
             new Movie { Id = Guid.NewGuid(), Title = "The horses", RealeseDate = DateTime.Parse("2007-08-02"), IdRefGenre = Guid.Parse("2B44EE54-2D50-437C-996D-40525E268186") }
 
              );
+
+            //populate default actor table
+            modelBuilder.Entity<Actor>().HasData(
+            new Actor { ActorId = Guid.Parse("2771A534-6DDF-440C-AA65-06363EE53892"), FirstName = "Johnny", LastName = "Depp" },
+            new Actor { ActorId = Guid.Parse("17885E02-8E62-4E12-8819-064EB88732C3"), FirstName = "Vin", LastName = "Vin Diesel" },
+            new Actor { ActorId = Guid.Parse("C1E8C4B6-1BA4-4753-B4CE-4E3745D686A8"), FirstName = "Murphy", LastName = "Eddie" },
+            new Actor { ActorId = Guid.Parse("AE83328F-B078-4ED0-8FC4-769A29A99E77"), FirstName = "Schwarzenegger", LastName = "Arnold" },
+            new Actor { ActorId = Guid.Parse("E742BE86-5178-484C-82F5-84DEF99225EC"), FirstName = "Cage", LastName = "Nicolas" },
+            new Actor { ActorId = Guid.Parse("F41A8A8C-8A55-4F19-8FB3-885CD898ACEB"), FirstName = "Statham", LastName = "Jason Statham" },
+            new Actor { ActorId = Guid.Parse("08992976-E714-4C2C-9F07-902CD74D62AB"), FirstName = "Keanu", LastName = "Charles Reeves" },
+            new Actor { ActorId = Guid.Parse("53217A0C-D050-4AD6-A70B-A0B8552DA9C8"), FirstName = "Dwayne", LastName = "Johnson" },
+            new Actor { ActorId = Guid.Parse("82107BD1-C4C2-4EAF-B0F6-B4B9D0D354A4"), FirstName = "Jackie", LastName = "Chan" },
+            new Actor { ActorId = Guid.Parse("7E7ADA24-4C7A-4127-BCB7-F3A47907BFE2"), FirstName = "Van Damme", LastName = "Jean-Claude" }
+                );
+
+            //populate default actoradress table
+            modelBuilder.Entity<ActorAdress>().HasData(
+                new ActorAdress { ActorAdressId = Guid.Parse("2771A534-6DDF-440C-AA65-06363EE53892"), Adress1 = "Florida str.Florida", Adress2 = "Miami str Miami", City= "New York", ZipCode = 254758 , Country= "Country2" },
+                new ActorAdress { ActorAdressId = Guid.Parse("17885E02-8E62-4E12-8819-064EB88732C3"), Adress1 = "London", Adress2 = "Lewisham", City = "Doncaster", ZipCode = 193256, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("C1E8C4B6-1BA4-4753-B4CE-4E3745D686A8"), Adress1 = "Torquay 1", Adress2 = "Torquay 2", City = "Torquay", ZipCode = 462896, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("AE83328F-B078-4ED0-8FC4-769A29A99E77"), Adress1 = "Birmingham", Adress2 = "Birmingham 2", City = "Lancashire", ZipCode = 189345, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("E742BE86-5178-484C-82F5-84DEF99225EC"), Adress1 = "Colchester", Adress2 = "Leeds 2", City = "Lancashire1", ZipCode = 192675, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("F41A8A8C-8A55-4F19-8FB3-885CD898ACEB"), Adress1 = "Canterbury", Adress2 = "Benfleet 1", City = "Lancashire 12", ZipCode = 715289, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("08992976-E714-4C2C-9F07-902CD74D62AB"), Adress1 = "Chichester", Adress2 = "Bristol", City = "Lancashire 23", ZipCode = 267397, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("53217A0C-D050-4AD6-A70B-A0B8552DA9C8"), Adress1 = "York", Adress2 = "Sandown", City = "Lancashire13", ZipCode = 254758, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("82107BD1-C4C2-4EAF-B0F6-B4B9D0D354A4"), Adress1 = "Scunthorpe", Adress2 = "Birmingham", City = "Lancashire", ZipCode = 876123, Country = "United Kingdom" },
+                new ActorAdress { ActorAdressId = Guid.Parse("7E7ADA24-4C7A-4127-BCB7-F3A47907BFE2"), Adress1 = "Hove", Adress2 = "Wigan", City = "Lancashire 2", ZipCode = 657234, Country = "United Kingdom" }
+                );
+
         }
     }
 }

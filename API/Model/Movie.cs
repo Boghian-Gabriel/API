@@ -7,6 +7,10 @@ namespace API.Model
 {
     public class Movie
     {
+        //many to many  Movie:Actor
+        public Movie() => this.Actors = new HashSet<Actor>();
+
+        //PK
         [Key]
         public Guid Id { get; set; }
 
@@ -27,6 +31,8 @@ namespace API.Model
         public Guid IdRefGenre { get; set; }
         public Genre Genre { get; set; }
 
+        //many to many  Movie:Actor
+        public virtual ICollection<Actor> Actors { get; set; }
         /*  EF Core is an object-relational mapping (ORM)
             framework that simplifies the data access code.
         Model classes don't have any dependency on EF Core.

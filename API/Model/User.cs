@@ -6,7 +6,6 @@ namespace API.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int UserId { get; set; }
         
         public string? UserName { get; set; }
