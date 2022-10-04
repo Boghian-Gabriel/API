@@ -1,7 +1,7 @@
 ﻿using API.Model;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Repository
+namespace API.IRepository
 {
     public interface IMovieRepository
     {

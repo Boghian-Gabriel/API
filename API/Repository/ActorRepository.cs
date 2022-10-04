@@ -1,4 +1,5 @@
-﻿using API.Model;
+﻿using API.IRepository;
+using API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,14 @@ namespace API.Repository
     {
 
         private readonly ContextDB _dbContext;
+
         //constructor
+        /*
+         In the ActorRepository.cs , the constructor uses dependency injection to inject the database context (ContextDB) into the repository.
+         
+         ContextDB is used in each of the CRUD methods in the ActorRepository.
+         */
+
         public ActorRepository(ContextDB dbContext)
         {
             _dbContext = dbContext;

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using API.Repository;
+using API.IRepository;
 
 namespace API.Controllers
 {

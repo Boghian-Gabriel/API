@@ -57,7 +57,7 @@ namespace API.Model
                 new Genre { IdGenre = Guid.Parse("7C6ABC48-36C0-4CEC-AED7-0A5161C22B0F"), GenreName = "Action", Movies = null },
                 new Genre { IdGenre = Guid.Parse("133D337E-5A77-4107-89DE-210783900C1D"), GenreName = "Horror", Movies = null },
                 new Genre { IdGenre = Guid.Parse("2B44EE54-2D50-437C-996D-40525E268186"), GenreName = "Drama", Movies = null },
-                new Genre { IdGenre = Guid.Parse("7252F1BA-4885-411E-9AE2-5B8B801BE464"), GenreName = "Commedy", Movies = null },
+                new Genre { IdGenre = Guid.Parse("7252F1BA-4885-411E-9AE2-5B8B801BE464"), GenreName = "Comedy", Movies = null },
                 new Genre { IdGenre = Guid.Parse("1CE57EA2-8B3B-4074-9264-60A92872DD98"), GenreName = "Crime", Movies = null },
                 new Genre { IdGenre = Guid.Parse("D5581B46-80E8-4BA0-B357-824130F9A779"), GenreName = "Historical", Movies = null },
                 new Genre { IdGenre = Guid.Parse("917C3492-F531-44DE-A321-B9B17A7A90E4"), GenreName = "Science Fiction", Movies = null },

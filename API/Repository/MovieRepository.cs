@@ -1,4 +1,5 @@
-﻿using API.Model;
+﻿using API.IRepository;
+using API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
