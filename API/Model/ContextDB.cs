@@ -108,6 +108,12 @@ namespace API.Model
                 new ActorAdress { ActorAdressId = Guid.Parse("7E7ADA24-4C7A-4127-BCB7-F3A47907BFE2"), Adress1 = "Hove", Adress2 = "Wigan", City = "Lancashire 2", ZipCode = 657234, Country = "United Kingdom" }
                 );
 
+            //add default user admin and admin -> user / pass
+            modelBuilder.Entity<User>().HasData(
+                new User { UserId = 1, UserName="admin", Password="admin"},
+                new User { UserId = 2, UserName = "admin123", Password = "pass123" }
+                );
+
         }
     }
 }
