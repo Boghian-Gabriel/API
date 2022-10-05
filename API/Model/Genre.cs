@@ -16,4 +16,10 @@ namespace API.Model
         // N:1 (Movies:Genre)
         public ICollection<Movie>? Movies { get; set; }
     }
+
+    public class ResponseMsg
+    {
+        public bool? isSuccess { get; set; }
+        public string? Message { get; set; }
+    }
 }

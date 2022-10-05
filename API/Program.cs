@@ -41,7 +41,9 @@ builder.Services.AddSwaggerGen(c =>
     //add security definition
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Description = "Jwt Authorization",
+        Description = @"Jwt Authorization header using the Bearer scheme. 
+                        Enter 'Bearer' [space] and then your token in the text input below
+                        Example  Bearer token1231asd ",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,

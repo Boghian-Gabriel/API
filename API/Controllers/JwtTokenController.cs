@@ -25,6 +25,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
+            //sign in
             if (user != null && user.UserName != null && user.Password != null)
             {
                 var userData = await GetUser(user.UserName, user.Password);
@@ -40,6 +41,8 @@ namespace API.Controllers
                         new Claim("UserName", user.UserName),
                         new Claim("Password", user.Password)
                     };
+
+                    //generate token
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.key));
                     var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                     var token = new JwtSecurityToken(
@@ -60,20 +63,6 @@ namespace API.Controllers
                 return BadRequest("Invalid Credentials");
             }
         }
-
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    //Include another table
-        //    var rezult = await _context.Users.ToListAsync();
-
-        //    return rezult;
-        //}
 
         [HttpGet]
         public async Task<ActionResult<User>> GetUser(string userName, string password)

@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[Action]")]
     [ApiController]
     public class GenresController : Controller
     {
@@ -55,11 +56,21 @@ namespace API.Controllers
             "Movies": []
         }
         */
-        public async Task<ActionResult<Genre>> PostGenre(Genre genre)
+        public async Task<ActionResult> PostGenre(Genre genre)
         {
-            var rezult = await _genreRepository.PostGenre(genre);
+            ResponseMsg response = new ResponseMsg();
+            try
+            {
+                response = await _genreRepository.PostGenre(genre);
 
-            return rezult;
+            }
+            catch (Exception ex)
+            {
+                response.isSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return Ok(response);
         }
 
         //PUT

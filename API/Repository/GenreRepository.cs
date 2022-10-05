@@ -66,12 +66,24 @@ namespace API.Repository
         }
 
         //post
-        public async Task<ActionResult<Genre>> PostGenre(Genre genre)
+        public async Task<ResponseMsg> PostGenre(Genre genre)
         {
-            _dbContext.Genres.Add(genre);
-            await _dbContext.SaveChangesAsync();
+            ResponseMsg response = new ResponseMsg();
+            response.isSuccess = true;
+            response.Message = "Success";
+            try
+            {
+                _dbContext.Genres.Add(genre);
+                await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetGenreById), new { id = genre.IdGenre }, genre);
+            }
+            catch(Exception ex)
+            {
+                response.isSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
 
 
