@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]/[Action]")]
+    //[Route("api/[controller]/[Action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GenresController : Controller
     {
