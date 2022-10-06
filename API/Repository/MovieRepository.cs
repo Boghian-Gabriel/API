@@ -2,6 +2,9 @@
 using API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Web.Http;
 
 namespace API.Repository
 {
@@ -27,9 +30,25 @@ namespace API.Repository
             }
 
             //Include another table
-            var rezult = await _dbContext.Movies.Include(g => g.Genre).ToListAsync();
+            var rezult2 = await _dbContext.Movies.Include(g => g.Genre).ToListAsync();
+           
+            var rezult = from movie in _dbContext.Movies
+                        select new
+                                     {
+                            movie.Id,
+                            movie.Title,
+                            movie.RealeseDate,
+                                         Genre = from genre in _dbContext.Genres
+                                                 where genre.IdGenre == movie.IdRefGenre
+                                                 select new
+                                                 {
+                                                     genre.IdGenre,
+                                                     genre.GenreName
+                                                 }
+                                              
+                                     };
 
-            return rezult;
+            return Ok(rezult2);
         }
 
         //1. GET Method:   api/Movies/5

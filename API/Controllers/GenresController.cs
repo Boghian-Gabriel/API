@@ -48,7 +48,7 @@ namespace API.Controllers
 
         //post
         [HttpPost]
-        [Authorize]
+        // [Authorize]
         /*
         example post API  in Swagger or PostMan
         {
@@ -74,8 +74,8 @@ namespace API.Controllers
         }
 
         //PUT
-        [HttpPut("{id}")]
-        [Authorize]
+        [HttpPut("id")]
+        //[Authorize]
         /*
          example update API
 
@@ -85,7 +85,6 @@ namespace API.Controllers
             var rezult = await _genreRepository.UpdateGenre(id, genre);
             return rezult;
         }
-
 
         #region "Delete"
         //DELETE
