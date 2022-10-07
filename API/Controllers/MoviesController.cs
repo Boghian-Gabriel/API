@@ -70,5 +70,26 @@ namespace API.Controllers
             return rezult;
         }
         #endregion
+
+        //trebuie pus si route daca ia mai multe HttpGet etc
+        //route este end point ul practic
+        [HttpGet]
+        [Route("GetMoviesWithGenreName")]
+        public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
+        {
+            var rezult = await _movieRepository.GetMoviesWithGenres();
+
+            return rezult;
+        }
+
+
+        [HttpGet]
+        [Route("GetMoviesWithActors")]
+        public async Task<IEnumerable<MovieActor>> GetMoviesWithActors()
+        {
+            var rezult = await _movieRepository.GetMoviesWithActors();
+
+            return rezult;
+        }
     }
 }
