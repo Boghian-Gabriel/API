@@ -1,15 +1,14 @@
-﻿using API.IRepository;
-using API.Model;
+﻿using API.Model;
 using API.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Xml.Linq;
 
 namespace API.Controllers
 {
-    //[Route("api/[controller]/[Action]")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[Action]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class GenresController : Controller
     {
@@ -24,11 +23,26 @@ namespace API.Controllers
 
         //1. GET Method:   api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
+        public async Task<ActionResult<Genre>> GetAllGenres()
         {
-            var rezult = await _genreRepository.GetGenres();
+            try
+            {
+                var rezult = await _genreRepository.GetGenres();
+                if (rezult != null)
+                {
+                    return Ok(rezult);
+                }
+                else
+                {
+                    return NotFound();
+                }
 
-            return rezult;
+            }catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
+            
         }
 
         //1. GET Method:   api/Movies/5
@@ -36,15 +50,49 @@ namespace API.Controllers
         [HttpGet("id")]
         public async Task<ActionResult<Genre>> GetGenreById(Guid id)
         {
-           var rezult = await _genreRepository.GetGenreById(id);
-            return rezult;
+            try
+            {
+                var rezult = await _genreRepository.GetGenreById(id);
+
+                if (rezult != null)
+                {
+                    return Ok(rezult);
+                }
+                else
+                {
+                    return NotFound($"The genre with id: ' {id} ' was not foud!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
         }
 
-        [HttpGet("name")]
-        public async Task<ActionResult<Genre>> GetGenreByName(string name)
+        //ceea ce trimit prin parametru la functie trebuie sa fie la fel numele cu parametrul de la HttpGet
+        [HttpGet("searchByName")]
+        public async Task<ActionResult<Genre>> GetGenreByName(string searchByName)
         {
-            var rezult = await _genreRepository.GetGenreByName(name);
-            return rezult;
+            try
+            {
+                var rezult = await _genreRepository.SearchGenreByName(searchByName);
+
+                if(rezult != null) 
+                { 
+                    return Ok(rezult); 
+                } else
+                {
+                    return NotFound($"The genre with name: ' {searchByName} ' was not foud!");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
+
         }
 
         //post
@@ -62,6 +110,13 @@ namespace API.Controllers
             ResponseMsg response = new ResponseMsg();
             try
             {
+                var isGenreExist = await _genreRepository.GetGenreByName(genre.GenreName);
+                if(isGenreExist != null)
+                {
+                    ModelState.AddModelError("GenreName", "Genre name already exist");
+                    return BadRequest(ModelState);
+                }
+
                 response = await _genreRepository.PostGenre(genre);
 
             }
@@ -91,12 +146,27 @@ namespace API.Controllers
         //DELETE
         [HttpDelete("id")]
         //auth
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
-            var rezult = await _genreRepository.DeleteGenre(id);
+            try
+            {
+                var rezultIdToDelete = await _genreRepository.GetGenreById(id);
 
-            return rezult;
+                if (rezultIdToDelete == null)
+                {
+                    return NotFound($"Genre with Id={id} not found!");
+                }
+
+                await _genreRepository.DeleteGenre(id);
+
+                return Ok($"Genre with Id={id} is deleted!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error retrieving data from the database" + ex);
+            }
         }
         #endregion
     }

@@ -8,22 +8,18 @@ namespace API.Repository
 {
     public class GenreRepository : Controller, IGenreRepository
     {
-
+        //connectio to DB
         private readonly ContextDB _dbContext;
         //constructor
         public GenreRepository(ContextDB dbContext)
         {
+            
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
+        public async Task<IEnumerable<Genre>> GetGenres()
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
 
-            //Include another table
             var rezult = await _dbContext.Genres.ToListAsync();
 
             return rezult;
@@ -31,38 +27,21 @@ namespace API.Repository
 
         //1. GET Method:   api/Movies/5
 
-        public async Task<ActionResult<Genre>> GetGenreById(Guid id)
+        public async Task<Genre> GetGenreById(Guid id)
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
-
             var rezult = await _dbContext.Genres.FindAsync(id);
 
-            if (rezult == null)
-            {
-                return NotFound();
-            }
             return rezult;
         }
 
-        public async Task<ActionResult<Genre>> GetGenreByName(string name)
+        public async Task<IEnumerable<Genre>> SearchGenreByName(string name)
         {
-            if (_dbContext.Genres == null)
-            {
-                return NotFound();
-            }
-            List<Genre> genres = new List<Genre>();
-            genres = await _dbContext.Genres.ToListAsync();
-            var rezult = genres.Where(p => p.GenreName == name).FirstOrDefault();
-            //var rezult = await _dbContext.Genres.FinWdAsync(name);
+            IQueryable<Genre> genres = _dbContext.Genres;
+            //var rezult = await _dbContext.Genres.FindAsync(name);
+            //la inceput intra cu genrename == null apoi caut eu si inta in genrename == name (?) in verificare
+            genres = genres.Where(p => p.GenreName == name || p.GenreName == null);
 
-            if (rezult == null)
-            {
-                return NotFound();
-            }
-            return rezult;
+            return await genres.ToListAsync();
         }
 
         //post
@@ -122,24 +101,23 @@ namespace API.Repository
 
         #region "Delete"
         //DELETE
-        public async Task<IActionResult> DeleteGenre(Guid id)
+        public async Task DeleteGenre(Guid id)
         {
-            if (_dbContext.Genres == null)
+            var genreDelete = await _dbContext.Genres.FindAsync(id);
+
+            if (genreDelete != null)
             {
-                return NotFound();
+                _dbContext.Genres.Remove(genreDelete);
+                await _dbContext.SaveChangesAsync();
             }
-
-            var genre = await _dbContext.Genres.FindAsync(id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Genres.Remove(genre);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }
         #endregion
+
+        public async Task<Genre> GetGenreByName(string name)
+        {
+            var rezult = await _dbContext.Genres.Where(g=> g.GenreName == name).FirstOrDefaultAsync();
+
+            return rezult;
+        }
     }
 }

@@ -5,11 +5,12 @@ namespace API.Repository
 {
     public interface IGenreRepository
     {
-        Task<ActionResult<IEnumerable<Genre>>> GetGenres();
-        Task<ActionResult<Genre>> GetGenreById(Guid id);
-        Task<ActionResult<Genre>> GetGenreByName(string name);
+        Task<IEnumerable<Genre>> GetGenres();
+        Task<Genre> GetGenreById(Guid id);
+        Task<IEnumerable<Genre>> SearchGenreByName(string name);
+        Task<Genre> GetGenreByName(string name);
         Task<ResponseMsg> PostGenre(Genre genre);
         Task<IActionResult> UpdateGenre(Guid id, Genre genre);
-        Task<IActionResult> DeleteGenre(Guid id);
+        Task DeleteGenre(Guid id);
     }
 }

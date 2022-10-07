@@ -18,7 +18,18 @@
     <div class="d-flex">
         <input type="submit" value="Create genre" class="btn btn-primary me-2 btnStyleLeft btnStyle " onclick="location.href='@Url.Action("CreateGenre", "Genre")'" />
     </div>
+
+    @*search*@
+    @using (Html.BeginForm("GetAllGenres", "Genre", FormMethod.Get))
+    {
+    <div class="d-sm-flex input-group">
+        <input class="form-control" name="search" placeholder="Enter genre name" />
+        <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+    </div>
+    }
 </div>
+
+
 
 <table class="table table-striped shadow-sm table-responsive table-bordered">
     <thead>
