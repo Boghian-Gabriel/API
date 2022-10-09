@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,19 +21,6 @@ namespace API.Repository
         public ActorRepository(ContextDB dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
-        {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
-
-            //Include another table
-            var rezult = await _dbContext.Actors.ToListAsync();
-
-            return rezult;
         }
 
         public async Task<ActionResult<Actor>> GetActorById(Guid id)
@@ -126,6 +114,39 @@ namespace API.Repository
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
+        {
+            if (_dbContext.Actors == null)
+            {
+                return NotFound();
+            }
+
+            //Include another table
+            var rezult = await _dbContext.Actors.ToListAsync();
+
+            return rezult;
+        }
+
+        public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
+        {
+            var rezActorAdress = (from a in _dbContext.Actors
+                                  join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
+                                  select new ActorAdressVM
+                                  {
+                                       Id = a.ActorId,
+                                       FName = a.FirstName,
+                                       LName = a.LastName,
+                                       Adress1 = aa.Adress1,
+                                       City = aa.City,
+                                       ZipCode = aa.ZipCode
+
+                                  }).ToListAsync();
+
+            //obs in Entity Framework, many-to-many relationship are automatically joined
+            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
+            return await rezActorAdress;
         }
     }
 }

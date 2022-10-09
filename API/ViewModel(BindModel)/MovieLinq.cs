@@ -1,6 +1,7 @@
 ﻿namespace API.Model
 {
-    public class MovieLinq
+    //abstract class can not be instantiated, is only to be sub-classesd
+    public abstract class MovieLinq
     {
         public Guid MovieId { get; set; }
         public string MovieTitle { get; set; }

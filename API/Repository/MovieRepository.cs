@@ -30,7 +30,7 @@ namespace API.Repository
             }
 
             //Include another table
-            var rezult2 = await _dbContext.Movies
+            var rezult2 =  _dbContext.Movies
                                 .Include(g => g.Genre)
                                 .Include(a => a.Actors)
                                 .ToListAsync();
@@ -63,6 +63,7 @@ namespace API.Repository
                 return NotFound();
             }
 
+            //LINQ Method syntax
             //var movie =  await _dbContext.Movies.FindAsync(id);
             var movie = await _dbContext.Movies
                .Include(m => m.Genre)
@@ -95,8 +96,7 @@ namespace API.Repository
             _dbContext.Movies.Add(movie);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.IdRefGenre }, movie);
-
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
             //return await GetMovie(movie.IdRefGenre);
         }
 
@@ -157,6 +157,7 @@ namespace API.Repository
 
         public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenres()
         {
+            //Linq query syntax
             var rezAnotherWay = (from m in _dbContext.Movies
                                 join g in _dbContext.Genres on m.IdRefGenre equals g.IdGenre
                                 select new MovieGenre

@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ActorsController : ControllerBase
     {
@@ -99,5 +100,14 @@ namespace API.Controllers
             return rezult;
         }
         #endregion
+
+        [HttpGet]
+       // [Route("GetActorsWithAdress")]
+        public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
+        {
+            var rezult = await _actorRepository.GetActorsWithAdress();
+
+            return rezult;
+        }
     }
 }

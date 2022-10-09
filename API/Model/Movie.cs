@@ -26,10 +26,13 @@ namespace API.Model
         //reference to Genre table
         //IdRefGenre is FK in Movie and OK in Genre
         //un singur gen  1(movies):N(genres)
+        // ignore individual properties,
         [JsonIgnore]
         [ForeignKey("Genre")]
-        public Guid IdRefGenre { get; set; }
-        public Genre Genre { get; set; }
+        public Guid? IdRefGenre { get; set; }
+        //Navigation property
+        [JsonIgnore]
+        public Genre? Genre { get; set; }
 
         //many to many  Movie:Actor
         public virtual ICollection<Actor> Actors { get; set; }
