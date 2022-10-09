@@ -131,6 +131,7 @@ namespace API.Repository
 
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
         {
+            //RELATIONSHIP 1:1 BETWENE Actors and ActorAdress
             var rezActorAdress = (from a in _dbContext.Actors
                                   join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
                                   select new ActorAdressVM
@@ -144,8 +145,6 @@ namespace API.Repository
 
                                   }).ToListAsync();
 
-            //obs in Entity Framework, many-to-many relationship are automatically joined
-            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
             return await rezActorAdress;
         }
     }
