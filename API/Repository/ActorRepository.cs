@@ -55,7 +55,39 @@ namespace API.Repository
             }
             return rezult;
         }
- 
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
+        {
+            if (_dbContext.Actors == null)
+            {
+                return NotFound();
+            }
+
+            //Include another table
+            var rezult = await _dbContext.Actors.ToListAsync();
+
+            return rezult;
+        }
+
+        public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
+        {
+            //RELATIONSHIP 1:1 BETWENE Actors and ActorAdress
+            var rezActorAdress = (from a in _dbContext.Actors
+                                  join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
+                                  select new ActorAdressVM
+                                  {
+                                      Id = a.ActorId,
+                                      FName = a.FirstName,
+                                      LName = a.LastName,
+                                      Adress1 = aa.Adress1,
+                                      City = aa.City,
+                                      ZipCode = aa.ZipCode
+
+                                  }).ToListAsync();
+
+            return await rezActorAdress;
+        }
 
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
         {
@@ -114,38 +146,6 @@ namespace API.Repository
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
-        {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
-
-            //Include another table
-            var rezult = await _dbContext.Actors.ToListAsync();
-
-            return rezult;
-        }
-
-        public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
-        {
-            //RELATIONSHIP 1:1 BETWENE Actors and ActorAdress
-            var rezActorAdress = (from a in _dbContext.Actors
-                                  join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
-                                  select new ActorAdressVM
-                                  {
-                                       Id = a.ActorId,
-                                       FName = a.FirstName,
-                                       LName = a.LastName,
-                                       Adress1 = aa.Adress1,
-                                       City = aa.City,
-                                       ZipCode = aa.ZipCode
-
-                                  }).ToListAsync();
-
-            return await rezActorAdress;
-        }
+        }     
     }
 }

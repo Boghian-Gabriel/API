@@ -8,11 +8,14 @@ using X.PagedList;
 using AspNetCore.Reporting;
 using MovieWeb.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using API.UriApi;
 
 namespace MovieWeb.Controllers
 {
     public class MovieController : Controller
     {
+        private const string sController = "Movies/";
+        private static string uri = BaseUriApi.GetUriWithController(sController);
         //for reporting
         public readonly IWebHostEnvironment _webHostEnvironment;
         public MovieController(IWebHostEnvironment webHostEnvironment)
@@ -65,6 +68,7 @@ namespace MovieWeb.Controllers
         }
 
         #region GetMethod
+        [HttpGet]
         public async Task<IActionResult> GetAllMovies(string sortOrder, string currentFilter, string searchString, int page = 1)
         {
             #region "Method1"
@@ -107,10 +111,10 @@ namespace MovieWeb.Controllers
             List<Movie> movies = new List<Movie>();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/");
+                client.BaseAddress = new Uri(uri);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage result = await client.GetAsync("api/Movies");
+                HttpResponseMessage result = await client.GetAsync("GetAllMovies");
                 if (result.IsSuccessStatusCode)
                 {
                     var resTask = result.Content.ReadAsStringAsync().Result;
@@ -195,10 +199,10 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/api/Movies");
+                client.BaseAddress = new Uri(uri);
 
                 //Http Post
-                var postTask = client.PostAsJsonAsync<Movie>("Movies", movie);
+                var postTask = client.PostAsJsonAsync<Movie>("PostMovie", movie);
                 postTask.Wait();    
 
                 var result = postTask.Result;
@@ -228,10 +232,10 @@ namespace MovieWeb.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/");
+                client.BaseAddress = new Uri(uri);
 
                 //Http Get
-                var responseTask = client.GetAsync("api/Movies/id?id=" + id.ToString());
+                var responseTask = client.GetAsync("GetMovie/id?id=" + id.ToString());
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -263,10 +267,10 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/");
+                client.BaseAddress = new Uri(uri);
 
                 //Http Post
-                var postTask = client.PutAsJsonAsync<Movie>("api/Movies/" + movie.Id.ToString(), movie);
+                var postTask = client.PutAsJsonAsync<Movie>("UpdateMovie/" + movie.Id.ToString(), movie);
                 postTask.Wait();
 
                 var result = postTask.Result;
@@ -310,10 +314,10 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/");
+                client.BaseAddress = new Uri(uri);
 
                 //HTTP DELETE
-                var deleteTask = client.DeleteAsync("api/Movies/id?id=" + id.ToString());
+                var deleteTask = client.DeleteAsync("DeleteMovie/id?id=" + id.ToString());
                 deleteTask.Wait();
 
                 var result = deleteTask.Result;
@@ -334,10 +338,10 @@ namespace MovieWeb.Controllers
             Movie movie = new Movie();
             using(var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7165/");
+                client.BaseAddress = new Uri(uri);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage result = await client.GetAsync("api/Movies/id?id=" + id.ToString());
+                HttpResponseMessage result = await client.GetAsync("id?id=" + id.ToString());
                 if (result.IsSuccessStatusCode)
                 {
                     var resTask = result.Content.ReadAsStringAsync().Result;

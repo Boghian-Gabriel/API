@@ -1,4 +1,5 @@
 ﻿using API.Model;
+using API.UriApi;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -6,7 +7,8 @@ namespace MovieWeb.Controllers
 {
     public class GenreController : Controller
     {
-        string  baseUri = "https://localhost:7165/api/Genres/";
+        private const string sController = "Genres/";
+        private static string baseURI = BaseUriApi.GetUriWithController(sController);
 
         [HttpGet]
         public async Task<IActionResult> GetAllGenres(string search)
@@ -14,7 +16,7 @@ namespace MovieWeb.Controllers
             List<Genre> genres = new List<Genre>();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage result = null;
@@ -49,7 +51,7 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
 
                 //Http Post
                 var postTask = client.PostAsJsonAsync<Genre>("PostGenre", genre);
@@ -81,7 +83,7 @@ namespace MovieWeb.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
 
                 //Http Get
                 var responseTask = client.GetAsync("GetGenreById/id?id=" + id.ToString());
@@ -101,7 +103,7 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
 
                 //Http Post
                 var postTask = client.PutAsJsonAsync<Genre>("UpdateGenre/id?id=" + genre.IdGenre.ToString(), genre);
@@ -148,7 +150,7 @@ namespace MovieWeb.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
 
                 //HTTP DELETE
                 var deleteTask = client.DeleteAsync("DeleteGenre/id?id=" + id.ToString());
@@ -172,7 +174,7 @@ namespace MovieWeb.Controllers
             Genre genre = new Genre();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage result = await client.GetAsync("GetGenreById/id?id=" + id.ToString());
@@ -193,7 +195,7 @@ namespace MovieWeb.Controllers
             Genre genre = new Genre();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseUri);
+                client.BaseAddress = new Uri(baseURI);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage result = await client.GetAsync("GetGenreByName/search=" + genreByname);

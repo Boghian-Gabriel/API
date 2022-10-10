@@ -48,7 +48,6 @@ namespace API.Controllers
         //post
         [HttpPost]
         [Authorize]
-
         public async Task<ActionResult<ActorAdress>> PostActorAdress(ActorAdress actorAdr)
         {
             var rezult = await _actorAdressRepository.PostActorAdress(actorAdr);

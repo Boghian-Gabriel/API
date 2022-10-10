@@ -31,7 +31,7 @@ namespace API.Model
         [ForeignKey("Genre")]
         public Guid? IdRefGenre { get; set; }
         //Navigation property
-        [JsonIgnore]
+        //[JsonIgnore]
         public Genre? Genre { get; set; }
 
         //many to many  Movie:Actor

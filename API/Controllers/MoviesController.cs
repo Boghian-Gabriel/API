@@ -4,10 +4,11 @@ using API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using API.IRepository;
+using API.UriApi;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     //Acest atribut indica faptul ca controlul raspunde la solicitarile API-ului web
     [ApiController]
     public class MoviesController : Controller
@@ -24,7 +25,7 @@ namespace API.Controllers
 
         //1. GET Method:   api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<Movie>>> GetAllMovies()
         {
             var rezult = await _movieRepository.GetMovies();
 

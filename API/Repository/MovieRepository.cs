@@ -30,29 +30,13 @@ namespace API.Repository
             }
 
             //Include another table
-            var rezult2 =  _dbContext.Movies
+            var rezult2 = await _dbContext.Movies
                                 .Include(g => g.Genre)
-                                .Include(a => a.Actors)
-                                .ToListAsync();
-           
-            var rezult = from movie in _dbContext.Movies
-                        select new
-                                     {
-                            movie.Id,
-                            movie.Title,
-                            movie.RealeseDate,
-                                         Genre = from genre in _dbContext.Genres
-                                                 where genre.IdGenre == movie.IdRefGenre
-                                                 select new
-                                                 {
-                                                     genre.IdGenre,
-                                                     genre.GenreName
-                                                 }
-                                              
-                                     };
+                                //.Include(a => a.Actors)
+                                .ToListAsync();          
   
 
-            return Ok(rezult2);
+            return rezult2;
         }
 
         //1. GET Method:   api/Movies/5
@@ -74,6 +58,47 @@ namespace API.Repository
                 return NotFound();
             }
             return movie;
+        }
+
+        public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenres()
+        {
+            //Linq query syntax
+            var rezAnotherWay = (from m in _dbContext.Movies
+                                 join g in _dbContext.Genres on m.IdRefGenre equals g.IdGenre
+                                 select new MovieGenre
+                                 {
+                                     MovieId = m.Id,
+                                     MovieTitle = m.Title,
+                                     MovieRealeaseDate = m.RealeseDate,
+                                     GenreName = g.GenreName
+
+                                 }).ToListAsync();
+
+            //obs in Entity Framework, many-to-many relationship are automatically joined
+            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
+            return await rezAnotherWay;
+        }
+
+        public async Task<IEnumerable<MovieActor>> GetMoviesWithActors()
+        {
+            /*
+             This is because in Entity Framework, many-to-many relationship are automatically joined. 
+             So, there is no need to join them again in the query. 
+            As you can see the Entity data model designer below, both Departments and Rooms are not connected with a junction table, as it would with the database diagram.
+             */
+            var rezAnotherWay = (from m in _dbContext.Movies
+                                 from a in _dbContext.Actors
+                                 select new MovieActor()
+                                 {
+                                     MovieTitle = m.Title,
+                                     MovieRealeaseDate = m.RealeseDate,
+                                     FirstName = a.FirstName,
+                                     LastName = a.LastName
+                                 }).ToListAsync();
+
+            //obs in Entity Framework, many-to-many relationship are automatically joined
+            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
+            return await rezAnotherWay;
         }
 
         //post
@@ -154,46 +179,6 @@ namespace API.Repository
             return NoContent();
         }
         #endregion
-
-        public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenres()
-        {
-            //Linq query syntax
-            var rezAnotherWay = (from m in _dbContext.Movies
-                                join g in _dbContext.Genres on m.IdRefGenre equals g.IdGenre
-                                select new MovieGenre
-                                {
-                                    MovieId = m.Id,
-                                    MovieTitle = m.Title,
-                                    MovieRealeaseDate = m.RealeseDate,
-                                    GenreName = g.GenreName
-                                            
-                                }).ToListAsync();
-
-            //obs in Entity Framework, many-to-many relationship are automatically joined
-            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
-            return await rezAnotherWay;
-        }
-
-        public async Task<IEnumerable<MovieActor>> GetMoviesWithActors()
-        {
-            /*
-             This is because in Entity Framework, many-to-many relationship are automatically joined. 
-             So, there is no need to join them again in the query. 
-            As you can see the Entity data model designer below, both Departments and Rooms are not connected with a junction table, as it would with the database diagram.
-             */
-            var rezAnotherWay = (from m in _dbContext.Movies
-                                 from a in _dbContext.Actors
-                                 select new MovieActor()
-                                 {
-                                    MovieTitle = m.Title,
-                                    MovieRealeaseDate = m.RealeseDate,
-                                    FirstName = a.FirstName,
-                                    LastName = a.LastName
-                                 }).ToListAsync();
-
-            //obs in Entity Framework, many-to-many relationship are automatically joined
-            //tabela de jonctiune o vom vedea in baza de date, nu si in entity framework
-            return await rezAnotherWay;
-        }
+       
     }
 }
