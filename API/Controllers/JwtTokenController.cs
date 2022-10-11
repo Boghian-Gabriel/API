@@ -75,13 +75,13 @@ namespace API.Controllers
             }
             //List<User> users = new List<User>();
             //users = await _context.Users.ToListAsync();
-            var rezult = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);
+            var result = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);
 
-            if (rezult == null)
+            if (result == null)
             {
                 return NotFound();
             }
-            return rezult;
+            return result;
         }
     }
 }

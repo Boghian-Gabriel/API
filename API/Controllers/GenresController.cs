@@ -14,23 +14,20 @@ namespace API.Controllers
     {
         private IGenreRepository _genreRepository;
 
-        //Dependency Injection => atunci cand  este nevoie se instantiaza clasa 
         public GenresController(IGenreRepository genreRepository)
         {
             _genreRepository = genreRepository;
         }
-        //We will add CRUD action
 
-        //1. GET Method:   api/Movies
         [HttpGet]
         public async Task<ActionResult<Genre>> GetAllGenres()
         {
             try
             {
-                var rezult = await _genreRepository.GetGenres();
-                if (rezult != null)
+                var result = await _genreRepository.GetGenres();
+                if (result != null)
                 {
-                    return Ok(rezult);
+                    return Ok(result);
                 }
                 else
                 {
@@ -45,18 +42,17 @@ namespace API.Controllers
             
         }
 
-        //1. GET Method:   api/Movies/5
 
         [HttpGet("id")]
         public async Task<ActionResult<Genre>> GetGenreById(Guid id)
         {
             try
             {
-                var rezult = await _genreRepository.GetGenreById(id);
+                var result = await _genreRepository.GetGenreById(id);
 
-                if (rezult != null)
+                if (result != null)
                 {
-                    return Ok(rezult);
+                    return Ok(result);
                 }
                 else
                 {
@@ -70,17 +66,16 @@ namespace API.Controllers
             }
         }
 
-        //ceea ce trimit prin parametru la functie trebuie sa fie la fel numele cu parametrul de la HttpGet
         [HttpGet("searchByName")]
         public async Task<ActionResult<Genre>> GetGenreByName(string searchByName)
         {
             try
             {
-                var rezult = await _genreRepository.SearchGenreByName(searchByName);
+                var result = await _genreRepository.SearchGenreByName(searchByName);
 
-                if(rezult != null) 
+                if(result != null) 
                 { 
-                    return Ok(rezult); 
+                    return Ok(result); 
                 } else
                 {
                     return NotFound($"The genre with name: ' {searchByName} ' was not foud!");
@@ -95,16 +90,7 @@ namespace API.Controllers
 
         }
 
-        //post
         [HttpPost]
-        // [Authorize]
-        /*
-        example post API  in Swagger or PostMan
-        {
-            "GenreName": "Action X2",
-            "Movies": []
-        }
-        */
         public async Task<ActionResult> PostGenre(Genre genre)
         {
             ResponseMsg response = new ResponseMsg();
@@ -129,31 +115,23 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        //PUT
         [HttpPut("id")]
-        //[Authorize]
-        /*
-         example update API
-
-         */
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
-            var rezult = await _genreRepository.UpdateGenre(id, genre);
-            return rezult;
+            var result = await _genreRepository.UpdateGenre(id, genre);
+            return result;
         }
 
         #region "Delete"
-        //DELETE
         [HttpDelete("id")]
-        //auth
         //[Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
             try
             {
-                var rezultIdToDelete = await _genreRepository.GetGenreById(id);
+                var resultIdToDelete = await _genreRepository.GetGenreById(id);
 
-                if (rezultIdToDelete == null)
+                if (resultIdToDelete == null)
                 {
                     return NotFound($"Genre with Id={id} not found!");
                 }
@@ -168,8 +146,6 @@ namespace API.Controllers
                    "Error retrieving data from the database" + ex);
             }
         }
-        #endregion
-
-       
+        #endregion 
     }
 }

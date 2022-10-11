@@ -12,8 +12,6 @@ namespace API.Model
         [Required]
         public string? GenreName { get; set; }
 
-        //mai multe filme pot avea acelasi gen
-        // N:1 (Movies:Genre)
         public ICollection<Movie>? Movies { get; set; }
     }
 }

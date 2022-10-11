@@ -8,7 +8,6 @@ namespace API.Repository
     public class ActorAdressRepository : Controller, IActorAdressRepository
     {
         private readonly ContextDB _dbContext;
-        //constructor
         public ActorAdressRepository(ContextDB dbContext)
         {
             _dbContext = dbContext;
@@ -21,10 +20,9 @@ namespace API.Repository
                 return NotFound();
             }
 
-            //Include another table
-            var rezult = await _dbContext.ActorAdress.ToListAsync();
+            var result = await _dbContext.ActorAdress.ToListAsync();
 
-            return rezult;
+            return result;
         }
 
         public async Task<ActionResult<ActorAdress>> GetActorAdressById(Guid id)
@@ -34,13 +32,13 @@ namespace API.Repository
                 return NotFound();
             }
 
-            var rezult = await _dbContext.ActorAdress.FindAsync(id);
+            var result = await _dbContext.ActorAdress.FindAsync(id);
 
-            if (rezult == null)
+            if (result == null)
             {
                 return NotFound();
             }
-            return rezult;
+            return result;
         }
 
         public async Task<ActionResult<ActorAdress>> GetActorAdressByZipCode(int zipcode)
@@ -51,13 +49,13 @@ namespace API.Repository
             }
             List<ActorAdress> actorsAdr = new List<ActorAdress>();
             actorsAdr = await _dbContext.ActorAdress.ToListAsync();
-            var rezult = actorsAdr.Where(a => a.ZipCode == zipcode).FirstOrDefault();
+            var result = actorsAdr.Where(a => a.ZipCode == zipcode).FirstOrDefault();
 
-            if (rezult == null)
+            if (result == null)
             {
                 return NotFound();
             }
-            return rezult;
+            return result;
         }
 
 

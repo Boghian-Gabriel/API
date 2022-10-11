@@ -8,9 +8,9 @@ namespace API.Repository
 {
     public class GenreRepository : Controller, IGenreRepository
     {
-        //connectio to DB
+
         private readonly ContextDB _dbContext;
-        //constructor
+
         public GenreRepository(ContextDB dbContext)
         {
             
@@ -20,31 +20,27 @@ namespace API.Repository
         public async Task<IEnumerable<Genre>> GetGenres()
         {
 
-            var rezult = await _dbContext.Genres.ToListAsync();
+            var result = await _dbContext.Genres.ToListAsync();
 
-            return rezult;
+            return result;
         }
 
-        //1. GET Method:   api/Movies/5
 
         public async Task<Genre> GetGenreById(Guid id)
         {
-            var rezult = await _dbContext.Genres.FindAsync(id);
+            var result = await _dbContext.Genres.FindAsync(id);
 
-            return rezult;
+            return result;
         }
 
         public async Task<IEnumerable<Genre>> SearchGenreByName(string name)
         {
             IQueryable<Genre> genres = _dbContext.Genres;
-            //var rezult = await _dbContext.Genres.FindAsync(name);
-            //la inceput intra cu genrename == null apoi caut eu si inta in genrename == name (?) in verificare
             genres = genres.Where(p => p.GenreName == name || p.GenreName == null);
 
             return await genres.ToListAsync();
         }
 
-        //post
         public async Task<ResponseMsg> PostGenre(Genre genre)
         {
             ResponseMsg response = new ResponseMsg();
@@ -66,7 +62,6 @@ namespace API.Repository
         }
 
 
-        //PUT
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
             if (id != genre.IdGenre)
@@ -100,7 +95,6 @@ namespace API.Repository
         }
 
         #region "Delete"
-        //DELETE
         public async Task DeleteGenre(Guid id)
         {
             var genreDelete = await _dbContext.Genres.FindAsync(id);
@@ -115,9 +109,9 @@ namespace API.Repository
 
         public async Task<Genre> GetGenreByName(string name)
         {
-            var rezult = await _dbContext.Genres.Where(g=> g.GenreName == name).FirstOrDefaultAsync();
+            var result = await _dbContext.Genres.Where(g=> g.GenreName == name).FirstOrDefaultAsync();
 
-            return rezult;
+            return result;
         }
     }
 }

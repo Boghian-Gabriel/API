@@ -14,7 +14,6 @@ namespace API.Repository
         //constructor
         /*
          In the ActorRepository.cs , the constructor uses dependency injection to inject the database context (ContextDB) into the repository.
-         
          ContextDB is used in each of the CRUD methods in the ActorRepository.
          */
 
@@ -30,13 +29,13 @@ namespace API.Repository
                 return NotFound();
             }
 
-            var rezult = await _dbContext.Actors.FindAsync(id);
+            var result = await _dbContext.Actors.FindAsync(id);
 
-            if (rezult == null)
+            if (result == null)
             {
                 return NotFound();
             }
-            return rezult;
+            return result;
         }
 
         public async Task<ActionResult<Actor>> GetActorByName(string fname, string lastname)
@@ -47,13 +46,13 @@ namespace API.Repository
             }
             List<Actor> actors = new List<Actor>();
             actors = await _dbContext.Actors.ToListAsync();
-            var rezult = actors.Where(a => a.FirstName == fname && a.LastName ==lastname).FirstOrDefault();
+            var result = actors.Where(a => a.FirstName == fname && a.LastName ==lastname).FirstOrDefault();
 
-            if (rezult == null)
+            if (result == null)
             {
                 return NotFound();
             }
-            return rezult;
+            return result;
         }
 
         [HttpGet]
@@ -64,16 +63,15 @@ namespace API.Repository
                 return NotFound();
             }
 
-            //Include another table
-            var rezult = await _dbContext.Actors.ToListAsync();
+            var result = await _dbContext.Actors.ToListAsync();
 
-            return rezult;
+            return result;
         }
 
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
         {
             //RELATIONSHIP 1:1 BETWENE Actors and ActorAdress
-            var rezActorAdress = (from a in _dbContext.Actors
+            var resActorAdress = (from a in _dbContext.Actors
                                   join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
                                   select new ActorAdressVM
                                   {
@@ -86,7 +84,7 @@ namespace API.Repository
 
                                   }).ToListAsync();
 
-            return await rezActorAdress;
+            return await resActorAdress;
         }
 
         public async Task<ActionResult<Actor>> PostActor(Actor actor)

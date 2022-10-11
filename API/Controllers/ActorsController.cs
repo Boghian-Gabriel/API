@@ -15,76 +15,48 @@ namespace API.Controllers
     {
         private  IActorRepository _actorRepository;
 
-        //Dependency Injection => atunci cand  este nevoie se instantiaza clasa 
         public ActorsController(IActorRepository actorRepository)
         {
             _actorRepository = actorRepository;
         }
-        //We will add CRUD action
 
-        //1. GET Method:   api/Movies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
         {
-            var rezult = await _actorRepository.GetActors();
+            var result = await _actorRepository.GetActors();
 
-            return rezult;
+            return result;
         }
-
-        //1. GET Method:   api/Movies/5
 
         [HttpGet("id")]
         public async Task<ActionResult<Actor>> GetActorById(Guid id)
         {
-            var rezult = await _actorRepository.GetActorById(id);
-            return rezult;
+            var result = await _actorRepository.GetActorById(id);
+            return result;
         }
 
         [HttpGet("name")]
         public async Task<ActionResult<Actor>> GetActorByName(string fname,  string lname)
         {
-            var rezult = await _actorRepository.GetActorByName(fname, lname);
-            return rezult;
+            var result = await _actorRepository.GetActorByName(fname, lname);
+            return result;
         }
 
-        //post
         [HttpPost]
         [Authorize]
-        /*
-         example ad actor from swagger
-        {
-          "FirstName": "string",
-          "LastName": "string",
-          "Adress": {},
-          "Movies": []
-        }
-         */
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
         {
-           var rezult = await _actorRepository.PostActor(actor);
+           var result = await _actorRepository.PostActor(actor);
 
-            return rezult;
+            return result;
         }
 
-        //PUT
         [HttpPut("{id}")]
         [Authorize]
-        /*
-         example update API UpdateActor
-        uid-ul pus in swagger trebuie sa fie la fel ca acesta pus de aici si apoi introduci
-        ps: momentan am adaugat sa fie null la adress si movies
-        {
-          "ActorId": "3FA85F64-5717-4562-B3FC-2C963F66AFA6",
-          "FirstName": "Boghian",
-          "LastName": "Gabriel",
-          "Adress": {},
-          "Movies": []
-        }
-         */
         public async Task<IActionResult> UpdateActor(Guid id, Actor actor)
         {
-            var rezult = await _actorRepository.UpdateActor(id, actor);
-            return rezult;
+            var result = await _actorRepository.UpdateActor(id, actor);
+            return result;
         }
 
 
@@ -95,19 +67,18 @@ namespace API.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteActor(Guid id)
         {
-            var rezult = await _actorRepository.DeleteActor(id);
+            var result = await _actorRepository.DeleteActor(id);
 
-            return rezult;
+            return result;
         }
         #endregion
 
         [HttpGet]
-       // [Route("GetActorsWithAdress")]
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
         {
-            var rezult = await _actorRepository.GetActorsWithAdress();
+            var result = await _actorRepository.GetActorsWithAdress();
 
-            return rezult;
+            return result;
         }
     }
 }

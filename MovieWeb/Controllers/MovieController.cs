@@ -16,6 +16,7 @@ namespace MovieWeb.Controllers
     {
         private const string sController = "Movies/";
         private static string uri = BaseUriApi.GetUriWithController(sController);
+        
         //for reporting
         public readonly IWebHostEnvironment _webHostEnvironment;
         public MovieController(IWebHostEnvironment webHostEnvironment)
@@ -23,12 +24,11 @@ namespace MovieWeb.Controllers
             this._webHostEnvironment = webHostEnvironment;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
-        //View catre pagina de unde poti genera raportul
+
         public IActionResult Report()
         {
             return View();
         }
-        //actiunea care trebuie facuta cand se apasa bunotul de generare raport
         public IActionResult PrintReport()
         {
             string mintype = "";
@@ -137,7 +137,6 @@ namespace MovieWeb.Controllers
              var moviesss = from m in movies
                             select m;
 
-            //searching
             if (!String.IsNullOrEmpty(searchString))
             {
                 moviesss = moviesss.Where(m => m.Title.Contains(searchString));
@@ -165,15 +164,6 @@ namespace MovieWeb.Controllers
                     break;
             }
 
-            //int pageSize = 4;
-            /*
-           The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null; 
-           otherwise, it evaluates the right-hand operand and returns its result. The ?? operator doesn't evaluate its right-hand operand if the left-hand operand evaluates to non-null.
-           */
-            //int pageNumber = (page ?? 1);
-            //return View(moviesss.ToPagedList(pageNumber,pageSize));
-
-            //Another Pagination
             const int pageSize = 4;
             if (page < 1) page = 1;
 
@@ -245,21 +235,6 @@ namespace MovieWeb.Controllers
                     movie = JsonConvert.DeserializeObject<Movie>(resTask);
                 }
             }
-
-            #region "Method 2"
-            //    using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7165/");
-            //    client.DefaultRequestHeaders.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            //    HttpResponseMessage result = await client.GetAsync("api/Movies/id?id=" + id.ToString());
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        var resTask = result.Content.ReadAsStringAsync().Result;
-            //        movie = JsonConvert.DeserializeObject<Movie>(resTask);
-            //    }
-            //}
-            #endregion
             return View(movie);
         }
 
@@ -286,25 +261,7 @@ namespace MovieWeb.Controllers
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator");
                 }
             }
-            #region "Method 2" 
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7165/");
-            //    client.DefaultRequestHeaders.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            //    HttpResponseMessage result = client.PutAsJsonAsync("api/Movies/" + movie.Id.ToString(), movie).Result;
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        ViewBag.msg = "Edit successfully";
-            //        ModelState.Clear();
-            //    }
-            //    else
-            //    {
-            //        ViewBag.msg = "Something went wrong...";
-            //    }
-            //}
-            #endregion
-
+   
             return View(movie);
         }
         #endregion

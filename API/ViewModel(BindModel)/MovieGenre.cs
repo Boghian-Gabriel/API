@@ -2,6 +2,6 @@
 {
     public class MovieGenre : MovieLinq
     {
-        public string GenreName {  get; set; }
+        public string? GenreName {  get; set; }
     }
 }
