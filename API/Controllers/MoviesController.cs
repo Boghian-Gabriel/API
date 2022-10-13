@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using API.IRepository;
 using API.UriApi;
+using API.ModelDTO;
 
 namespace API.Controllers
 {
@@ -20,7 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetAllMovies()
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetAllMovies()
         {
             var result = await _movieRepository.GetMovies();
 

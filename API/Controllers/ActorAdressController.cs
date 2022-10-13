@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActorAdress>>> GetActorAdress()
+        public async Task<ActionResult<IEnumerable<ActorAdressDTO>>> GetActorAdress()
         {
             var result = await _actorAdressRepository.GetActorAdress();
 

@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
+        public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
         {
             var result = await _actorRepository.GetActors();
 

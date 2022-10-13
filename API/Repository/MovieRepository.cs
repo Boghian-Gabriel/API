@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,20 +19,21 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
             if (_dbContext.Movies == null)
             {
                 return NotFound();
             }
 
-            var result2 = await _dbContext.Movies
-                                .Include(g => g.Genre)
-                                //.Include(a => a.Actors)
-                                .ToListAsync();          
-  
+            //var result2 = await _dbContext.Movies
+            //                    .Include(g => g.Genre)
+            //                    //.Include(a => a.Actors)
+            //                    .ToListAsync();
+            //Return only propertie from Movie
+            var result = await _dbContext.Movies.Select(x => new MovieDTO(x)).ToListAsync();
 
-            return result2;
+            return result;
         }
 
         //1. GET Method:   api/Movies/{GUID}

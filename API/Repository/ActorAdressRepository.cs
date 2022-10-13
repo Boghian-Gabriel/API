@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,15 +14,15 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<IEnumerable<ActorAdress>>> GetActorAdress()
+        public async Task<ActionResult<IEnumerable<ActorAdressDTO>>> GetActorAdress()
         {
             if (_dbContext.ActorAdress == null)
             {
                 return NotFound();
             }
 
-            var result = await _dbContext.ActorAdress.ToListAsync();
-
+            //var result = await _dbContext.ActorAdress.ToListAsync();
+            var result = await _dbContext.ActorAdress.Select(x => new ActorAdressDTO(x)).ToListAsync();
             return result;
         }
 

@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,14 +57,16 @@ namespace API.Repository
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
+        public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
         {
             if (_dbContext.Actors == null)
             {
                 return NotFound();
             }
 
-            var result = await _dbContext.Actors.ToListAsync();
+            //var result = await _dbContext.Actors.ToListAsync();
+
+            var result = await _dbContext.Actors.Select(x => new ActorDTO(x)).ToListAsync();
 
             return result;
         }

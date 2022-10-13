@@ -1,11 +1,12 @@
 ﻿using API.Model;
+using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.IRepository
 {
     public interface IMovieRepository
     {
-        Task<ActionResult<IEnumerable<Movie>>> GetMovies();
+        Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies();
         Task<IEnumerable<MovieGenre>> GetMoviesWithGenres();
         Task<IEnumerable<MovieActor>> GetMoviesWithActors();
         Task<ActionResult<Movie>> GetMovie(Guid id);

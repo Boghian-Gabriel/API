@@ -1,5 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
+using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,11 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Genre>> GetGenres()
+        public async Task<IEnumerable<GenreDTO>> GetGenres()
         {
 
-            var result = await _dbContext.Genres.ToListAsync();
+           // var result = await _dbContext.Genres.ToListAsync();
+            var result = await _dbContext.Genres.Select(x => new GenreDTO(x)).ToListAsync();
 
             return result;
         }
