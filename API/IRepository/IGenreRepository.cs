@@ -6,7 +6,7 @@ namespace API.Repository
 {
     public interface IGenreRepository
     {
-        Task<IEnumerable<GenreDTO>> GetGenres();
+        Task<IEnumerable<Genre>> GetGenres();
         Task<Genre> GetGenreById(Guid id);
         Task<IEnumerable<Genre>> SearchGenreByName(string name);
         Task<Genre> GetGenreByName(string name);

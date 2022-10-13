@@ -18,10 +18,10 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<GenreDTO>> GetGenres()
+        public async Task<IEnumerable<Genre>> GetGenres()
         {
-           // var result = await _dbContext.Genres.ToListAsync();
-            var result = await _dbContext.Genres.Select(x => new GenreDTO(x)).ToListAsync();
+            var result = await _dbContext.Genres.ToListAsync();
+            //var result = await _dbContext.Genres.Select(x => new GenreDTO(x)).ToListAsync();
 
             return result;
         }

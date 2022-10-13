@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API.Repository;
 using API.IRepository;
+using API.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddScoped<IActorAdressRepository, ActorAdressRepository>();
 
 builder.Services.AddControllersWithViews();
 //AutoMapper
-
+builder.Services.AddAutoMapper(typeof(AppMapper));
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {

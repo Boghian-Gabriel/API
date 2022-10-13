@@ -6,9 +6,11 @@ namespace API.ModelDTO
     {
         public string? GenreName { get; set; }
 
-        public GenreDTO(Genre genre)
-        {
-            GenreName = genre.GenreName;
-        }
+        
+
+        //public GenreDTO(Genre genre)
+        //{
+        //    GenreName = genre.GenreName;
+        //}
     }
 }

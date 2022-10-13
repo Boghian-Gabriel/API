@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Xml.Linq;
 using API.ModelDTO;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -13,11 +14,12 @@ namespace API.Controllers
     [ApiController]
     public class GenresController : Controller
     {
-        private IGenreRepository _genreRepository;
-
-        public GenresController(IGenreRepository genreRepository)
+        private readonly IGenreRepository _genreRepository;
+        private readonly IMapper _mapper;
+        public GenresController(IGenreRepository genreRepository, IMapper mapper)
         {
             _genreRepository = genreRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -28,7 +30,8 @@ namespace API.Controllers
                 var result = await _genreRepository.GetGenres();
                 if (result != null)
                 {
-                    return Ok(result);
+                    //return Ok(result);
+                    return Ok(_mapper.Map<IEnumerable<GenreDTO>>(result));
                 }
                 else
                 {
