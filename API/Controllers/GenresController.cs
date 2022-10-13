@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Xml.Linq;
+using API.ModelDTO;
 
 namespace API.Controllers
 {
@@ -20,7 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Genre>> GetAllGenres()
+        public async Task<ActionResult<GenreDTO>> GetAllGenres()
         {
             try
             {

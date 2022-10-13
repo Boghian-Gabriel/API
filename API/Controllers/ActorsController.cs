@@ -2,6 +2,7 @@
 using API.Model;
 using API.ModelDTO;
 using API.ViewModel_BindModel_;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,11 @@ namespace API.Controllers
     public class ActorsController : ControllerBase
     {
         private  IActorRepository _actorRepository;
-
-        public ActorsController(IActorRepository actorRepository)
+        private readonly IMapper _mapper;
+        public ActorsController(IActorRepository actorRepository, IMapper mapper)
         {
             _actorRepository = actorRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]

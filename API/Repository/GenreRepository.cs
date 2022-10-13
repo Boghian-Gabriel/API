@@ -20,7 +20,6 @@ namespace API.Repository
 
         public async Task<IEnumerable<GenreDTO>> GetGenres()
         {
-
            // var result = await _dbContext.Genres.ToListAsync();
             var result = await _dbContext.Genres.Select(x => new GenreDTO(x)).ToListAsync();
 

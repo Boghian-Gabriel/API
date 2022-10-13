@@ -22,6 +22,10 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IActorAdressRepository, ActorAdressRepository>();
 
+builder.Services.AddControllersWithViews();
+//AutoMapper
+
+
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
     option.JsonSerializerOptions.PropertyNamingPolicy = null;
