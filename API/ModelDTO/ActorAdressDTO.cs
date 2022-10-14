@@ -9,14 +9,5 @@ namespace API.ModelDTO
         public string? City { get; set; }
         public int ZipCode { get; set; }
         public string? Country { get; set; }
-
-        public ActorAdressDTO(ActorAdress actorAdress)
-        {
-            Adress1 = actorAdress.Adress1;
-            Adress2 = actorAdress.Adress2;
-            City = actorAdress.City;
-            ZipCode = actorAdress.ZipCode;
-            Country = actorAdress.Country;
-        }
     }
 }

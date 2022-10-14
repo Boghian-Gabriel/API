@@ -6,12 +6,5 @@ namespace API.ModelDTO
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-
-        public ActorDTO(Actor actor) 
-        {
-            FirstName = actor.FirstName;
-            LastName = actor.LastName;
-        }
-
     }
 }

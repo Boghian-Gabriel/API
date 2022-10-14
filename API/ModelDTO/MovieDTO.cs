@@ -8,13 +8,9 @@ namespace API.ModelDTO
     public class MovieDTO
     { 
         public string? Title { get; set; }
-        public DateTime ReleseDate { get; set; }
 
-        //consturctor => make the linq shorter
-        public MovieDTO(Movie movie)
-        {
-            Title = movie.Title;
-            ReleseDate = movie.RealeseDate;
-        }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime RealeseDate { get; set; }
     }
 }

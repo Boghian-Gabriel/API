@@ -19,47 +19,23 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
+        public async Task<IEnumerable<Movie>> GetMovies()
         {
-            if (_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
-
-            //var result2 = await _dbContext.Movies
-            //                    .Include(g => g.Genre)
-            //                    //.Include(a => a.Actors)
-            //                    .ToListAsync();
-            //Return only propertie from Movie
-            var result = await _dbContext.Movies.Select(x => new MovieDTO(x)).ToListAsync();
-
+            var result = await _dbContext.Movies.ToListAsync();
             return result;
         }
 
-        //1. GET Method:   api/Movies/{GUID}
-        public async Task<ActionResult<Movie>> GetMovie(Guid id)
+        public async Task<Movie> GetMovie(Guid id)
         {
-            if (_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
-
             //LINQ Method syntax
-            var movie = await _dbContext.Movies
-               .Include(m => m.Genre)
-               .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (movie == null)
-            {
-                return NotFound();
-            }
+            var movie = await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
             return movie;
         }
 
         public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenres()
         {
             //Linq query syntax
-            var rezAnotherWay = (from m in _dbContext.Movies
+            var resAnotherWay = (from m in _dbContext.Movies
                                  join g in _dbContext.Genres on m.IdRefGenre equals g.IdGenre
                                  select new MovieGenre
                                  {
@@ -70,22 +46,26 @@ namespace API.Repository
 
                                  }).ToListAsync();
 
-            return await rezAnotherWay;
+            return await resAnotherWay;
         }
 
-        public async Task<IEnumerable<MovieActor>> GetMoviesWithActors()
+        public async Task<IEnumerable<Movie>> GetMoviesWithActors()
         {
-            var rezAnotherWay = (from m in _dbContext.Movies
-                                 from a in _dbContext.Actors
-                                 select new MovieActor()
-                                 {
-                                     MovieTitle = m.Title,
-                                     MovieRealeaseDate = m.RealeseDate,
-                                     FirstName = a.FirstName,
-                                     LastName = a.LastName
-                                 }).ToListAsync();
+            //var rezAnotherWay = (from m in _dbContext.Movies
+            //                     from a in _dbContext.Actors
+            //                     select new MovieActor()
+            //                     {
+            //                         MovieTitle = m.Title,
+            //                         MovieRealeaseDate = m.RealeseDate,
+            //                         FirstName = a.FirstName,
+            //                         LastName = a.LastName
+            //                     }).ToListAsync();
 
-            return await rezAnotherWay;
+            var result = await _dbContext.Movies
+                .Include(a => a.Actors)
+                .ToListAsync();
+
+            return  result;
         }
 
 

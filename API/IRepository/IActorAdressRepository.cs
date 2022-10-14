@@ -6,9 +6,9 @@ namespace API.IRepository
 {
     public interface IActorAdressRepository
     {
-        Task<ActionResult<IEnumerable<ActorAdressDTO>>> GetActorAdress();
-        Task<ActionResult<ActorAdress>> GetActorAdressById(Guid id);
-        Task<ActionResult<ActorAdress>> GetActorAdressByZipCode(int zipcode);
+        Task<IEnumerable<ActorAdress>> GetActorAdress();
+        Task<ActorAdress> GetActorAdressById(Guid id);
+        Task<ActorAdress> GetActorAdressByZipCode(int zipcode);
         Task<ActionResult<ActorAdress>> PostActorAdress(ActorAdress actorAdress);
         Task<IActionResult> UpdateActorAdress(Guid id, ActorAdress actorAdress);
         Task<IActionResult> DeleteActorAdress(Guid id);

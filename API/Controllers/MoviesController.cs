@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using API.IRepository;
 using API.UriApi;
 using API.ModelDTO;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -14,27 +15,59 @@ namespace API.Controllers
     public class MoviesController : Controller
     {
         //inject the database context 
-        private IMovieRepository _movieRepository;
-        public MoviesController(IMovieRepository movieRepository)
+        private readonly IMovieRepository _movieRepository;
+        private readonly IMapper _mapper;
+        public MoviesController(IMovieRepository movieRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetAllMovies()
         {
-            var result = await _movieRepository.GetMovies();
+            try
+            {
+                var result = await _movieRepository.GetMovies();
+                var resMovieMapper = _mapper.Map<IEnumerable<MovieDTO>>(result);
+                if(resMovieMapper != null)
+                {
+                    return Ok(resMovieMapper);
+                }
+                else
+                {
+                    return NotFound("There is no information!");
+                }
 
-            return result;
+            }catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "Error retrieving data from the database" + ex.Message);
+            }
         }
-
         
         [HttpGet("id")]
-        public async Task<ActionResult<Movie>> GetMovie(Guid id)
+        public async Task<ActionResult<MovieDTO>> GetMovie(Guid id)
         {
-            var result = await _movieRepository.GetMovie(id);
+            try
+            {
+                var result = await _movieRepository.GetMovie(id);
+                var resMovieMapper = _mapper.Map<MovieDTO>(result);
+                if(resMovieMapper == null)
+                {
+                    return NotFound($"The movie with id: '{id}' was not found");
+                }
+                else
+                {
+                    return Ok(resMovieMapper);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "Error retrieving data from the database" + ex.Message);
+            }
 
-            return result;
         }
 
         [HttpPost]
@@ -75,11 +108,27 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("GetMoviesWithActors")]
-        public async Task<IEnumerable<MovieActor>> GetMoviesWithActors()
+        public async Task<ActionResult<IEnumerable<MoviesWithActorsDTO>>> GetMoviesWithActors()
         {
-            var result = await _movieRepository.GetMoviesWithActors();
-
-            return result;
+           
+            try
+            {
+                var result = await _movieRepository.GetMoviesWithActors();
+                var resMapper = _mapper.Map<IEnumerable<MoviesWithActorsDTO>>(result);
+                if(resMapper != null)
+                {
+                    return Ok(resMapper);
+                }
+                else
+                {
+                    return NotFound("There is no information!");
+                }
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex.Message);
+            }
         }
     }
 }

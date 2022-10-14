@@ -24,38 +24,82 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
-        {
-            var result = await _actorRepository.GetActors();
-
-            return result;
+        public async Task<ActionResult<ActorDTO>> GetActors()
+        {       
+            try
+            {
+                var result = await _actorRepository.GetActors();
+                var resActorMapper = _mapper.Map<IEnumerable<ActorDTO>>(result);
+                if (resActorMapper != null)
+                {
+                    return Ok(resActorMapper);
+                }
+                else
+                {
+                    return NotFound($"The is no information");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<Actor>> GetActorById(Guid id)
+        public async Task<ActionResult<ActorDTO>> GetActorById(Guid id)
         {
-            var result = await _actorRepository.GetActorById(id);
-            return result;
+            try
+            {
+                var result = await _actorRepository.GetActorById(id);
+                var resActorMapper = _mapper.Map<ActorDTO>(result);
+                if (resActorMapper != null)
+                {
+                    return Ok(resActorMapper);
+                }
+                else
+                {
+                    return NotFound($"The actor with id: ' {id} ' was not foud!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
         }
 
         [HttpGet("name")]
-        public async Task<ActionResult<Actor>> GetActorByName(string fname,  string lname)
-        {
-            var result = await _actorRepository.GetActorByName(fname, lname);
-            return result;
+        public async Task<ActionResult<ActorDTO>> GetActorByName(string fname,  string lname)
+        {          
+            try
+            {
+                var result = await _actorRepository.GetActorByName(fname, lname);
+                var resActorMapper = _mapper.Map<ActorDTO>(result);
+                if (resActorMapper != null)
+                {
+                    return Ok(resActorMapper);
+                }
+                else
+                {
+                    return NotFound($"The actor with first name: ' {fname} ' and last name: '{lname}' was not foud!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
         {
            var result = await _actorRepository.PostActor(actor);
-
             return result;
         }
 
-        [HttpPut("{id}")]
-        [Authorize]
+        [HttpPut]
         public async Task<IActionResult> UpdateActor(Guid id, Actor actor)
         {
             var result = await _actorRepository.UpdateActor(id, actor);
@@ -64,14 +108,10 @@ namespace API.Controllers
 
 
         #region "Delete"
-        //DELETE
-        [HttpDelete("id")]
-        //auth
-        [Authorize]
+        [HttpDelete]
         public async Task<IActionResult> DeleteActor(Guid id)
         {
             var result = await _actorRepository.DeleteActor(id);
-
             return result;
         }
         #endregion
@@ -80,7 +120,6 @@ namespace API.Controllers
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
         {
             var result = await _actorRepository.GetActorsWithAdress();
-
             return result;
         }
     }

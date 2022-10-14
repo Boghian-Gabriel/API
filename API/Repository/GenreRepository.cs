@@ -1,9 +1,11 @@
 ﻿using API.IRepository;
 using API.Model;
 using API.ModelDTO;
+using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 
 namespace API.Repository
 {
@@ -34,12 +36,13 @@ namespace API.Repository
             return result;
         }
 
-        public async Task<IEnumerable<Genre>> SearchGenreByName(string name)
+        public async Task<Genre> SearchGenreByName(string name)
         {
-            IQueryable<Genre> genres = _dbContext.Genres;
-            genres = genres.Where(p => p.GenreName == name || p.GenreName == null);
+            var genreName = await _dbContext.Genres
+                .Where(p => p.GenreName == name || p.GenreName == null)
+                .FirstOrDefaultAsync();
 
-            return await genres.ToListAsync();
+            return genreName;
         }
 
         public async Task<ResponseMsg> PostGenre(Genre genre)
@@ -114,5 +117,23 @@ namespace API.Repository
 
             return result;
         }
+
+        //public async Task<IEnumerable<GenreWithMovies>> GetGenreWithMovies()
+        //{
+        //    //var result = await _dbContext.Genres
+        //    //    .Include(g => g.Movies)
+        //    //    .ToListAsync();
+
+        //    var result = (from g in _dbContext.Genres
+        //                         join m in _dbContext.Movies on g.IdGenre equals m.IdRefGenre
+        //                         select new GenreWithMovies
+        //                         {
+        //                             GenreName = g.GenreName
+        //                             //Movies = g.Movies.ToList()
+                                     
+        //                         }).ToListAsync();
+
+        //    return await result;
+        //}
     }
 }

@@ -23,51 +23,25 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<Actor>> GetActorById(Guid id)
+        public async Task<Actor> GetActorById(Guid id)
         {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
-
             var result = await _dbContext.Actors.FindAsync(id);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
             return result;
         }
 
-        public async Task<ActionResult<Actor>> GetActorByName(string fname, string lastname)
+        public async Task<Actor> GetActorByName(string fname, string lastname)
         {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
+
             List<Actor> actors = new List<Actor>();
             actors = await _dbContext.Actors.ToListAsync();
             var result = actors.Where(a => a.FirstName == fname && a.LastName ==lastname).FirstOrDefault();
 
-            if (result == null)
-            {
-                return NotFound();
-            }
             return result;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
+        public async Task<IEnumerable<Actor>> GetActors()
         {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
-
-            //var result = await _dbContext.Actors.ToListAsync();
-
-            var result = await _dbContext.Actors.Select(x => new ActorDTO(x)).ToListAsync();
-
+            var result = await _dbContext.Actors.ToListAsync();
             return result;
         }
 

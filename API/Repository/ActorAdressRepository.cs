@@ -14,48 +14,26 @@ namespace API.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<IEnumerable<ActorAdressDTO>>> GetActorAdress()
+        public async Task<IEnumerable<ActorAdress>> GetActorAdress()
         {
-            if (_dbContext.ActorAdress == null)
-            {
-                return NotFound();
-            }
-
-            //var result = await _dbContext.ActorAdress.ToListAsync();
-            var result = await _dbContext.ActorAdress.Select(x => new ActorAdressDTO(x)).ToListAsync();
-            return result;
+           var result = await _dbContext.ActorAdress.ToListAsync();
+           return result;
         }
 
-        public async Task<ActionResult<ActorAdress>> GetActorAdressById(Guid id)
+        public async Task<ActorAdress> GetActorAdressById(Guid id)
         {
-            if (_dbContext.ActorAdress == null)
-            {
-                return NotFound();
-            }
-
             var result = await _dbContext.ActorAdress.FindAsync(id);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
             return result;
         }
 
-        public async Task<ActionResult<ActorAdress>> GetActorAdressByZipCode(int zipcode)
+        public async Task<ActorAdress> GetActorAdressByZipCode(int zipcode)
         {
-            if (_dbContext.ActorAdress == null)
-            {
-                return NotFound();
-            }
+
             List<ActorAdress> actorsAdr = new List<ActorAdress>();
             actorsAdr = await _dbContext.ActorAdress.ToListAsync();
+
             var result = actorsAdr.Where(a => a.ZipCode == zipcode).FirstOrDefault();
 
-            if (result == null)
-            {
-                return NotFound();
-            }
             return result;
         }
 
