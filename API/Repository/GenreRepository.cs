@@ -113,27 +113,21 @@ namespace API.Repository
 
         public async Task<Genre> GetGenreByName(string name)
         {
-            var result = await _dbContext.Genres.Where(g=> g.GenreName == name).FirstOrDefaultAsync();
+            var result = await _dbContext.Genres
+                        .Where(g=> g.GenreName == name)
+                        .FirstOrDefaultAsync();
 
             return result;
         }
 
-        //public async Task<IEnumerable<GenreWithMovies>> GetGenreWithMovies()
-        //{
-        //    //var result = await _dbContext.Genres
-        //    //    .Include(g => g.Movies)
-        //    //    .ToListAsync();
+        public async Task<Genre> GetGenreWithMovies(Guid id)
+        {
+            var result = await _dbContext.Genres
+                            .Where(g => g.IdGenre.Equals(id))
+                            .Include(m => m.Movies)                            
+                            .SingleOrDefaultAsync();
 
-        //    var result = (from g in _dbContext.Genres
-        //                         join m in _dbContext.Movies on g.IdGenre equals m.IdRefGenre
-        //                         select new GenreWithMovies
-        //                         {
-        //                             GenreName = g.GenreName
-        //                             //Movies = g.Movies.ToList()
-                                     
-        //                         }).ToListAsync();
-
-        //    return await result;
-        //}
+            return result;
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace API.Repository
                                  join g in _dbContext.Genres on m.IdRefGenre equals g.IdGenre
                                  select new MovieGenre
                                  {
-                                     MovieId = m.Id,
+                                     //MovieId = m.Id,
                                      MovieTitle = m.Title,
                                      MovieRealeaseDate = m.RealeseDate,
                                      GenreName = g.GenreName
@@ -49,23 +49,17 @@ namespace API.Repository
             return await resAnotherWay;
         }
 
-        public async Task<IEnumerable<Movie>> GetMoviesWithActors()
+        public async Task<Movie> GetMovieWithDetails(Guid id)
         {
-            //var rezAnotherWay = (from m in _dbContext.Movies
-            //                     from a in _dbContext.Actors
-            //                     select new MovieActor()
-            //                     {
-            //                         MovieTitle = m.Title,
-            //                         MovieRealeaseDate = m.RealeseDate,
-            //                         FirstName = a.FirstName,
-            //                         LastName = a.LastName
-            //                     }).ToListAsync();
 
-            var result = await _dbContext.Movies
-                .Include(a => a.Actors)
-                .ToListAsync();
+            var result2 = await _dbContext.Movies
+                            .Where(m => m.Id.Equals(id))
+                            .Include(g=>g.Genre)
+                            .Include(a => a.Actors)
+                            .ThenInclude(ad => ad.Adress)
+                            .SingleOrDefaultAsync();
 
-            return  result;
+            return result2;
         }
 
 

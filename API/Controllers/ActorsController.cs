@@ -59,7 +59,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return NotFound($"The actor with id: ' {id} ' was not foud!");
+                    return NotFound($"The actor with id: ' {id} ' was not found!");
                 }
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return NotFound($"The actor with first name: ' {fname} ' and last name: '{lname}' was not foud!");
+                    return NotFound($"The actor with first name: ' {fname} ' and last name: '{lname}' was not found!");
                 }
             }
             catch (Exception ex)

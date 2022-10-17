@@ -46,7 +46,7 @@ namespace API.Controllers
             }
         }
         
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(Guid id)
         {
             try
@@ -87,7 +87,7 @@ namespace API.Controllers
         }
 
         #region "Delete"
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             var result = await _movieRepository.DeleteMovie(id);
@@ -106,22 +106,22 @@ namespace API.Controllers
         }
 
 
-        [HttpGet]
-        [Route("GetMoviesWithActors")]
-        public async Task<ActionResult<IEnumerable<MoviesWithActorsDTO>>> GetMoviesWithActors()
+        [HttpGet("{movieId}")]
+        //[Route("GetMoviesWithActors")]
+        public async Task<ActionResult<MoviesWithDetails>> GetMovieWithDetails(Guid movieId)
         {
            
             try
             {
-                var result = await _movieRepository.GetMoviesWithActors();
-                var resMapper = _mapper.Map<IEnumerable<MoviesWithActorsDTO>>(result);
+                var result = await _movieRepository.GetMovieWithDetails(movieId);
+                var resMapper = _mapper.Map<MoviesWithDetails>(result);
                 if(resMapper != null)
                 {
                     return Ok(resMapper);
                 }
                 else
                 {
-                    return NotFound("There is no information!");
+                    return NotFound($"The movie with id: '{movieId}' was not found!");
                 }
             }
             catch(Exception ex)

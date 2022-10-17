@@ -8,11 +8,15 @@ namespace API.Mapper
         public AppMapper()
         {
             CreateMap<Genre, GenreDTO>().ReverseMap();
-            CreateMap<Movie, MovieDTO>().ReverseMap();
+            CreateMap<Genre, GenreWithMovieDTO>().ReverseMap();
+
             CreateMap<Actor, ActorDTO>().ReverseMap();
+            CreateMap<Actor, ActorAndAdressDTO>().ReverseMap();
+
             CreateMap<ActorAdress, ActorAdressDTO>().ReverseMap();
 
-            CreateMap<Movie, MoviesWithActorsDTO>().ReverseMap();
+            CreateMap<Movie, MovieDTO>().ReverseMap();
+            CreateMap<Movie, MoviesWithDetails>().ReverseMap();
         }
     }
 }

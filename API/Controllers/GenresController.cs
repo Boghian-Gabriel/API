@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using API.ModelDTO;
 using AutoMapper;
 using API.ViewModel_BindModel_;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -31,8 +32,9 @@ namespace API.Controllers
                 var result = await _genreRepository.GetGenres();
                 if (result != null)
                 {
+                    var resMapper = _mapper.Map<IEnumerable<GenreDTO>>(result);
                     //return Ok(result);
-                    return Ok(_mapper.Map<IEnumerable<GenreDTO>>(result));
+                    return Ok(resMapper);
                 }
                 else
                 {
@@ -64,7 +66,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return NotFound($"The genre with id: ' {id} ' was not foud!");
+                    return NotFound($"The genre with id: ' {id} ' was not found!");
                 }
             }
             catch (Exception ex)
@@ -86,7 +88,7 @@ namespace API.Controllers
                     return Ok(resGenreMapper); 
                 } else
                 {
-                    return NotFound($"The genre with name: ' {searchByName} ' was not foud!");
+                    return NotFound($"The genre with name: ' {searchByName} ' was not found!");
                 }
                 
             }
@@ -95,56 +97,6 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database" + ex);
             }
-
-        }
-
-        //[HttpGet("GetGenreWithMovie")]
-        //public async Task<ActionResult<GenreWithMovieDTO>> GetGenreWithMovies()
-        //{
-        //    try
-        //    {
-        //        var result = await _genreRepository.GetGenreWithMovies();
-        //        var resGenreMapper = _mapper.Map<IEnumerable<GenreWithMovieDTO>>(result);
-        //        if (resGenreMapper != null)
-        //        {
-        //            return Ok(resGenreMapper);
-        //        }
-        //        else
-        //        {
-        //            return NotFound("There is no result!");
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error retrieving data from the database" + ex);
-        //    }
-
-        //}
-
-        [HttpGet("GetGenreWithMovies")]
-        public async Task<ActionResult<GenreWithMovies>> GetGenreWithMovies()
-        {
-            try
-            {
-                var result = await _genreRepository.GetGenreWithMovies();
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("There is no result!");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database" + ex);
-            }
-
         }
 
         [HttpPost]
@@ -159,7 +111,6 @@ namespace API.Controllers
                     ModelState.AddModelError("GenreName", "Genre name already exist");
                     return BadRequest(ModelState);
                 }
-
                 response = await _genreRepository.PostGenre(genre);
 
             }
@@ -203,6 +154,31 @@ namespace API.Controllers
                    "Error retrieving data from the database" + ex);
             }
         }
-        #endregion 
+        #endregion
+
+        [HttpGet("{genreId}")]
+        //[Route("GetGenreWithDetails")]
+        public async Task<ActionResult<GenreWithMovieDTO>> GetGenreWithMovies(Guid genreId)
+        {
+            try
+            {
+                var result = await _genreRepository.GetGenreWithMovies(genreId);
+                var resGenreMapper = _mapper.Map<GenreWithMovieDTO>(result);
+                if (resGenreMapper != null)
+                {
+                    return Ok(resGenreMapper);
+                }
+                else
+                {
+                    return NotFound($"The genres was not found!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
+        }
     }
 }

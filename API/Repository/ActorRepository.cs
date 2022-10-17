@@ -52,7 +52,6 @@ namespace API.Repository
                                   join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
                                   select new ActorAdressVM
                                   {
-                                      Id = a.ActorId,
                                       FName = a.FirstName,
                                       LName = a.LastName,
                                       Adress1 = aa.Adress1,
