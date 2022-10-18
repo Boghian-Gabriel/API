@@ -29,11 +29,10 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _genreRepository.GetGenres();
-                if (result != null)
+                var results = await _genreRepository.GetGenres();
+                if (results != null)
                 {
-                    var resMapper = _mapper.Map<IEnumerable<GenreDTO>>(result);
-                    //return Ok(result);
+                    var resMapper = _mapper.Map<IEnumerable<GenreDTO>>(results);
                     return Ok(resMapper);
                 }
                 else
@@ -50,18 +49,18 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<GenreDTO>> GetGenreById(Guid id)
         {
             try
             {
                 //GET THE INFORMATION FROM THE DATABASE!
                 var result = await _genreRepository.GetGenreById(id);
-                //I map to the GenreDTO table to provide to the client
-                var resGenreMapper = _mapper.Map<GenreDTO>(result);
 
-                if (resGenreMapper != null)
+                if (result != null)
                 {
+                    //I map to the GenreDTO table to provide to the client
+                    var resGenreMapper = _mapper.Map<GenreDTO>(result);
                     return Ok(resGenreMapper);
                 }
                 else
@@ -82,9 +81,9 @@ namespace API.Controllers
             try
             {
                 var result = await _genreRepository.SearchGenreByName(searchByName);
-                var resGenreMapper = _mapper.Map<GenreDTO>(result);
-                if(resGenreMapper != null) 
-                { 
+                if(result != null) 
+                {
+                    var resGenreMapper = _mapper.Map<GenreDTO>(result);
                     return Ok(resGenreMapper); 
                 } else
                 {
@@ -123,7 +122,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
         {
             var result = await _genreRepository.UpdateGenre(id, genre);
@@ -131,7 +130,7 @@ namespace API.Controllers
         }
 
         #region "Delete"
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         //[Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
@@ -162,10 +161,10 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _genreRepository.GetGenreWithMovies(genreId);
-                var resGenreMapper = _mapper.Map<GenreWithMovieDTO>(result);
-                if (resGenreMapper != null)
+                var results = await _genreRepository.GetGenreWithMovies(genreId);
+                if (results != null)
                 {
+                    var resGenreMapper = _mapper.Map<GenreWithMovieDTO>(results);
                     return Ok(resGenreMapper);
                 }
                 else

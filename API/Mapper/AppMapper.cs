@@ -16,7 +16,7 @@ namespace API.Mapper
             CreateMap<ActorAdress, ActorAdressDTO>().ReverseMap();
 
             CreateMap<Movie, MovieDTO>().ReverseMap();
-            CreateMap<Movie, MoviesWithDetails>().ReverseMap();
+            CreateMap<Movie, MoviesWithDetailsDTO>().ReverseMap();
         }
     }
 }

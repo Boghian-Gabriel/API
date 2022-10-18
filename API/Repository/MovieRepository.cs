@@ -1,4 +1,5 @@
-﻿using API.IRepository;
+﻿using API.Context;
+using API.IRepository;
 using API.Model;
 using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ namespace API.Repository
 
         public async Task<IEnumerable<Movie>> GetMovies()
         {
-            var result = await _dbContext.Movies.ToListAsync();
-            return result;
+            var results = await _dbContext.Movies.ToListAsync();
+            return results;
         }
 
         public async Task<Movie> GetMovie(Guid id)
@@ -49,17 +50,21 @@ namespace API.Repository
             return await resAnotherWay;
         }
 
-        public async Task<Movie> GetMovieWithDetails(Guid id)
+        public async Task<IEnumerable<Movie>> GetMovieWithDetails(string movieName, bool includeActors = false)
         {
 
-            var result2 = await _dbContext.Movies
-                            .Where(m => m.Id.Equals(id))
-                            .Include(g=>g.Genre)
-                            .Include(a => a.Actors)
-                            .ThenInclude(ad => ad.Adress)
-                            .SingleOrDefaultAsync();
+            IQueryable<Movie> queryResults = _dbContext.Movies
+                                        .Include(g => g.Genre);
 
-            return result2;
+            if (includeActors)
+            {
+                queryResults = queryResults.Include(a => a.Actors)
+                                    .ThenInclude(ad => ad.Adress);
+            }
+
+            queryResults = queryResults.Where(m => m.Title.Equals(movieName));
+
+            return await queryResults.ToListAsync();
         }
 
 

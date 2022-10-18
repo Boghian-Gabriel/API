@@ -7,6 +7,6 @@ namespace API.ModelDTO
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-        public virtual ActorAdressDTO Adress { get; set; }
+        public virtual ActorAdressDTO? Adress { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.IRepository;
+﻿using API.Context;
+using API.IRepository;
 using API.Model;
 using API.ModelDTO;
 using API.ViewModel_BindModel_;
@@ -22,10 +23,10 @@ namespace API.Repository
 
         public async Task<IEnumerable<Genre>> GetGenres()
         {
-            var result = await _dbContext.Genres.ToListAsync();
+            var results = await _dbContext.Genres.ToListAsync();
             //var result = await _dbContext.Genres.Select(x => new GenreDTO(x)).ToListAsync();
 
-            return result;
+            return results;
         }
 
 
@@ -122,12 +123,12 @@ namespace API.Repository
 
         public async Task<Genre> GetGenreWithMovies(Guid id)
         {
-            var result = await _dbContext.Genres
+            var results = await _dbContext.Genres
                             .Where(g => g.IdGenre.Equals(id))
                             .Include(m => m.Movies)                            
                             .SingleOrDefaultAsync();
 
-            return result;
+            return results;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.IRepository;
+﻿using API.Context;
+using API.IRepository;
 using API.Model;
 using API.ModelDTO;
 using API.ViewModel_BindModel_;
@@ -25,8 +26,8 @@ namespace API.Repository
 
         public async Task<Actor> GetActorById(Guid id)
         {
-            var result = await _dbContext.Actors.FindAsync(id);
-            return result;
+            var results = await _dbContext.Actors.FindAsync(id);
+            return results;
         }
 
         public async Task<Actor> GetActorByName(string fname, string lastname)
@@ -41,8 +42,8 @@ namespace API.Repository
 
         public async Task<IEnumerable<Actor>> GetActors()
         {
-            var result = await _dbContext.Actors.ToListAsync();
-            return result;
+            var results = await _dbContext.Actors.ToListAsync();
+            return results;
         }
 
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
@@ -59,6 +60,7 @@ namespace API.Repository
                                       ZipCode = aa.ZipCode
 
                                   }).ToListAsync();
+
 
             return await resActorAdress;
         }

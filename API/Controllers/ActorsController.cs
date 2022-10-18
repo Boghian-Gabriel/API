@@ -28,10 +28,10 @@ namespace API.Controllers
         {       
             try
             {
-                var result = await _actorRepository.GetActors();
-                var resActorMapper = _mapper.Map<IEnumerable<ActorDTO>>(result);
-                if (resActorMapper != null)
+                var results = await _actorRepository.GetActors();
+                if (results != null)
                 {
+                    var resActorMapper = _mapper.Map<IEnumerable<ActorDTO>>(results);
                     return Ok(resActorMapper);
                 }
                 else
@@ -46,15 +46,15 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ActorDTO>> GetActorById(Guid id)
         {
             try
             {
                 var result = await _actorRepository.GetActorById(id);
-                var resActorMapper = _mapper.Map<ActorDTO>(result);
-                if (resActorMapper != null)
+                if (result != null)
                 {
+                    var resActorMapper = _mapper.Map<ActorDTO>(result);
                     return Ok(resActorMapper);
                 }
                 else
@@ -75,9 +75,9 @@ namespace API.Controllers
             try
             {
                 var result = await _actorRepository.GetActorByName(fname, lname);
-                var resActorMapper = _mapper.Map<ActorDTO>(result);
-                if (resActorMapper != null)
+                if (result != null)
                 {
+                    var resActorMapper = _mapper.Map<ActorDTO>(result);
                     return Ok(resActorMapper);
                 }
                 else
@@ -119,8 +119,8 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
         {
-            var result = await _actorRepository.GetActorsWithAdress();
-            return result;
+            var results = await _actorRepository.GetActorsWithAdress();
+            return results;
         }
     }
 }

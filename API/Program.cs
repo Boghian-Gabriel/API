@@ -1,4 +1,3 @@
-using API.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
@@ -8,6 +7,7 @@ using System.Text;
 using API.Repository;
 using API.IRepository;
 using API.Mapper;
+using API.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +27,13 @@ builder.Services.AddControllersWithViews();
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(AppMapper));
 
+//Add Support XML Format
+//work in PostMan when we need to display in XML format
+builder.Services.AddControllers(setupAction =>
+{
+    setupAction.ReturnHttpNotAcceptable = true;
+}).AddXmlDataContractSerializerFormatters();
+
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
     option.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -34,7 +41,7 @@ builder.Services.AddControllers().AddJsonOptions(option =>
 
 builder.Services.AddControllers()
            .AddJsonOptions(o => o.JsonSerializerOptions
-               .ReferenceHandler = ReferenceHandler.Preserve);
+           .ReferenceHandler = ReferenceHandler.Preserve);
 
 // We can see that Swagger support is added automatically to
 // our project:

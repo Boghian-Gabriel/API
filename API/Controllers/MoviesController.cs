@@ -28,10 +28,10 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _movieRepository.GetMovies();
-                var resMovieMapper = _mapper.Map<IEnumerable<MovieDTO>>(result);
-                if(resMovieMapper != null)
+                var results = await _movieRepository.GetMovies();
+                if(results != null)
                 {
+                    var resMovieMapper = _mapper.Map<IEnumerable<MovieDTO>>(results);
                     return Ok(resMovieMapper);
                 }
                 else
@@ -100,28 +100,28 @@ namespace API.Controllers
         [Route("GetMoviesWithGenreName")]
         public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
         {
-            var result = await _movieRepository.GetMoviesWithGenres();
+            var results = await _movieRepository.GetMoviesWithGenres();
 
-            return result;
+            return results;
         }
 
 
-        [HttpGet("{movieId}")]
+        [HttpGet("movieName")]
         //[Route("GetMoviesWithActors")]
-        public async Task<ActionResult<MoviesWithDetails>> GetMovieWithDetails(Guid movieId)
+        public async Task<ActionResult<IEnumerable<MoviesWithDetailsDTO>>> GetMovieWithDetails(string movieName, bool includeActors = false)
         {
            
             try
             {
-                var result = await _movieRepository.GetMovieWithDetails(movieId);
-                var resMapper = _mapper.Map<MoviesWithDetails>(result);
-                if(resMapper != null)
+                var result = await _movieRepository.GetMovieWithDetails(movieName, includeActors);
+                if(result != null)
                 {
+                    var resMapper = _mapper.Map<IEnumerable<MoviesWithDetailsDTO>>(result);
                     return Ok(resMapper);
                 }
                 else
                 {
-                    return NotFound($"The movie with id: '{movieId}' was not found!");
+                    return NotFound($"The movie with title: '{movieName}' was not found!");
                 }
             }
             catch(Exception ex)

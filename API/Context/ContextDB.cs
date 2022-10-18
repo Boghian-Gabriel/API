@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace API.Model
+namespace API.Context
 {
 
     public class ContextDB : DbContext
@@ -8,7 +9,7 @@ namespace API.Model
 
         public ContextDB(DbContextOptions<ContextDB> option)
             : base(option)
-        { 
+        {
         }
 
         public DbSet<Movie> Movies { get; set; } = null!;
@@ -67,7 +68,7 @@ namespace API.Model
 
             //populate default actoradress table
             modelBuilder.Entity<ActorAdress>().HasData(
-                new ActorAdress { ActorAdressId = Guid.Parse("2771A534-6DDF-440C-AA65-06363EE53892"), Adress1 = "Florida str.Florida", Adress2 = "Miami str Miami", City= "New York", ZipCode = 254758 , Country= "Country2" },
+                new ActorAdress { ActorAdressId = Guid.Parse("2771A534-6DDF-440C-AA65-06363EE53892"), Adress1 = "Florida str.Florida", Adress2 = "Miami str Miami", City = "New York", ZipCode = 254758, Country = "Country2" },
                 new ActorAdress { ActorAdressId = Guid.Parse("17885E02-8E62-4E12-8819-064EB88732C3"), Adress1 = "London", Adress2 = "Lewisham", City = "Doncaster", ZipCode = 193256, Country = "United Kingdom" },
                 new ActorAdress { ActorAdressId = Guid.Parse("C1E8C4B6-1BA4-4753-B4CE-4E3745D686A8"), Adress1 = "Torquay 1", Adress2 = "Torquay 2", City = "Torquay", ZipCode = 462896, Country = "United Kingdom" },
                 new ActorAdress { ActorAdressId = Guid.Parse("AE83328F-B078-4ED0-8FC4-769A29A99E77"), Adress1 = "Birmingham", Adress2 = "Birmingham 2", City = "Lancashire", ZipCode = 189345, Country = "United Kingdom" },
@@ -81,7 +82,7 @@ namespace API.Model
 
             //add default user admin and admin -> user / pass
             modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, UserName="admin", Password="admin"},
+                new User { UserId = 1, UserName = "admin", Password = "admin" },
                 new User { UserId = 2, UserName = "admin123", Password = "pass123" }
                 );
 

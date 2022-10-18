@@ -27,10 +27,10 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _actorAdressRepository.GetActorAdress();
-                var resMapper = _mapper.Map<IEnumerable<ActorAdressDTO>>(result);
-                if (resMapper != null)
+                var results = await _actorAdressRepository.GetActorAdress();
+                if (results != null)
                 {
+                    var resMapper = _mapper.Map<IEnumerable<ActorAdressDTO>>(results);
                     return Ok(resMapper);
                 }
                 else
@@ -46,15 +46,15 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ActorAdressDTO>> GetActorAdressById(Guid id)
         {
             try
             {
                 var result = await _actorAdressRepository.GetActorAdressById(id);
-                var resActAdrMapper = _mapper.Map<ActorAdressDTO>(result);
-                if (resActAdrMapper != null)
+                if (result != null)
                 {
+                    var resActAdrMapper = _mapper.Map<ActorAdressDTO>(result);
                     return Ok(resActAdrMapper);
                 }
                 else
@@ -75,9 +75,9 @@ namespace API.Controllers
             try
             {
                 var result = await _actorAdressRepository.GetActorAdressByZipCode(zip);
-                var resMapper = _mapper.Map<ActorAdressDTO>(result);
-                if (resMapper != null)
+                if (result != null)
                 {
+                    var resMapper = _mapper.Map<ActorAdressDTO>(result);
                     return Ok(resMapper);
                 }
                 else
@@ -111,7 +111,7 @@ namespace API.Controllers
         }
 
         #region "Delete"
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteActor(Guid id)
         {

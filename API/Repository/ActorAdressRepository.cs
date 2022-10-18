@@ -1,4 +1,5 @@
-﻿using API.IRepository;
+﻿using API.Context;
+using API.IRepository;
 using API.Model;
 using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ namespace API.Repository
 
         public async Task<IEnumerable<ActorAdress>> GetActorAdress()
         {
-           var result = await _dbContext.ActorAdress.ToListAsync();
-           return result;
+           var results = await _dbContext.ActorAdress.ToListAsync();
+           return results;
         }
 
         public async Task<ActorAdress> GetActorAdressById(Guid id)
