@@ -94,10 +94,12 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<ActionResult<ActorAdress>> PostActorAdress(ActorAdress actorAdr)
+        //[Authorize]
+        public async Task<ActionResult<ActorAdress>> PostActorAdress(InsertActorAdressWithActorID actorAdrDto)
         {
-            var result = await _actorAdressRepository.PostActorAdress(actorAdr);
+            var actorAdress= _mapper.Map<ActorAdress>(actorAdrDto);
+
+            var result = await _actorAdressRepository.PostActorAdress(actorAdress);
 
             return result;
         }

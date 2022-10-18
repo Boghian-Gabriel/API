@@ -53,6 +53,7 @@ namespace API.Repository
             response.Message = "Success";
             try
             {
+
                 _dbContext.Genres.Add(genre);
                 await _dbContext.SaveChangesAsync();
 

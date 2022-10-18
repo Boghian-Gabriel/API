@@ -71,8 +71,10 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<Movie>> PostMovie(InsertMovieDTO movieDTO)
         {
+            var movie = _mapper.Map<Movie>(movieDTO);
+
             var result = await _movieRepository.PostMovie(movie);
 
             return result;

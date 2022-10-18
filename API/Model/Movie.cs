@@ -22,8 +22,8 @@ namespace API.Model
         public DateTime RealeseDate { get; set; }
 
         [ForeignKey("Genre")]
-        public Guid? IdRefGenre { get; set; }
-        public Genre? Genre { get; set; }
+        public Guid IdRefGenre { get; set; }
+        public Genre Genre { get; set; }
 
         public virtual ICollection<Actor> Actors { get; set; }
     }

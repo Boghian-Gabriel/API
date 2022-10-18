@@ -99,19 +99,24 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostGenre(Genre genre)
+        public async Task<ActionResult> PostGenre(GenreDTO genreDTO)
         {
             ResponseMsg response = new ResponseMsg();
             try
             {
-                var isGenreExist = await _genreRepository.GetGenreByName(genre.GenreName);
+                var isGenreExist = await _genreRepository.GetGenreByName(genreDTO.GenreName);
                 if(isGenreExist != null)
                 {
                     ModelState.AddModelError("GenreName", "Genre name already exist");
                     return BadRequest(ModelState);
                 }
-                response = await _genreRepository.PostGenre(genre);
 
+                var genre = _mapper.Map<Genre>(genreDTO);
+                //or manually mapper 
+                //var genre = new Genre();
+                //genre.GenreName = genreDTO.GenreName;
+
+                response = await _genreRepository.PostGenre(genre);
             }
             catch (Exception ex)
             {

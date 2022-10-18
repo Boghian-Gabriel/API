@@ -26,8 +26,8 @@ namespace API.Repository
 
         public async Task<Actor> GetActorById(Guid id)
         {
-            var results = await _dbContext.Actors.FindAsync(id);
-            return results;
+            var result = await _dbContext.Actors.FindAsync(id);
+            return result;
         }
 
         public async Task<Actor> GetActorByName(string fname, string lastname)
@@ -67,6 +67,7 @@ namespace API.Repository
 
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
         {
+
             _dbContext.Actors.Add(actor);
             await _dbContext.SaveChangesAsync();
 

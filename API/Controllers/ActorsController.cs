@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 
 namespace API.Controllers
@@ -93,10 +94,27 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Actor>> PostActor(Actor actor)
-        {
-           var result = await _actorRepository.PostActor(actor);
-            return result;
+        public async Task<ActionResult<Actor>> PostActor(ActorDTO actorDTO)
+        {  
+            try
+            {
+                var actor = _mapper.Map<Actor>(actorDTO);
+
+                if (actor != null)
+                {
+                    var result = await _actorRepository.PostActor(actor);
+                    return result;
+                }
+                else
+                {
+                    return BadRequest($"The actor is already exist in database!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
         }
 
         [HttpPut]
