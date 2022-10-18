@@ -1,7 +1,6 @@
 ﻿using API.Context;
 using API.IRepository;
 using API.Model;
-using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

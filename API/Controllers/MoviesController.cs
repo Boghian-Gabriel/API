@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using API.IRepository;
 using API.UriApi;
-using API.ModelDTO;
 using AutoMapper;
+using API.ModelsDTO;
 
 namespace API.Controllers
 {

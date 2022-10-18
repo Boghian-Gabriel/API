@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Xml.Linq;
-using API.ModelDTO;
 using AutoMapper;
 using API.ViewModel_BindModel_;
 using Microsoft.EntityFrameworkCore;
+using API.ModelsDTO;
 
 namespace API.Controllers
 {
@@ -128,8 +128,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGenre(Guid id, Genre genre)
+        public async Task<IActionResult> UpdateGenre(Guid id, UpdateGenreDTO genreDTO)
         {
+            var genre = _mapper.Map<Genre>(genreDTO);
             var result = await _genreRepository.UpdateGenre(id, genre);
             return result;
         }

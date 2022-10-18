@@ -1,10 +1,8 @@
-﻿namespace API.ModelDTO
+﻿namespace API.ModelsDTO
 {
-    public class InsertMovieDTO
+    public class MovieDTO
     {
         public string? Title { get; set; }
         public DateTime RealeseDate { get; set; }
-
-        public Guid IdRefGenre { get; set; }
     }
 }

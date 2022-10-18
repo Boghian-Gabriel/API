@@ -1,4 +1,4 @@
-﻿namespace API.ModelDTO
+﻿namespace API.ModelsDTO
 {
     public class InsertActorAdressWithActorID
     {

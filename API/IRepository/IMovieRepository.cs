@@ -1,5 +1,4 @@
 ﻿using API.Model;
-using API.ModelDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.IRepository

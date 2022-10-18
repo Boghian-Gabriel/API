@@ -1,6 +1,4 @@
-﻿using API.Model;
-
-namespace API.ModelDTO
+﻿namespace API.ModelsDTO
 {
     public class GenreDTO
     {

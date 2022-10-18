@@ -1,6 +1,6 @@
 ﻿using API.IRepository;
 using API.Model;
-using API.ModelDTO;
+using API.ModelsDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

@@ -25,6 +25,10 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="ModelsDTO\ActorAdressDTO\" />
+    <Folder Include="ModelsDTO\ActorsDTO\" />
+    <Folder Include="ModelsDTO\GenresDTO\" />
+    <Folder Include="ModelsDTO\MoviesDTO\" />
   </ItemGroup>
 
 </Project>

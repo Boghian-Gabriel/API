@@ -1,5 +1,5 @@
 ﻿using API.Model;
-using API.ModelDTO;
+using API.ModelsDTO;
 
 namespace API.Mapper
 {
@@ -9,6 +9,7 @@ namespace API.Mapper
         {
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Genre, GenreWithMovieDTO>().ReverseMap();
+            CreateMap<Genre, UpdateGenreDTO>().ReverseMap();
 
             CreateMap<Actor, ActorDTO>().ReverseMap();
             CreateMap<Actor, ActorAndAdressDTO>().ReverseMap();
