@@ -9,19 +9,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    #region "ActorAdressController class"
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ActorAdressController : ControllerBase
     {
+        #region "Properties"
         private readonly IActorAdressRepository _actorAdressRepository;
         private readonly IMapper _mapper;
+        #endregion
 
+        #region "Constructor"
         public ActorAdressController(IActorAdressRepository actorAdressRepository, IMapper mapper)
         {
             _actorAdressRepository = actorAdressRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region "Gel All ActorAdress"
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActorAdressDTO>>> GetActorAdress()
         {
@@ -45,7 +51,9 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex);
             }
         }
+        #endregion
 
+        #region "GetActorAdressById"
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorAdressDTO>> GetActorAdressById(Guid id)
         {
@@ -68,7 +76,9 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex);
             }
         }
+        #endregion
 
+        #region "GetActorAdressByZipCode"
         [HttpGet("zip")]
         public async Task<ActionResult<ActorAdressDTO>> GetActorAdressByZipCode(int zip)
         {
@@ -92,7 +102,9 @@ namespace API.Controllers
             }
 
         }
+        #endregion
 
+        #region "PostActorAdress"
         [HttpPost]
         //[Authorize]
         public async Task<ActionResult<ActorAdress>> PostActorAdress(InsertActorAdressWithActorID actorAdrDto)
@@ -103,14 +115,33 @@ namespace API.Controllers
 
             return result;
         }
+        #endregion
 
+        #region "UpdateActorAdress"
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateActorAdress(Guid id, ActorAdress actorAdr)
+        public async Task<IActionResult> UpdateActorAdress(Guid id, UpdateActorAdressDTO actorAdrDTO)
         {
-            var result = await _actorAdressRepository.UpdateActorAdress(id, actorAdr);
-            return result;
+            try
+            {
+                var actorAdr = _mapper.Map<ActorAdress>(actorAdrDTO);
+                if (actorAdr != null)
+                {
+                    var result = await _actorAdressRepository.UpdateActorAdress(id, actorAdr);
+                    return result;
+                }
+                else
+                {
+                    return NotFound($"The ActorAdress with id: ' {id} ' was not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                   "Error retrieving data from the database" + ex);
+            }
         }
+        #endregion
 
         #region "Delete"
         [HttpDelete("{id}")]
@@ -123,4 +154,5 @@ namespace API.Controllers
         }
         #endregion
     }
+    #endregion
 }

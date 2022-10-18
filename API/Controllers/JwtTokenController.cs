@@ -10,6 +10,7 @@ using System.Text;
 
 namespace API.Controllers
 {
+    #region "Jwt class"
     [Route("api/[controller]")]
     [ApiController]
     public class JwtTokenController : Controller
@@ -22,7 +23,8 @@ namespace API.Controllers
             _configuration = configuration;
             _context = context;
         }
-
+         
+        #region "Post"
         [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
@@ -64,7 +66,9 @@ namespace API.Controllers
                 return BadRequest("Invalid Credentials");
             }
         }
+        #endregion
 
+        #region "GetUser"
         [HttpGet]
         public async Task<ActionResult<User>> GetUser(string userName, string password)
         {
@@ -84,5 +88,7 @@ namespace API.Controllers
             }
             return result;
         }
+        #endregion
     }
+    #endregion
 }

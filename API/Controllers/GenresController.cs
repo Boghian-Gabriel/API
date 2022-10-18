@@ -11,19 +11,26 @@ using API.ModelsDTO;
 
 namespace API.Controllers
 {
+    #region "GenresControler class"
     [Route("api/[controller]/[Action]")]
     //[Route("api/[controller]")]
     [ApiController]
     public class GenresController : Controller
     {
+        #region "Properties"
         private readonly IGenreRepository _genreRepository;
         private readonly IMapper _mapper;
+        #endregion
+
+        #region "Constructor"
         public GenresController(IGenreRepository genreRepository, IMapper mapper)
         {
             _genreRepository = genreRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region "GetAllGenres"
         [HttpGet]
         public async Task<ActionResult<GenreDTO>> GetAllGenres()
         {
@@ -47,8 +54,9 @@ namespace API.Controllers
             }
             
         }
+        #endregion
 
-
+        #region "GetGenreById"
         [HttpGet("{id}")]
         public async Task<ActionResult<GenreDTO>> GetGenreById(Guid id)
         {
@@ -74,7 +82,9 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex);
             }
         }
+        #endregion
 
+        #region "GetGenreByName"
         [HttpGet("searchByName")]
         public async Task<ActionResult<GenreDTO>> GetGenreByName(string searchByName)
         {
@@ -97,7 +107,9 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex);
             }
         }
+        #endregion
 
+        #region "PostGenre"
         [HttpPost]
         public async Task<ActionResult> PostGenre(GenreDTO genreDTO)
         {
@@ -126,14 +138,32 @@ namespace API.Controllers
 
             return Ok(response);
         }
+        #endregion
 
+        #region "UpdateGenre"
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(Guid id, UpdateGenreDTO genreDTO)
         {
-            var genre = _mapper.Map<Genre>(genreDTO);
-            var result = await _genreRepository.UpdateGenre(id, genre);
-            return result;
+            try
+            {
+                var genre = _mapper.Map<Genre>(genreDTO);
+                if (genre != null)
+                {
+                    var result = await _genreRepository.UpdateGenre(genre.IdGenre, genre);
+                    return result;
+                }
+                else
+                {
+                    return NotFound($"The genres with id: ' {id} ' was not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                   "Error retrieving data from the database" + ex);
+            }
         }
+        #endregion
 
         #region "Delete"
         [HttpDelete("{id}")]
@@ -161,6 +191,7 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "GetGenreWithMovies"
         [HttpGet("{genreId}")]
         //[Route("GetGenreWithDetails")]
         public async Task<ActionResult<GenreWithMovieDTO>> GetGenreWithMovies(Guid genreId)
@@ -185,5 +216,7 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex);
             }
         }
+        #endregion
     }
+    #endregion
 }

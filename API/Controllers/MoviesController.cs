@@ -10,19 +10,26 @@ using API.ModelsDTO;
 
 namespace API.Controllers
 {
+    #region "MoviesController class"
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class MoviesController : Controller
     {
+        #region "Properties"
         //inject the database context 
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
+        #endregion
+
+        #region "Constructor"
         public MoviesController(IMovieRepository movieRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region "GetAllMovies"
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetAllMovies()
         {
@@ -45,7 +52,9 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex.Message);
             }
         }
-        
+        #endregion
+
+        #region "GetMovie"
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(Guid id)
         {
@@ -69,7 +78,9 @@ namespace API.Controllers
             }
 
         }
+        #endregion
 
+        #region "PostMovie"
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(InsertMovieDTO movieDTO)
         {
@@ -79,14 +90,18 @@ namespace API.Controllers
 
             return result;
         }
+        #endregion
 
+        #region "UpdateMovie"
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMovie(Guid id, Movie movie)
+        public async Task<IActionResult> UpdateMovie(Guid id,  UpdateMovieDTO movieDTO)
         {
+            var movie = _mapper.Map<Movie>(movieDTO);
             var result = await _movieRepository.UpdateMovie(id, movie);
 
             return result;
         }
+        #endregion
 
         #region "Delete"
         [HttpDelete("{id}")]
@@ -98,6 +113,7 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "GetMoviesWithGenreName"
         [HttpGet]
         [Route("GetMoviesWithGenreName")]
         public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
@@ -106,8 +122,9 @@ namespace API.Controllers
 
             return results;
         }
+        #endregion
 
-
+        #region "GetMovieWithDetails"
         [HttpGet("movieName")]
         //[Route("GetMoviesWithActors")]
         public async Task<ActionResult<IEnumerable<MoviesWithDetailsDTO>>> GetMovieWithDetails(string movieName, bool includeActors = false)
@@ -132,5 +149,7 @@ namespace API.Controllers
                     "Error retrieving data from the database" + ex.Message);
             }
         }
+        #endregion
     }
+    #endregion
 }

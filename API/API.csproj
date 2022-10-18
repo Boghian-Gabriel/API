@@ -7,6 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ModelsDTO\ActorAdressDTO\**" />
+    <Compile Remove="ModelsDTO\ActorsDTO\**" />
+    <Compile Remove="ModelsDTO\GenresDTO\**" />
+    <Compile Remove="ModelsDTO\MoviesDTO\**" />
+    <Content Remove="ModelsDTO\ActorAdressDTO\**" />
+    <Content Remove="ModelsDTO\ActorsDTO\**" />
+    <Content Remove="ModelsDTO\GenresDTO\**" />
+    <Content Remove="ModelsDTO\MoviesDTO\**" />
+    <EmbeddedResource Remove="ModelsDTO\ActorAdressDTO\**" />
+    <EmbeddedResource Remove="ModelsDTO\ActorsDTO\**" />
+    <EmbeddedResource Remove="ModelsDTO\GenresDTO\**" />
+    <EmbeddedResource Remove="ModelsDTO\MoviesDTO\**" />
+    <None Remove="ModelsDTO\ActorAdressDTO\**" />
+    <None Remove="ModelsDTO\ActorsDTO\**" />
+    <None Remove="ModelsDTO\GenresDTO\**" />
+    <None Remove="ModelsDTO\MoviesDTO\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
@@ -25,10 +44,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="ModelsDTO\ActorAdressDTO\" />
-    <Folder Include="ModelsDTO\ActorsDTO\" />
-    <Folder Include="ModelsDTO\GenresDTO\" />
-    <Folder Include="ModelsDTO\MoviesDTO\" />
   </ItemGroup>
 
 </Project>

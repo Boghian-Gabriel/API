@@ -16,10 +16,12 @@ namespace API.Mapper
 
             CreateMap<ActorAdress, ActorAdressDTO>().ReverseMap();
             CreateMap<ActorAdress, InsertActorAdressWithActorID>().ReverseMap();
+            CreateMap<ActorAdress, UpdateActorAdressDTO>().ReverseMap();
 
             CreateMap<Movie, MovieDTO>().ReverseMap();
             CreateMap<Movie, MoviesWithDetailsDTO>().ReverseMap();
             CreateMap<Movie, InsertMovieDTO>().ReverseMap();
+            CreateMap<Movie, UpdateMovieDTO>().ReverseMap();
         }
     }
 }
