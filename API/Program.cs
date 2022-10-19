@@ -28,11 +28,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(AppMapper));
 
 //Add Support XML Format
-//work in PostMan when we need to display in XML format
-builder.Services.AddControllers(setupAction =>
-{
-    setupAction.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters();
+//builder.Services.AddControllers(setupAction =>
+//{
+//    setupAction.ReturnHttpNotAcceptable = true;
+//}).AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
@@ -49,9 +48,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "API.Net Core 6", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Net Core 6", Version = "v1" });
     //add security definition
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"Jwt Authorization header using the Bearer scheme. 
                         Enter 'Bearer' [space] and then your token in the text input below
@@ -63,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 
     //add secutiry requirment
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
@@ -102,7 +101,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //c => c.SwaggerEndpoint("swagger/v1/swagger/json", "DemoJWTToken v1")
 }
 
 app.UseHttpsRedirection();

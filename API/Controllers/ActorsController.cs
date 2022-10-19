@@ -1,14 +1,11 @@
 ﻿using API.IRepository;
 using API.Model;
-using API.ModelsDTO;
+using API.ModelsDTO.ActorDto;
+using API.ModelsDTO.MovieDto;
+using API.Repository;
 using API.ViewModel_BindModel_;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
-
 
 namespace API.Controllers
 {
@@ -111,22 +108,23 @@ namespace API.Controllers
         {  
             try
             {
-                var actor = _mapper.Map<Actor>(actorDTO);
+                var existActor = await _actorRepository.GetActorByName(actorDTO.FirstName, actorDTO.LastName);
+                if (existActor != null)
+                {
+                    ModelState.AddModelError("Actor", $"The actor with first name = {actorDTO.FirstName} and last name {actorDTO.LastName} already exists");
+                    return BadRequest(ModelState);
+                }
 
-                if (actor != null)
-                {
-                    var result = await _actorRepository.PostActor(actor);
-                    return result;
-                }
-                else
-                {
-                    return BadRequest($"The actor is already exist in database!");
-                }
+                var actor = _mapper.Map<Actor>(actorDTO);
+                var result = await _actorRepository.PostActor(actor);
+
+                //return result;
+                return StatusCode(StatusCodes.Status201Created, "Added successfully");
+
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database" + ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
             }
         }
         #endregion
@@ -142,7 +140,7 @@ namespace API.Controllers
                 if (actor != null)
                 {
                     var result = await _actorRepository.UpdateActor(id, actor);
-                    return result;
+                    return Ok(result);
                 }
                 else
                 {
@@ -152,7 +150,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database" + ex);
+                    "Error" + ex);
             }
         }
         #endregion
@@ -161,17 +159,47 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteActor(Guid id)
         {
-            var result = await _actorRepository.DeleteActor(id);
-            return result;
+            try
+            {
+                var result = await _actorRepository.GetActorById(id);
+
+                if (result == null)
+                {
+                    return NotFound($"Actor with Id: ' {id} ' not found!");
+                }
+
+                await _actorRepository.DeleteActor(id);
+
+                return Ok($"Actor with Id: ' {id} ' is deleted!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error" + ex.Message);
+            }
         }
         #endregion
 
         #region "GetActorsWithAdress"
         [HttpGet]
-        public async Task<IEnumerable<ActorAdressVM>> GetActorsWithAdress()
+        public async Task<ActionResult<IEnumerable<ActorAdressVM>>> GetActorsWithAdress()
         {
-            var results = await _actorRepository.GetActorsWithAdress();
-            return results;
+            try
+            {
+                var results = await _actorRepository.GetActorsWithAdress();
+                if(results != null)
+                {
+                    return Ok(results);
+                }
+                else
+                {
+                    return NotFound("There is no information!");
+                }       
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
+            }           
         }
         #endregion
     }

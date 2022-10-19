@@ -1,13 +1,8 @@
 ﻿using API.Model;
 using API.Repository;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Xml.Linq;
 using AutoMapper;
-using API.ViewModel_BindModel_;
-using Microsoft.EntityFrameworkCore;
-using API.ModelsDTO;
+using API.ModelsDTO.GenreDto;
 
 namespace API.Controllers
 {
@@ -15,7 +10,7 @@ namespace API.Controllers
     [Route("api/[controller]/[Action]")]
     //[Route("api/[controller]")]
     [ApiController]
-    public class GenresController : Controller
+    public class GenresController : ControllerBase
     {
         #region "Properties"
         private readonly IGenreRepository _genreRepository;
@@ -116,10 +111,10 @@ namespace API.Controllers
             ResponseMsg response = new ResponseMsg();
             try
             {
-                var isGenreExist = await _genreRepository.GetGenreByName(genreDTO.GenreName);
-                if(isGenreExist != null)
+                var existGenre = await _genreRepository.GetGenreByName(genreDTO.GenreName);
+                if(existGenre != null)
                 {
-                    ModelState.AddModelError("GenreName", "Genre name already exist");
+                    ModelState.AddModelError("GenreName", "The genre name already exists");
                     return BadRequest(ModelState);
                 }
 
@@ -146,11 +141,17 @@ namespace API.Controllers
         {
             try
             {
+                if(id != genreDTO.IdGenre)
+                {
+                    ModelState.AddModelError("Id", $"The id: '{id}' and id:'{genreDTO.IdGenre}'  are not the same!");
+                    return BadRequest(ModelState);
+                }
+
                 var genre = _mapper.Map<Genre>(genreDTO);
                 if (genre != null)
                 {
                     var result = await _genreRepository.UpdateGenre(genre.IdGenre, genre);
-                    return result;
+                    return StatusCode(StatusCodes.Status200OK, "The information has been updated");
                 }
                 else
                 {
@@ -160,7 +161,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                                   "Error retrieving data from the database" + ex);
+                                   "Error" + ex);
             }
         }
         #endregion
@@ -176,17 +177,17 @@ namespace API.Controllers
 
                 if (resultIdToDelete == null)
                 {
-                    return NotFound($"Genre with Id={id} not found!");
+                    return NotFound($"Genre with Id: ' {id} ' not found!");
                 }
 
                 await _genreRepository.DeleteGenre(id);
 
-                return Ok($"Genre with Id={id} is deleted!");
+                return Ok($"Genre with Id: ' {id} ' is deleted!");
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                   "Error retrieving data from the database" + ex);
+                   "Error" + ex.Message);
             }
         }
         #endregion

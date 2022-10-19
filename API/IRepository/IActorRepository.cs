@@ -12,6 +12,6 @@ namespace API.IRepository
         Task<Actor> GetActorByName(string fname, string lastname);
         Task<ActionResult<Actor>> PostActor(Actor actor);
         Task<IActionResult> UpdateActor(Guid id, Actor actor);
-        Task<IActionResult> DeleteActor(Guid id);
+        Task DeleteActor(Guid id);
     }
 }

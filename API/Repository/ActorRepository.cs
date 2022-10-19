@@ -52,16 +52,16 @@ namespace API.Repository
                                   join aa in _dbContext.ActorAdress on a.ActorId equals aa.ActorAdressId
                                   select new ActorAdressVM
                                   {
-                                      FName = a.FirstName,
-                                      LName = a.LastName,
+                                      FirstName = a.FirstName,
+                                      LastName = a.LastName,
                                       Adress1 = aa.Adress1,
                                       City = aa.City,
                                       ZipCode = aa.ZipCode
 
-                                  }).ToListAsync();
+                                  });
 
 
-            return await resActorAdress;
+            return await resActorAdress.ToListAsync();
         }
 
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
@@ -105,23 +105,14 @@ namespace API.Repository
             return (_dbContext.Actors?.Any(a => a.ActorId == id)).GetValueOrDefault();
         }
 
-        public async Task<IActionResult> DeleteActor(Guid id)
+        public async Task DeleteActor(Guid id)
         {
-            if (_dbContext.Actors == null)
-            {
-                return NotFound();
-            }
-
             var actor = await _dbContext.Actors.FindAsync(id);
-            if (actor == null)
+            if (actor != null)
             {
-                return NotFound();
+                _dbContext.Actors.Remove(actor);
+                await _dbContext.SaveChangesAsync();
             }
-
-            _dbContext.Actors.Remove(actor);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }     
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace API.ModelsDTO
+﻿using API.ModelsDTO.ActorAdrDto;
+
+namespace API.ModelsDTO.ActorDto
 {
     public class ActorAndAdressDTO
     {

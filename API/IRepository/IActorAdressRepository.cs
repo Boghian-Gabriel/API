@@ -10,6 +10,6 @@ namespace API.IRepository
         Task<ActorAdress> GetActorAdressByZipCode(int zipcode);
         Task<ActionResult<ActorAdress>> PostActorAdress(ActorAdress actorAdress);
         Task<IActionResult> UpdateActorAdress(Guid id, ActorAdress actorAdress);
-        Task<IActionResult> DeleteActorAdress(Guid id);
+        Task DeleteActorAdress(Guid id);
     }
 }

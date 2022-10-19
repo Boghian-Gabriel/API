@@ -3,9 +3,6 @@ using API.IRepository;
 using API.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Web.Http;
 
 namespace API.Repository
 {
@@ -66,6 +63,12 @@ namespace API.Repository
             return await queryResults.ToListAsync();
         }
 
+        public async Task<Movie> GetMovieByTitle(string title)
+        {
+            var queryResults = await _dbContext.Movies.Where(m => m.Title.Equals(title)).SingleOrDefaultAsync();
+            return  queryResults;
+        }
+
 
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
@@ -109,23 +112,14 @@ namespace API.Repository
         }
 
         #region "Delete"
-        public async Task<IActionResult> DeleteMovie(Guid id)
+        public async Task DeleteMovie(Guid id)
         {
-            if (_dbContext.Movies == null)
-            {
-                return NotFound();
-            }
-
             var movie = await _dbContext.Movies.FindAsync(id);
-            if (movie == null)
+            if(movie!= null)
             {
-                return NotFound();
+                _dbContext.Movies.Remove(movie);
+                await _dbContext.SaveChangesAsync();
             }
-
-            _dbContext.Movies.Remove(movie);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }
         #endregion   
     }

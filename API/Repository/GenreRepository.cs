@@ -1,11 +1,7 @@
 ﻿using API.Context;
-using API.IRepository;
 using API.Model;
-using API.ViewModel_BindModel_;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
 
 namespace API.Repository
 {

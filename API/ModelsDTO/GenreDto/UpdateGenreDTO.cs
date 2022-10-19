@@ -1,4 +1,4 @@
-﻿namespace API.ModelsDTO
+﻿namespace API.ModelsDTO.GenreDto
 {
     public class UpdateGenreDTO
     {

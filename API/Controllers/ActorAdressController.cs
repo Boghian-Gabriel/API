@@ -1,11 +1,9 @@
 ﻿using API.IRepository;
 using API.Model;
-using API.ModelsDTO;
+using API.ModelsDTO.ActorAdrDto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -107,13 +105,19 @@ namespace API.Controllers
         #region "PostActorAdress"
         [HttpPost]
         //[Authorize]
-        public async Task<ActionResult<ActorAdress>> PostActorAdress(InsertActorAdressWithActorID actorAdrDto)
+        public async Task<ActionResult<ActorAdressDTO>> PostActorAdress(InsertActorAdressWithActorID actorAdrDto)
         {
-            var actorAdress= _mapper.Map<ActorAdress>(actorAdrDto);
+            try
+            {
+                var actorAdress = _mapper.Map<ActorAdress>(actorAdrDto);
+                var result = await _actorAdressRepository.PostActorAdress(actorAdress);
 
-            var result = await _actorAdressRepository.PostActorAdress(actorAdress);
-
-            return result;
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
+            }
         }
         #endregion
 
@@ -138,7 +142,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                                   "Error retrieving data from the database" + ex);
+                                   "Error" + ex);
             }
         }
         #endregion
@@ -148,9 +152,25 @@ namespace API.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteActor(Guid id)
         {
-            var result = await _actorAdressRepository.DeleteActorAdress(id);
+            try
+            {
+                var result = await _actorAdressRepository.GetActorAdressById(id);
 
-            return result;
+                if (result == null)
+                {
+                    return NotFound($"ActorAdress with Id: ' {id} ' not found!");
+                }
+
+                await _actorAdressRepository.DeleteActorAdress(id);
+
+                return Ok($"ActorAdress with Id: ' {id} ' is deleted!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error" + ex.Message);
+            }
+
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿namespace API.ModelsDTO
+﻿using API.ModelsDTO.MovieDto;
+namespace API.ModelsDTO.GenreDto
 {
     public class GenreWithMovieDTO : GenreDTO
     {

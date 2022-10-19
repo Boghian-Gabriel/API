@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using API.IRepository;
 using API.UriApi;
 using AutoMapper;
-using API.ModelsDTO;
+using API.ModelsDTO.MovieDto;
 
 namespace API.Controllers
 {
     #region "MoviesController class"
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MoviesController : Controller
+    public class MoviesController : ControllerBase
     {
         #region "Properties"
         //inject the database context 
@@ -48,33 +48,31 @@ namespace API.Controllers
 
             }catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                    "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
             }
         }
         #endregion
 
-        #region "GetMovie"
+        #region "GetMovieById"
         [HttpGet("{id}")]
-        public async Task<ActionResult<MovieDTO>> GetMovie(Guid id)
+        public async Task<ActionResult<MovieDTO>> GetMovieById(Guid id)
         {
             try
             {
                 var result = await _movieRepository.GetMovie(id);
-                var resMovieMapper = _mapper.Map<MovieDTO>(result);
-                if(resMovieMapper == null)
+                if(result == null)
                 {
                     return NotFound($"The movie with id: '{id}' was not found");
                 }
                 else
                 {
+                    var resMovieMapper = _mapper.Map<MovieDTO>(result);
                     return Ok(resMovieMapper);
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                    "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
             }
 
         }
@@ -82,13 +80,27 @@ namespace API.Controllers
 
         #region "PostMovie"
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(InsertMovieDTO movieDTO)
+        public async Task<ActionResult<MovieDTO>> PostMovie(InsertMovieDTO movieDTO)
         {
-            var movie = _mapper.Map<Movie>(movieDTO);
+            try
+            {
+                var existMovie = await _movieRepository.GetMovieByTitle(movieDTO.Title);
+                if(existMovie != null)
+                {
+                    ModelState.AddModelError("Title", "The movie already exists");
+                    return BadRequest(ModelState);
+                }
 
-            var result = await _movieRepository.PostMovie(movie);
-
-            return result;
+                var movie = _mapper.Map<Movie>(movieDTO);
+                var result = await _movieRepository.PostMovie(movie);
+                Console.WriteLine(result);
+                //return Ok(result);
+                return StatusCode(StatusCodes.Status201Created, "Added successfully");
+            }
+            catch(Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
+            }
         }
         #endregion
 
@@ -96,10 +108,23 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie(Guid id,  UpdateMovieDTO movieDTO)
         {
-            var movie = _mapper.Map<Movie>(movieDTO);
-            var result = await _movieRepository.UpdateMovie(id, movie);
-
-            return result;
+            try
+            {
+                var movie = _mapper.Map<Movie>(movieDTO);
+                if (movie != null)
+                {
+                    var result = await _movieRepository.UpdateMovie(id, movie);
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound($"The movie with id: ' {id} ' was not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex);
+            }
         }
         #endregion
 
@@ -107,9 +132,23 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            var result = await _movieRepository.DeleteMovie(id);
+            try
+            {
+                var result = await _movieRepository.GetMovie(id);
 
-            return result;
+                if (result == null)
+                {
+                    return NotFound($"Movie with Id: ' {id} ' not found!");
+                }
+
+                await _movieRepository.DeleteMovie(id);
+
+                return Ok($"Movie with Id: ' {id} ' is deleted!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
+            }
         }
         #endregion
 
@@ -128,8 +167,7 @@ namespace API.Controllers
         [HttpGet("movieName")]
         //[Route("GetMoviesWithActors")]
         public async Task<ActionResult<IEnumerable<MoviesWithDetailsDTO>>> GetMovieWithDetails(string movieName, bool includeActors = false)
-        {
-           
+        {        
             try
             {
                 var result = await _movieRepository.GetMovieWithDetails(movieName, includeActors);
@@ -145,8 +183,7 @@ namespace API.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
             }
         }
         #endregion

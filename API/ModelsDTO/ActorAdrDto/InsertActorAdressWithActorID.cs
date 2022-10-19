@@ -1,7 +1,8 @@
-﻿namespace API.ModelsDTO
+﻿namespace API.ModelsDTO.ActorAdrDto
 {
-    public class UpdateActorAdressDTO
+    public class InsertActorAdressWithActorID
     {
+
         public Guid ActorAdressId { get; set; }
 
         public string? Adress1 { get; set; }

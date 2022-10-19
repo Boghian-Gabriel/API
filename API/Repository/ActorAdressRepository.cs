@@ -23,6 +23,7 @@ namespace API.Repository
         public async Task<ActorAdress> GetActorAdressById(Guid id)
         {
             var result = await _dbContext.ActorAdress.FindAsync(id);
+            
             return result;
         }
 
@@ -78,23 +79,14 @@ namespace API.Repository
             return (_dbContext.ActorAdress?.Any(a => a.ActorAdressId == id)).GetValueOrDefault();
         }
 
-        public async Task<IActionResult> DeleteActorAdress(Guid id)
+        public async Task DeleteActorAdress(Guid id)
         {
-            if (_dbContext.ActorAdress == null)
-            {
-                return NotFound();
-            }
-
             var actorAdr = await _dbContext.ActorAdress.FindAsync(id);
-            if (actorAdr == null)
+            if (actorAdr != null)
             {
-                return NotFound();
+                _dbContext.ActorAdress.Remove(actorAdr);
+                await _dbContext.SaveChangesAsync();
             }
-
-            _dbContext.ActorAdress.Remove(actorAdr);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }

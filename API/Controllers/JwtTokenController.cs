@@ -1,6 +1,5 @@
 ﻿using API.Context;
 using API.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +12,7 @@ namespace API.Controllers
     #region "Jwt class"
     [Route("api/[controller]")]
     [ApiController]
-    public class JwtTokenController : Controller
+    public class JwtTokenController : ControllerBase
     {
         public IConfiguration _configuration;
         public readonly ContextDB _context;

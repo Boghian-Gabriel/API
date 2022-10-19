@@ -1,5 +1,8 @@
 ﻿using API.Model;
-using API.ModelsDTO;
+using API.ModelsDTO.ActorAdrDto;
+using API.ModelsDTO.ActorDto;
+using API.ModelsDTO.GenreDto;
+using API.ModelsDTO.MovieDto;
 
 namespace API.Mapper
 {
