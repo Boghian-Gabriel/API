@@ -1,5 +1,4 @@
 ﻿using API.Context;
-using API.IRepository;
 using API.Model;
 using API.ModelsDTO.UserDto;
 using AutoMapper;
@@ -11,11 +10,10 @@ using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using EntityState = System.Data.Entity.EntityState;
 
 namespace API.Controllers
 {
-    #region "Jwt class"
+    #region "AuthenticationController class"
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
@@ -32,13 +30,13 @@ namespace API.Controllers
 
         #region "Login"
         [HttpPost("Login")]
-        public async Task<ActionResult<UserLoginDTO>> Login(UserLoginDTO userLogDTO)
+        public ActionResult<UserLoginDTO> Login(UserLoginDTO userLogDTO)
         {
             try
             {
-                var validateUser = await _context.Users
+                var validateUser =  _context.Users
                        .Where(u => u.Email == userLogDTO.Email && u.Password == userLogDTO.Password && u.isActive == true)
-                       .SingleOrDefaultAsync();
+                       .FirstOrDefault();
 
                 if (validateUser == null)
                 {
@@ -63,13 +61,13 @@ namespace API.Controllers
 
         #region "Register"
         [HttpPost("Register")]
-        public async Task<ActionResult<UserRegistrationDTO>> Register(UserRegistrationDTO userRegDTO)
+        public ActionResult<UserRegistrationDTO> Register(UserRegistrationDTO userRegDTO)
         {
             try
             {
-                var existUserEmail = await _context.Users
-                                .Where(u => u.Email == userRegDTO.Email && u.isActive == true)
-                                .SingleOrDefaultAsync();
+                var existUserEmail = _context.Users
+                                    .Where(u => u.Email == userRegDTO.Email && u.isActive == true)
+                                    .FirstOrDefault();
 
                 if (existUserEmail != null)
                 {
@@ -79,7 +77,7 @@ namespace API.Controllers
                 {
                     var user = _mapper.Map<User>(userRegDTO);
                     _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                     return Ok("User is successfully registered");
                 }
             }
@@ -92,12 +90,12 @@ namespace API.Controllers
 
         #region "Get all users"
         [HttpGet("GetUsers")]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        //[Authorize]
+        public ActionResult<IEnumerable<UserDTO>> GetUsers()
         {
             try
             {
-                var users = await _context.Users.ToListAsync();
+                var users =  _context.Users.ToList();
 
                 if (users != null)
                 {
@@ -118,13 +116,12 @@ namespace API.Controllers
         #region "Get user by id"
         [HttpGet("{userId}")]
         [Authorize]
-        public async Task<ActionResult<UserDTO>> GetUserById(int userId)
+        public ActionResult<UserDTO> GetUserById(int userId)
         {
             try
             {
                 //GET THE INFORMATION FROM THE DATABASE!
-                var result = await _context.Users.FindAsync(userId);
-                //var result = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
+                var result = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
                 if (result != null)
                 {
@@ -144,16 +141,16 @@ namespace API.Controllers
         }
         #endregion
 
-        #region "information search by email field"
+        #region "Search information by email field"
         [HttpGet("email")]
         [Authorize]
-        public async Task<ActionResult<UserDTO>> SearchUserByEmail(string email)
+        public ActionResult<UserDTO> SearchUserByEmail(string email)
         {
             try
             {
-                var searchUser = await _context.Users
+                var searchUser = _context.Users
                                     .Where(u => u.Email == email)
-                                    .SingleOrDefaultAsync();
+                                    .FirstOrDefault();
 
                 if (searchUser == null)
                 {
@@ -172,6 +169,8 @@ namespace API.Controllers
 
         #region "Update User"
         [HttpPut("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO userDTO)
         {
             try
