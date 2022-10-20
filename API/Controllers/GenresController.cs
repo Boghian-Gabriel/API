@@ -3,6 +3,7 @@ using API.Repository;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using API.ModelsDTO.GenreDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -168,7 +169,7 @@ namespace API.Controllers
 
         #region "Delete"
         [HttpDelete("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
             try
@@ -179,7 +180,6 @@ namespace API.Controllers
                 {
                     return NotFound($"Genre with Id: ' {id} ' not found!");
                 }
-
                 await _genreRepository.DeleteGenre(id);
 
                 return Ok($"Genre with Id: ' {id} ' is deleted!");

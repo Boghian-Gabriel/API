@@ -3,6 +3,7 @@ using API.ModelsDTO.ActorAdrDto;
 using API.ModelsDTO.ActorDto;
 using API.ModelsDTO.GenreDto;
 using API.ModelsDTO.MovieDto;
+using API.ModelsDTO.UserDto;
 
 namespace API.Mapper
 {
@@ -25,6 +26,9 @@ namespace API.Mapper
             CreateMap<Movie, MoviesWithDetailsDTO>().ReverseMap();
             CreateMap<Movie, InsertMovieDTO>().ReverseMap();
             CreateMap<Movie, UpdateMovieDTO>().ReverseMap();
+
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserNameDTO>().ReverseMap();
         }
     }
 }
