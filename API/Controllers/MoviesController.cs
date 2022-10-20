@@ -48,7 +48,7 @@ namespace API.Controllers
 
             }catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database " + ex.Message);
             }
         }
         #endregion
@@ -72,7 +72,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database " + ex.Message);
             }
 
         }
@@ -99,7 +99,7 @@ namespace API.Controllers
             }
             catch(Exception ex) 
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
             }
         }
         #endregion
@@ -123,7 +123,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex);
             }
         }
         #endregion
@@ -158,7 +158,6 @@ namespace API.Controllers
         public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
         {
             var results = await _movieRepository.GetMoviesWithGenres();
-
             return results;
         }
         #endregion
@@ -183,7 +182,7 @@ namespace API.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database" + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database " + ex.Message);
             }
         }
         #endregion
