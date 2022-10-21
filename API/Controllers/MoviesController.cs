@@ -78,6 +78,41 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "GetMoviesWithGenreName"
+        [HttpGet]
+        [Route("GetMoviesWithGenreName")]
+        public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
+        {
+            var results = await _movieRepository.GetMoviesWithGenres();
+            return results;
+        }
+        #endregion
+
+        #region "GetMovieWithDetails"
+        [HttpGet("movieName")]
+        //[Route("GetMoviesWithActors")]
+        public async Task<ActionResult<IEnumerable<MoviesWithDetailsDTO>>> GetMovieWithDetails(string movieName, bool includeActors = false)
+        {
+            try
+            {
+                var result = await _movieRepository.GetMovieWithDetails(movieName, includeActors);
+                if (result != null)
+                {
+                    var resMapper = _mapper.Map<IEnumerable<MoviesWithDetailsDTO>>(result);
+                    return Ok(resMapper);
+                }
+                else
+                {
+                    return NotFound($"The movie with title: '{movieName}' was not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database " + ex.Message);
+            }
+        }
+        #endregion
+
         #region "PostMovie"
         [HttpPost]
         public async Task<ActionResult<MovieDTO>> PostMovie(InsertMovieDTO movieDTO)
@@ -130,6 +165,7 @@ namespace API.Controllers
 
         #region "Delete"
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             try
@@ -152,40 +188,6 @@ namespace API.Controllers
         }
         #endregion
 
-        #region "GetMoviesWithGenreName"
-        [HttpGet]
-        [Route("GetMoviesWithGenreName")]
-        public async Task<IEnumerable<MovieGenre>> GetMoviesWithGenreName()
-        {
-            var results = await _movieRepository.GetMoviesWithGenres();
-            return results;
-        }
-        #endregion
-
-        #region "GetMovieWithDetails"
-        [HttpGet("movieName")]
-        //[Route("GetMoviesWithActors")]
-        public async Task<ActionResult<IEnumerable<MoviesWithDetailsDTO>>> GetMovieWithDetails(string movieName, bool includeActors = false)
-        {        
-            try
-            {
-                var result = await _movieRepository.GetMovieWithDetails(movieName, includeActors);
-                if(result != null)
-                {
-                    var resMapper = _mapper.Map<IEnumerable<MoviesWithDetailsDTO>>(result);
-                    return Ok(resMapper);
-                }
-                else
-                {
-                    return NotFound($"The movie with title: '{movieName}' was not found!");
-                }
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database " + ex.Message);
-            }
-        }
-        #endregion
     }
     #endregion
 }

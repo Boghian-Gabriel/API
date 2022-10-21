@@ -1,4 +1,6 @@
-﻿namespace API.ModelsDTO.UserDto
+﻿using Newtonsoft.Json;
+
+namespace API.ModelsDTO.UserDto
 {
     public class UserLoginDTO
     {

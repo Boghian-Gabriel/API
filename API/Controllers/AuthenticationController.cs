@@ -1,6 +1,8 @@
 ﻿using API.Context;
+using API.IRepository;
 using API.Model;
 using API.ModelsDTO.UserDto;
+using API.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,37 +16,50 @@ using System.Text;
 namespace API.Controllers
 {
     #region "AuthenticationController class"
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        public readonly IConfiguration _configuration;
-        public readonly ContextDB _context;
-        public readonly IMapper _mapper;
-        public AuthenticationController(IConfiguration configuration, ContextDB context, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        public AuthenticationController(
+                IConfiguration configuration, 
+                ContextDB context, 
+                IMapper mapper,
+                IUserRepository userRepository)
         {
             _configuration = configuration;
-            _context = context;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         #region "Login"
-        [HttpPost("Login")]
-        public ActionResult<UserLoginDTO> Login(UserLoginDTO userLogDTO)
+        [HttpPost]
+        public async Task<ActionResult> Login(UserLoginDTO userLogDTO)
         {
             try
             {
-                var validateUser =  _context.Users
-                       .Where(u => u.Email == userLogDTO.Email && u.Password == userLogDTO.Password && u.isActive == true)
-                       .FirstOrDefault();
-
-                if (validateUser == null)
+                var searchUserByEmail = await _userRepository.GetUserByEmail(userLogDTO.Email);
+                if(searchUserByEmail == null)
                 {
-                    return BadRequest("Email or password is incorrect or not exists");
+                    return BadRequest($"The username with email: {userLogDTO.Email} does not exists");
                 }
 
-                var dbUser = _mapper.Map<User>(userLogDTO);
-                var token = this.getToken(dbUser);
+                var searchUserByEmailisActive = await _userRepository.GetUserByEmailIsActive(userLogDTO.Email);
+                if (searchUserByEmailisActive == null)
+                {
+                    return BadRequest($"The username with email: {userLogDTO.Email} is inactive");
+                }
+
+                var user = _mapper.Map<User>(userLogDTO);
+                var validateUser = await _userRepository.Login(user);
+                if (validateUser == null)
+                {
+                    return BadRequest("Emails and password is incorrect or not exist");
+                }
+
+                var token = this.getToken(user);
 
                 return Ok(new
                 {
@@ -60,15 +75,12 @@ namespace API.Controllers
         #endregion
 
         #region "Register"
-        [HttpPost("Register")]
-        public ActionResult<UserRegistrationDTO> Register(UserRegistrationDTO userRegDTO)
+        [HttpPost]
+        public async Task<ActionResult<UserRegistrationDTO>> Register(UserRegistrationDTO userRegDTO)
         {
             try
             {
-                var existUserEmail = _context.Users
-                                    .Where(u => u.Email == userRegDTO.Email && u.isActive == true)
-                                    .FirstOrDefault();
-
+                var existUserEmail = await _userRepository.GetUserByEmail(userRegDTO.Email);
                 if (existUserEmail != null)
                 {
                     return BadRequest($"User with email: '{userRegDTO.Email}' is already exists");
@@ -76,8 +88,7 @@ namespace API.Controllers
                 else
                 {
                     var user = _mapper.Map<User>(userRegDTO);
-                    _context.Users.Add(user);
-                    _context.SaveChanges();
+                    await _userRepository.Register(user);
                     return Ok("User is successfully registered");
                 }
             }
@@ -89,13 +100,13 @@ namespace API.Controllers
         #endregion
 
         #region "Get all users"
-        [HttpGet("GetUsers")]
+        [HttpGet]
         //[Authorize]
-        public ActionResult<IEnumerable<UserDTO>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             try
             {
-                var users =  _context.Users.ToList();
+                var users = await _userRepository.GetUsers();
 
                 if (users != null)
                 {
@@ -113,16 +124,41 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "Get all users"
+        [HttpGet("isActive")]
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsersActiveInactive(bool isActive = true )
+        {
+            try
+            {
+                var users = await _userRepository.GetUsersActiveInactive(isActive);
+
+                if (users != null)
+                {
+                    var userMapper = _mapper.Map<IEnumerable<UserDTO>>(users);
+                    return Ok(userMapper);
+                }
+                else
+                {
+                    return BadRequest("There is no infromation");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
+            }
+        }
+        #endregion
+
         #region "Get user by id"
         [HttpGet("{userId}")]
         [Authorize]
-        public ActionResult<UserDTO> GetUserById(int userId)
+        public async Task<ActionResult<UserDTO>> GetUserById(int userId)
         {
             try
             {
                 //GET THE INFORMATION FROM THE DATABASE!
-                var result = _context.Users.FirstOrDefault(u => u.UserId == userId);
-
+                var result = await _userRepository.GetUserById(userId);
                 if (result != null)
                 {
                     //I map to the GenreDTO table to provide to the client
@@ -143,14 +179,12 @@ namespace API.Controllers
 
         #region "Search information by email field"
         [HttpGet("email")]
-        [Authorize]
-        public ActionResult<UserDTO> SearchUserByEmail(string email)
+        //[Authorize]
+        public async Task<ActionResult<UserDTO>> SearchUserByEmail(string email)
         {
             try
             {
-                var searchUser = _context.Users
-                                    .Where(u => u.Email == email)
-                                    .FirstOrDefault();
+                var searchUser = await _userRepository.GetUserByEmail(email);
 
                 if (searchUser == null)
                 {
@@ -170,22 +204,21 @@ namespace API.Controllers
         #region "Update User"
         [HttpPut("{id}")]
         [Authorize]
-
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO userDTO)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO userUpdateDTO)
         {
             try
             {
-                if (id != userDTO.UserId)
+                if (id != userUpdateDTO.UserId)
                 {
-                    return BadRequest($"The ids are not the same: {id} != {userDTO.UserId}");
+                    return BadRequest($"The ids are not the same: {id} != {userUpdateDTO.UserId}");
                 }
-                var user = _mapper.Map<User>(userDTO);
-                var existUser = await _context.Users.FindAsync(user.UserId);
+                var existUser = await _userRepository.GetUserById(id);
                 if (existUser != null)
                 {
-                    //_context.Entry(user).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Modified;
-                    //await _context.SaveChangesAsync();
-                    return Ok("To do implement update....");
+
+                    var user = _mapper.Map<User>(userUpdateDTO);
+                    await _userRepository.Update(user);
+                    return Ok("User is successfully updated");
                 }
                 else
                 {
@@ -195,6 +228,31 @@ namespace API.Controllers
             }catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
+            }
+        }
+        #endregion
+
+        #region "Delete User"
+        [HttpDelete("{userId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            try
+            {
+                var result = await _userRepository.GetUserById(userId);
+
+                if (result == null)
+                {
+                    return NotFound($"User with Id: ' {userId} ' not found!");
+                }
+
+                await _userRepository.DeleteUser(userId);
+
+                return Ok($"Movie with Id: ' {userId} ' is deleted!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error" + ex.Message);
             }
         }
         #endregion
@@ -211,8 +269,8 @@ namespace API.Controllers
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Id", user.UserId.ToString()),
                         //new Claim("UserName", user.UserName),
-                        new Claim("Password", user.Password),
-                        new Claim("Email", user.Email)
+                        new Claim("Password", user.Email),
+                        new Claim("Email", user.Password)
                     };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.key));

@@ -105,6 +105,33 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "GetGenreWithMovies"
+        [HttpGet("{genreId}")]
+        //[Route("GetGenreWithDetails")]
+        public async Task<ActionResult<GenreWithMovieDTO>> GetGenreWithMovies(Guid genreId)
+        {
+            try
+            {
+                var results = await _genreRepository.GetGenreWithMovies(genreId);
+                if (results != null)
+                {
+                    var resGenreMapper = _mapper.Map<GenreWithMovieDTO>(results);
+                    return Ok(resGenreMapper);
+                }
+                else
+                {
+                    return NotFound($"The genres was not found!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database" + ex);
+            }
+        }
+        #endregion
+
         #region "PostGenre"
         [HttpPost]
         public async Task<ActionResult> PostGenre(GenreDTO genreDTO)
@@ -191,33 +218,7 @@ namespace API.Controllers
             }
         }
         #endregion
-
-        #region "GetGenreWithMovies"
-        [HttpGet("{genreId}")]
-        //[Route("GetGenreWithDetails")]
-        public async Task<ActionResult<GenreWithMovieDTO>> GetGenreWithMovies(Guid genreId)
-        {
-            try
-            {
-                var results = await _genreRepository.GetGenreWithMovies(genreId);
-                if (results != null)
-                {
-                    var resGenreMapper = _mapper.Map<GenreWithMovieDTO>(results);
-                    return Ok(resGenreMapper);
-                }
-                else
-                {
-                    return NotFound($"The genres was not found!");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database" + ex);
-            }
-        }
-        #endregion
+        
     }
     #endregion
 }

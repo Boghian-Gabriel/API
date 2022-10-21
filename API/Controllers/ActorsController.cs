@@ -5,6 +5,7 @@ using API.ModelsDTO.MovieDto;
 using API.Repository;
 using API.ViewModel_BindModel_;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -102,6 +103,29 @@ namespace API.Controllers
         }
         #endregion
 
+        #region "GetActorsWithAdress"
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ActorAdressVM>>> GetActorsWithAdress()
+        {
+            try
+            {
+                var results = await _actorRepository.GetActorsWithAdress();
+                if (results != null)
+                {
+                    return Ok(results);
+                }
+                else
+                {
+                    return NotFound("There is no information!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
+            }
+        }
+        #endregion
+
         #region "PostActor"
         [HttpPost]
         public async Task<ActionResult<Actor>> PostActor(ActorDTO actorDTO)
@@ -157,6 +181,7 @@ namespace API.Controllers
 
         #region "Delete"
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> DeleteActor(Guid id)
         {
             try
@@ -180,28 +205,7 @@ namespace API.Controllers
         }
         #endregion
 
-        #region "GetActorsWithAdress"
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActorAdressVM>>> GetActorsWithAdress()
-        {
-            try
-            {
-                var results = await _actorRepository.GetActorsWithAdress();
-                if(results != null)
-                {
-                    return Ok(results);
-                }
-                else
-                {
-                    return NotFound("There is no information!");
-                }       
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error " + ex.Message);
-            }           
-        }
-        #endregion
+        
     }
     #endregion
 }
